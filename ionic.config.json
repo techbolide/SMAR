@@ -1,0 +1,7 @@
+{
+  "name": "SMAR",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
