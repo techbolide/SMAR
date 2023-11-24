@@ -1,0 +1,34 @@
+<ion-header class="ion-no-border" mode="md">
+    <ion-toolbar class="topToolbar" color="primary" mode="md">
+        <ion-title>
+            Piața lui Andrei, nr. 9
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div class="home__content">
+        <div class="home__top">
+            <div class="home__info">
+                <div>
+                    <h1>Valentin. M</h1>
+                    <p>R062832-0003</p>
+                </div>
+                <ion-button fill="clear" routerLink="/login">
+                    <ion-icon slot="icon-only" name="log-out" color="primary"></ion-icon>
+                </ion-button>
+            </div>
+            <div class="home__actions">
+                <ion-button [ngClass]="{'primary': availableOption.primary }" *ngFor="let availableOption of availableOptions" [fill]="availableOption.primary ? 'outline' : 'solid'" [color]="availableOption.primary ? 'primary' : 'dark'">
+                    {{ availableOption.name }}
+                    <ion-icon slot="end" [name]="availableOption.icon"></ion-icon>
+                </ion-button>
+            </div>
+        </div>
+
+        <ion-button class="primary" fill="solid" color="primary" routerLink="/scan">
+            Scanează
+            <ion-icon slot="end" name="scan-circle"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>

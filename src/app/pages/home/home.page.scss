@@ -1,0 +1,91 @@
+ion-content {
+    .home__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 15px;
+        width: 100%;
+        height: 100%;
+
+        .home__top {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .home__actions {
+                display: flex;
+                flex-direction: column;
+                padding: 0 20px;
+                gap: 10px;
+
+                ion-button {
+                    min-height: 48px;
+                    font-size: 20px;
+                    letter-spacing: -0.7px;
+                    text-transform: unset;
+                    font-weight: 400;
+                    margin: 0;
+
+                    ion-icon {
+                        position: absolute;
+                        right: 5px;
+                        font-size: 20px;
+                        opacity: .7;
+                    }
+                }
+            }
+
+            .home__info {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: #f7f7f7;
+                padding: 20px;
+                border-radius: 16px;
+                box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+
+                h1, p {
+                    margin: 0;
+                    letter-spacing: -.7px;
+                }
+
+                h1 {
+                    font-size: 26px;
+                    font-weight: 500;
+                }
+                p {
+                    font-size: 18px;
+                    font-weight: 300;
+                }
+
+                ion-button {
+                    ion-icon {
+                        font-size: 32px;
+                    }
+                }
+            }
+
+
+        }
+
+        .primary {
+            min-height: 120px;
+            padding: 12px;
+            font-size: 32px;
+            letter-spacing: -0.7px;
+            --border-radius: 10px;
+            font-weight: 500;
+        }
+
+
+    }
+}
+
+ion-toolbar {
+    --background: var(--ion-color-primary);
+    color: var(--ion-color-light);
+
+    ion-title {
+        font-size: 22px;
+    }
+}

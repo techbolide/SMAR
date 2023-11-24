@@ -1,0 +1,83 @@
+<ion-header class="ion-no-border" mode="md">
+    <ion-toolbar class="topToolbar" color="primary" mode="md">
+        <ion-buttons slot="start">
+            <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            {{ currentVoucher?.code }}
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button>
+                <ion-icon slot="icon-only" name="print"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div class="scan__content">
+        <div class="scan__top__info">
+            <div class="scan__top__calendar">
+                <div class="scan__top__calendar__part">
+                    <ion-icon name="calendar"></ion-icon>
+                    <h1>{{ currentVoucher?.startDate | date: 'dd/MM/yyyy' }}</h1>
+                </div>
+                <div class="scan__top__calendar__part">
+                    <ion-icon name="alarm"></ion-icon>
+                    <h1>{{ currentVoucher?.startDate | date: 'HH:mm:ss' }}</h1>
+                </div>
+            </div>
+            <div class="scan__top__items">
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Plastic</h1>
+                        <p>x{{ getItemsCount(1) }}</p>
+                    </div>
+                </div>
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Doze</h1>
+                        <p>x{{ getItemsCount(2) }}</p>
+                    </div>
+                </div>
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Sticla</h1>
+                        <p>x{{ getItemsCount(3) }}</p>
+                    </div>
+                </div>
+            </div>
+            <h1>LEI {{ getTotal() }}</h1>
+
+        </div>
+
+        <div class="scan__list" *ngIf="currentVoucher && currentVoucher.items.length > 0">
+            <ion-list>
+                <ion-item-sliding *ngFor="let voucherItem of currentVoucher.items">
+                    <ion-item [button]="true" lines="full">
+                        <ion-icon [src]="'../../../assets/icon/' + getFormattedType(voucherItem.type) + '.svg'"
+                            slot="start"></ion-icon>
+                        <ion-label>
+                            <h3>{{ getFormattedName(voucherItem.name) }}</h3>
+                            <p>{{ voucherItem.quantity }} ml - <strong>{{ voucherItem.eanCode }}</strong></p>
+                        </ion-label>
+                        <ion-text slot="end">{{ voucherItem.readDate | date: 'HH:mm:ss' }}</ion-text>
+                    </ion-item>
+                    <ion-item-options slot="end">
+                        <ion-item-option color="danger" expandable="true">
+                            <ion-icon slot="icon-only" name="trash"></ion-icon>
+                        </ion-item-option>
+                    </ion-item-options>
+                </ion-item-sliding>
+            </ion-list>
+        </div>
+
+        <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported">
+            Scanează
+            <ion-icon slot="end" name="scan-circle"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>
