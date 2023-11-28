@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'scan',
         loadChildren: () => import('./pages/scan/scan.module').then(m => m.ScanPageModule)
     },
+    {
+        path: 'voucher-history',
+        loadChildren: () => import('./pages/voucher-history/voucher-history.module').then(m => m.VoucherHistoryPageModule)
+    },
 ];
 
 @NgModule({

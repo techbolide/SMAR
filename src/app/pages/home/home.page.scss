@@ -35,6 +35,39 @@ ion-content {
                 }
             }
 
+            .scan__top__items {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 20px;
+
+                .scan__top__item {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+
+                    ion-icon {
+                        font-size: 24px;
+                        opacity: .7;
+                    }
+
+                    h1 {
+                        margin: 0;
+                        font-size: 18px;
+                        font-weight: 500;
+                        letter-spacing: -0.3px;
+                    }
+                    p {
+                        font-style: italic;
+                        margin: 0;
+                        font-size: 16px;
+                        font-weight: 300;
+                    }
+                }
+
+
+            }
+
             .home__info {
                 display: flex;
                 align-items: center;

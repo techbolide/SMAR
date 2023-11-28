@@ -1,0 +1,134 @@
+<ion-header class="ion-no-border" mode="md">
+    <ion-toolbar class="topToolbar" color="primary" mode="md">
+        <ion-buttons slot="start">
+            <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Istoric vouchere
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div class="history__content">
+        <div class="history__list">
+            <ion-list>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="danger">INACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+                <ion-item [button]="true" lines="full">
+                    <ion-icon name="receipt"
+                        slot="start"></ion-icon>
+                    <ion-label>
+                        <h3>R062832-0003-16571231</h3>
+                        <p>24/11/2023 17:54:23</p>
+                    </ion-label>
+                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
+                </ion-item>
+
+            </ion-list>
+        </div>
+
+
+        <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported">
+            Scanează
+            <ion-icon slot="end" name="scan-circle"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>

@@ -18,8 +18,31 @@
                     <ion-icon slot="icon-only" name="log-out" color="primary"></ion-icon>
                 </ion-button>
             </div>
+            <div class="scan__top__items">
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Plastic</h1>
+                        <p>x52</p>
+                    </div>
+                </div>
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Doze</h1>
+                        <p>x212</p>
+                    </div>
+                </div>
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Sticla</h1>
+                        <p>x30</p>
+                    </div>
+                </div>
+            </div>
             <div class="home__actions">
-                <ion-button [ngClass]="{'primary': availableOption.primary }" *ngFor="let availableOption of availableOptions" [fill]="availableOption.primary ? 'outline' : 'solid'" [color]="availableOption.primary ? 'primary' : 'dark'">
+                <ion-button [ngClass]="{'primary': availableOption.primary }" *ngFor="let availableOption of availableOptions" [fill]="availableOption.primary ? 'outline' : 'solid'" [color]="availableOption.primary ? 'primary' : 'dark'" [routerLink]="availableOption.router !== null ? availableOption.router : null">
                     {{ availableOption.name }}
                     <ion-icon slot="end" [name]="availableOption.icon"></ion-icon>
                 </ion-button>

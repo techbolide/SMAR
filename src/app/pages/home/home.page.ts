@@ -9,11 +9,11 @@ import { IHomeOption } from 'src/app/interfaces/home/IHomeOption';
 })
 export class HomePage {
     public availableOptions: IHomeOption[] = [
-        { name: "Ridicare ambalaje", icon: "car", primary: false },
-        { name: "Gestiunea mea", icon: "cube", primary: false },
-        { name: "Istoricul voucherelor", icon: "cash", primary: false },
-        { name: "Închidere gestiune", icon: "pricetag", primary: false },
-        { name: "Setări", icon: "cog", primary: false },
+        { name: "Ridicare ambalaje", icon: "car", primary: false, router: null },
+        { name: "Istoric saci", icon: "cube", primary: false, router: null },
+        { name: "Istoric vouchere", icon: "cash", primary: false, router: '/voucher-history' },
+        { name: "Sigilare saci", icon: "pricetag", primary: false, router: null },
+        { name: "Setări", icon: "cog", primary: false, router: null},
     ]
     constructor(private router: Router) { }
 

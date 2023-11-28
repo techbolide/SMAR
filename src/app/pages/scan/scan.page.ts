@@ -14,8 +14,6 @@ import { EanService } from 'src/app/services/ean/ean.service';
 })
 export class ScanPage implements OnInit {
     public isSupported = false;
-    public barcodes: Barcode[] = [];
-
     public currentVoucher: IVoucher | null = null;
     constructor(private alertController: AlertController, private eanService: EanService) { }
 
