@@ -1,0 +1,68 @@
+<ion-header class="ion-no-border" mode="md">
+    <ion-toolbar class="topToolbar" color="primary" mode="md">
+        <ion-buttons slot="start">
+            <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            {{ currentVoucher?.Code }}
+        </ion-title>
+        <ion-buttons slot="end">
+            <ng-container *ngIf="processPrinting || !currentVoucher; else try_print">
+                <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
+            </ng-container>
+            <ng-template #try_print>
+                <ion-button (click)="reprint()">
+                    <ion-icon slot="icon-only" name="print"></ion-icon>
+                </ion-button>
+            </ng-template>
+
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div class="scan__content" *ngIf="currentVoucher">
+        <div class="scan__top__info">
+            <div class="scan__top__calendar">
+                <div class="scan__top__calendar__part">
+                    <ion-icon name="calendar"></ion-icon>
+                    <h1>{{ currentVoucher.GeneratedDate.substring(0, 10) }}</h1>
+                </div>
+                <div class="scan__top__calendar__part">
+                    <ion-icon name="alarm"></ion-icon>
+                    <h1>{{ currentVoucher.GeneratedTime.substring(0, 8) }}</h1>
+                </div>
+            </div>
+            <div class="scan__top__items">
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Plastic</h1>
+                        <p>x{{ currentVoucher.PlasticCount }}</p>
+                    </div>
+                </div>
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Aluminiu</h1>
+                        <p>x{{ currentVoucher.AluminiumCount }}</p>
+                    </div>
+                </div>
+                <div class="scan__top__item">
+                    <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
+                    <div>
+                        <h1>Sticla</h1>
+                        <p>x{{ currentVoucher.GlassCount }}</p>
+                    </div>
+                </div>
+            </div>
+            <h1>LEI {{ currentVoucher.Value.toFixed(2) }}</h1>
+
+        </div>
+
+        <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher.State === 1" (click)="useVoucher()">
+            Utilizează
+            <ion-icon slot="end" name="checkmark-circle"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>

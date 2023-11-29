@@ -23,6 +23,10 @@ const routes: Routes = [
         path: 'voucher-history',
         loadChildren: () => import('./pages/voucher-history/voucher-history.module').then(m => m.VoucherHistoryPageModule)
     },
+    {
+        path: 'voucher-history/:id',
+        loadChildren: () => import('./pages/voucher-details/voucher-details.module').then(m => m.VoucherDetailsPageModule)
+    },
 ];
 
 @NgModule({

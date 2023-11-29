@@ -10,125 +10,55 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <div class="history__content">
-        <div class="history__list">
-            <ion-list>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="danger">INACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-                <ion-item [button]="true" lines="full">
-                    <ion-icon name="receipt"
-                        slot="start"></ion-icon>
-                    <ion-label>
-                        <h3>R062832-0003-16571231</h3>
-                        <p>24/11/2023 17:54:23</p>
-                    </ion-label>
-                    <ion-badge slot="end" color="success">ACTIV</ion-badge>
-                </ion-item>
-
-            </ion-list>
+    <ng-container *ngIf="vouchers === null; else show_history">
+        <div class="history__loading">
+            <ion-spinner name="lines"></ion-spinner>
         </div>
+    </ng-container>
+    <ng-template #show_history>
+        <div class="history__content">
+            <div class="history__list" *ngIf="vouchers !== null && vouchers.length > 0; else no_vouchers">
+                <ion-list>
+                    <ion-item-sliding *ngFor="let voucher of vouchers">
+                        <ion-item [button]="true" lines="full" [routerLink]="[voucher.Code]">
+                            <ion-icon name="receipt"
+                                slot="start"></ion-icon>
+                            <ion-label>
+                                <h3>{{ voucher.Code }}</h3>
+                                <p>{{ voucher.GeneratedDate.substring(0, 10) }} {{ voucher.GeneratedTime.substring(0, 8) }}</p>
+                            </ion-label>
+                            <div class="history__end" slot="end">
+                                <ion-badge [color]="getVoucherStateColor(voucher.State)">
+                                    {{ getVoucherStateText(voucher.State) }}
+                                </ion-badge>
+                                <p>LEI {{ voucher.Value.toFixed(2) }} </p>
+                            </div>
+                        </ion-item>
+                        <ion-item-options slot="end">
+                            <ion-item-option color="tertiary" expandable="true" (click)="reprint(voucher)">
+                                <ng-container *ngIf="isReprinting; else show_print">
+                                    <ion-spinner name="lines"></ion-spinner>
+                                </ng-container>
+                                <ng-template #show_print>
+                                    <ion-icon slot="icon-only" name="print"></ion-icon>
+                                </ng-template>
+                            </ion-item-option>
+                        </ion-item-options>
+                    </ion-item-sliding>
+
+                </ion-list>
+            </div>
+
+            <ng-template #no_vouchers>
+                NO VOUCHERS
+            </ng-template>
 
 
-        <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported">
-            Scanează
-            <ion-icon slot="end" name="scan-circle"></ion-icon>
-        </ion-button>
-    </div>
+            <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported">
+                Scanează
+                <ion-icon slot="end" name="scan-circle"></ion-icon>
+            </ion-button>
+        </div>
+    </ng-template>
+
 </ion-content>

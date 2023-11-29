@@ -48,7 +48,7 @@ ion-content {
 
                     ion-icon {
                         font-size: 24px;
-                        opacity: .7;
+                        opacity: .5;
                     }
 
                     h1 {
@@ -58,10 +58,13 @@ ion-content {
                         letter-spacing: -0.3px;
                     }
                     p {
-                        font-style: italic;
                         margin: 0;
                         font-size: 16px;
                         font-weight: 300;
+
+                        span {
+                            color: black;
+                        }
                     }
                 }
 
@@ -94,6 +97,9 @@ ion-content {
                 ion-button {
                     ion-icon {
                         font-size: 32px;
+                        background: var(--ion-color-primary);
+                        padding: 8px;
+                        border-radius: 100%;
                     }
                 }
             }
@@ -120,5 +126,6 @@ ion-toolbar {
 
     ion-title {
         font-size: 22px;
+        font-weight: 300;
     }
 }

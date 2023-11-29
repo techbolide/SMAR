@@ -1,15 +1,23 @@
 <ion-header class="ion-no-border" mode="md">
     <ion-toolbar class="topToolbar" color="primary" mode="md">
         <ion-buttons slot="start">
-            <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
+            <ion-button color="light" (click)="tryGoBack()">
+                <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
+            </ion-button>
         </ion-buttons>
         <ion-title>
             {{ currentVoucher?.code }}
         </ion-title>
         <ion-buttons slot="end">
-            <ion-button routerLink="/home">
-                <ion-icon slot="icon-only" name="print"></ion-icon>
-            </ion-button>
+            <ng-container *ngIf="processPrinting || !currentVoucher; else try_print">
+                <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
+            </ng-container>
+            <ng-template #try_print>
+                <ion-button (click)="tryPrint()">
+                    <ion-icon slot="icon-only" name="print"></ion-icon>
+                </ion-button>
+            </ng-template>
+
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
@@ -20,11 +28,11 @@
             <div class="scan__top__calendar">
                 <div class="scan__top__calendar__part">
                     <ion-icon name="calendar"></ion-icon>
-                    <h1>{{ currentVoucher?.startDate | date: 'dd/MM/yyyy' }}</h1>
+                    <h1>{{ currentVoucher?.generatedDate }}</h1>
                 </div>
                 <div class="scan__top__calendar__part">
                     <ion-icon name="alarm"></ion-icon>
-                    <h1>{{ currentVoucher?.startDate | date: 'HH:mm:ss' }}</h1>
+                    <h1>{{ currentVoucher?.generatedTime }}</h1>
                 </div>
             </div>
             <div class="scan__top__items">
@@ -38,7 +46,7 @@
                 <div class="scan__top__item">
                     <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
                     <div>
-                        <h1>Doze</h1>
+                        <h1>Aluminiu</h1>
                         <p>x{{ getItemsCount(2) }}</p>
                     </div>
                 </div>
@@ -50,7 +58,7 @@
                     </div>
                 </div>
             </div>
-            <h1>LEI {{ getTotal() }}</h1>
+            <h1>LEI {{ getTotal().toFixed(2) }}</h1>
 
         </div>
 
@@ -75,7 +83,7 @@
             </ion-list>
         </div>
 
-        <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported">
+        <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported || !currentVoucher">
             Scanează
             <ion-icon slot="end" name="scan-circle"></ion-icon>
         </ion-button>
