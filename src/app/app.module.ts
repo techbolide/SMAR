@@ -6,9 +6,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { DatePipe } from '@angular/common';
+import { AuthenticationInterceptor } from './interceptors/authentication/authentication.interceptor';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { DatePipe } from '@angular/common';
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
         BluetoothSerial,
         DatePipe
     ],

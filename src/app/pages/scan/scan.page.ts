@@ -1,6 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { Camera, CameraResultType } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { Dialog } from '@capacitor/dialog';
 import { IVoucher, IVoucherActive, IVoucherInitialize, IVoucherItem, IVoucherItemContentType, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/scan/IVoucher';
@@ -14,6 +14,12 @@ import { DEBUG_STORAGE, IDebugStorage } from 'src/app/app.component';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { Router } from '@angular/router';
+import { PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
+import { IUser } from 'src/app/interfaces/authentication/IUser';
+import { IonModal } from '@ionic/angular';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ProductService } from 'src/app/services/product/product.service';
+import { IProduct } from 'src/app/interfaces/product/IProduct';
 
 @Component({
     selector: 'app-scan',
@@ -21,9 +27,12 @@ import { Router } from '@angular/router';
     styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
+    @ViewChild('registerProductModal') registerProductModal!: IonModal;
     public isSupported = false;
     public currentVoucher: IVoucher | null = null;
     public processPrinting: boolean = false;
+    public registerProduct!: FormGroup;
+    public registerProductImages: string[] = [];
 
     constructor(private eanService: EanService,
         private bluetoothSerial: BluetoothSerial,
@@ -31,7 +40,9 @@ export class ScanPage implements OnInit {
         private voucherService: VoucherService,
         private toastService: ToastService,
         private router: Router,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private formBuilder: FormBuilder,
+        private productService: ProductService
     ) { }
 
     ngOnInit() {
@@ -47,24 +58,14 @@ export class ScanPage implements OnInit {
         });
     }
 
-    async initializeVoucher() {
-        const storageDataParsed = await this.getStorageData();
-        if(!storageDataParsed) return;
-
-        const sentModel: IVoucherInitialize = {
-            employeeCode: storageDataParsed.EmployeeCode,
-            officeCode: storageDataParsed.OfficeCode
-        }
-
-        this.voucherService.initializeVoucher(sentModel).subscribe({
+    initializeVoucher() {
+        this.voucherService.initializeVoucher().subscribe({
             next: (res) => {
                 this.currentVoucher = {
                     code: res.Code,
                     expirationDate: res.ExpirationDate.substring(0, 10),
                     generatedDate: res.GeneratedDate.substring(0, 10),
                     generatedTime: res.GeneratedTime.substring(0, 8),
-                    employeeCode: storageDataParsed.EmployeeCode,
-                    officeCode: storageDataParsed.OfficeCode,
                     items: []
                 }
             },
@@ -140,14 +141,29 @@ export class ScanPage implements OnInit {
     }
 
 
-
-    scanSingleBarCode(barcode: Barcode) {
+    async scanSingleBarCode(barcode: Barcode) {
         if (!this.currentVoucher) return;
 
-        const itemReceived = this.eanService.validateEAN(barcode.displayValue);
-        if (itemReceived.type === IVoucherItemType.Necunoscut) return;
+        const itemReceived = await this.eanService.validateEAN(barcode.displayValue);
+        if (!itemReceived) {
+            this.noProductFound(barcode.displayValue);
+            return;
+        }
 
-        this.currentVoucher.items.push(itemReceived);
+        this.addItemInVoucher(itemReceived);
+    }
+
+    addItemInVoucher(itemReceived: IProduct) {
+        if(!this.currentVoucher) return;
+
+        const newVoucherItem: IVoucherItem = {
+            type: itemReceived.Type,
+            name: itemReceived.Name,
+            quantity: itemReceived.Volume,
+            readDate: new Date(),
+            eanCode: itemReceived.EanCode
+        };
+        this.currentVoucher.items.push(newVoucherItem);
     }
 
     async requestPermissions() {
@@ -169,7 +185,7 @@ export class ScanPage implements OnInit {
 
     async getStorageData() {
         const storageData = await this.storageService.getStorageKey(DEBUG_STORAGE);
-        if(storageData && storageData.value !== null) {
+        if (storageData && storageData.value !== null) {
             const storageDataParsed = JSON.parse(storageData.value) as IDebugStorage;
             return storageDataParsed;
         }
@@ -177,16 +193,29 @@ export class ScanPage implements OnInit {
         return null;
     }
 
-    async tryPrint() {
-        if(!this.currentVoucher || this.processPrinting) return;
+    async getProfileData() {
+        const profileData = await this.storageService.getStorageKey(PROFILE_KEY);
+        if (profileData && profileData.value !== null) {
+            const profileDataParsed = JSON.parse(profileData.value) as IUser;
+            return profileDataParsed;
+        }
 
-        if(this.getTotal() <= 0) {
+        return null;
+    }
+
+
+
+    async tryPrint() {
+        if (!this.currentVoucher || this.processPrinting) return;
+
+        if (this.getTotal() <= 0) {
             this.toastService.showToast("Nu puteți printa acest bon deoarece nu aveți ambalaje scanate!", 2000, 'danger', 'bottom');
             return;
         }
 
         const storageDataParsed = await this.getStorageData();
-        if(!storageDataParsed) {
+        const profileDataParsed = await this.getProfileData();
+        if (!storageDataParsed || !profileDataParsed) {
             this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
             return;
         }
@@ -203,7 +232,7 @@ export class ScanPage implements OnInit {
 
         this.voucherService.activateVoucher(modelSent).subscribe({
             next: (res) => {
-                if(res.State !== 1) {
+                if (res.State !== 1) {
                     this.processPrinting = false;
                     this.cdr.detectChanges();
                     this.toastService.showToast("A intervenit o eroare, încercați mai tarziu!", 2000, 'danger', 'bottom');
@@ -213,7 +242,7 @@ export class ScanPage implements OnInit {
                 setTimeout(() => {
                     this.bluetoothSerial.connect(storageDataParsed.PrinterIdentifier).subscribe({
                         next: async (res) => {
-                            if(!this.currentVoucher) return;
+                            if (!this.currentVoucher) return;
 
                             const encoder = new EscPosEncoder();
 
@@ -222,8 +251,8 @@ export class ScanPage implements OnInit {
                                 date: this.currentVoucher.generatedDate,
                                 hour: this.currentVoucher.generatedTime,
                                 expire: this.currentVoucher.expirationDate,
-                                employeeCode: this.currentVoucher.employeeCode,
-                                officeCode: this.currentVoucher.officeCode,
+                                employeeCode: profileDataParsed.EmployeeCode,
+                                officeCode: profileDataParsed.OfficeCode,
                                 value: this.getTotal(),
                                 plasticCount: this.getItemsCount(1),
                                 aluminiumCount: this.getItemsCount(2),
@@ -254,11 +283,11 @@ export class ScanPage implements OnInit {
                                         { width: 16, align: 'right' }
                                     ],
                                     [
-                                        [ `Data: ${this.currentVoucher.generatedDate}`, `Ora: ${this.currentVoucher.generatedTime}` ],
-                                        [ '', '' ],
-                                        [ 'Plastic', `x${this.getItemsCount(1)}` ],
-                                        [ 'Aluminiu', `x${this.getItemsCount(2)}` ],
-                                        [ 'Sticla', `x${this.getItemsCount(3)}` ],
+                                        [`Data: ${this.currentVoucher.generatedDate}`, `Ora: ${this.currentVoucher.generatedTime}`],
+                                        ['', ''],
+                                        ['Plastic', `x${this.getItemsCount(1)}`],
+                                        ['Aluminiu', `x${this.getItemsCount(2)}`],
+                                        ['Sticla', `x${this.getItemsCount(3)}`],
                                     ]
                                 )
                                 .align('center')
@@ -300,10 +329,114 @@ export class ScanPage implements OnInit {
     }
 
     getItemsForVoucher() {
-        if(!this.currentVoucher) return [];
+        if (!this.currentVoucher) return [];
 
-        return this.currentVoucher.items.map(x=> [this.getFormattedName(x.name), x.eanCode]);
+        return this.currentVoucher.items.map(x => [x.name, x.eanCode]);
     }
+
+    async noProductFound(eanCode: string) {
+        const { value } = await Dialog.confirm({
+            title: "Ambalaj negăsit",
+            message: "Ambalaj negăsit în baza de date! Doriți să îl înregistrați?",
+            okButtonTitle: "Da",
+            cancelButtonTitle: "Nu",
+        });
+
+        if (!value) return;
+
+        this.registerProductModal.present();
+        this.initializeRegisterProductValidators(eanCode);
+    }
+
+    initializeRegisterProductValidators(eanCode: string = '') {
+        this.registerProductImages = ['', '', ''];
+        this.registerProduct = this.formBuilder.group({
+            eanCode: [eanCode, [Validators.required]],
+            name: ['', [Validators.required]],
+            volume: ['', [Validators.required]],
+            productCategoryId: ['1', [Validators.required]],
+        });
+    }
+
+    canRegisterNewProduct() {
+        if (!this.registerProduct.valid) return false;
+
+        if (!this.registerProductImages.every(image => image.length > 0)) return false;
+
+        return true;
+    }
+
+    async registerNewProduct() {
+        if (!this.canRegisterNewProduct()) return;
+
+        const formValues = this.registerProduct.value;
+        const formData = new FormData();
+        for (let i = 1; i <= 3; i++) {
+            if (this.registerProductImages[i - 1].length <= 0) continue;
+
+            const response = await fetch(this.registerProductImages[i - 1]);
+            const blob = await response.blob();
+            formData.append(`Image${i}`, blob, `image${i}-product.jpg`);
+        }
+
+        formData.append('Name', formValues.name);
+        formData.append('Code', formValues.eanCode);
+        formData.append('Volume', formValues.volume);
+        formData.append('ProductCategoryId', formValues.productCategoryId);
+
+        this.uploadNewProduct(formData);
+    }
+
+    uploadNewProduct(formData: FormData) {
+        this.productService.registerProduct(formData).subscribe({
+            next: (itemReceived) => {
+                this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
+                this.initializeRegisterProductValidators();
+                this.addItemInVoucher(itemReceived);
+                if(this.registerProductModal)
+                    this.registerProductModal.dismiss();
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
+    }
+
+    markAction(index: number) {
+        if (this.registerProductImages[index].length > 0) this.registerProductImages[index] = '';
+        else this.takePicture(index);
+    }
+
+    async takePicture(index: number) {
+        const pictureTaken = await Camera.getPhoto({
+            quality: 90,
+            source: CameraSource.Camera,
+            allowEditing: false,
+            resultType: CameraResultType.Uri
+        });
+        const base64Data = await this.readAsBase64(pictureTaken);
+        if (!base64Data) return;
+
+        this.registerProductImages[index] = base64Data;
+    }
+
+    async readAsBase64(photo: Photo) {
+        if (!photo.webPath) return null;
+
+        const response = await fetch(photo.webPath);
+        const blob = await response.blob();
+        return await this.convertBlobToBase64(blob) as string;
+    }
+
+    convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => {
+            resolve(reader.result);
+        };
+        reader.readAsDataURL(blob);
+    });
+
 
     async tryGoBack() {
         const { value } = await Dialog.confirm({
@@ -313,7 +446,7 @@ export class ScanPage implements OnInit {
             cancelButtonTitle: "Continuă scanarea",
         });
 
-        if(!value) return;
+        if (!value) return;
 
         this.router.navigateByUrl('/home', { replaceUrl: true });
     }

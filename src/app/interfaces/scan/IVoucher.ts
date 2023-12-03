@@ -3,15 +3,13 @@ export interface IVoucher {
     expirationDate: string;
     generatedDate: string;
     generatedTime: string;
-    employeeCode: string;
-    officeCode: string;
     items: IVoucherItem[]
 }
 
 export interface IVoucherItem {
     type: IVoucherItemType;
-    name: IVoucherItemContentType;
-    quantity: number;
+    name: string;
+    quantity: string;
     readDate: Date;
     eanCode: string;
 }

@@ -15,8 +15,8 @@ export class VoucherService {
     public useApiLink: string = 'UseVoucher';
     constructor(private http: HttpClient) { }
 
-    initializeVoucher(model: IVoucherInitialize) {
-        return this.http.post<IVoucherReceived>(environment.apiUrl + this.initializeApiLink, model);
+    initializeVoucher() {
+        return this.http.get<IVoucherReceived>(environment.apiUrl + this.initializeApiLink);
     }
 
     activateVoucher(model: IVoucherActive) {

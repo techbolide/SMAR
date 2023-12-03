@@ -69,8 +69,8 @@
                         <ion-icon [src]="'../../../assets/icon/' + getFormattedType(voucherItem.type) + '.svg'"
                             slot="start"></ion-icon>
                         <ion-label>
-                            <h3>{{ getFormattedName(voucherItem.name) }}</h3>
-                            <p>{{ voucherItem.quantity }} ml - <strong>{{ voucherItem.eanCode }}</strong></p>
+                            <h3>{{ voucherItem.name }}</h3>
+                            <p>{{ voucherItem.quantity }} - <strong>{{ voucherItem.eanCode }}</strong></p>
                         </ion-label>
                         <ion-text slot="end">{{ voucherItem.readDate | date: 'HH:mm:ss' }}</ion-text>
                     </ion-item>
@@ -87,5 +87,48 @@
             Scanează
             <ion-icon slot="end" name="scan-circle"></ion-icon>
         </ion-button>
+
+        <ion-modal #registerProductModal [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+            <ng-template>
+                <div class="register__product">
+                    <!--
+
+                        Poza 1 --- X
+                        Poza 2 --- X
+                        Poza 3 --- Bifa
+                        Input name
+                        Input quantity
+                        Radio category
+
+                    -->
+                    <form [formGroup]="registerProduct">
+                        <div class="register__product__image" *ngFor="let registerProductImage of registerProductImages; let i = index;">
+                            <h1>Poză {{ i + 1 }}</h1>
+                            <ion-button [color]="registerProductImage.length > 0 ? 'danger' : 'primary'" (click)="markAction(i)">
+                                <ion-icon slot="icon-only" [name]="registerProductImage.length > 0 ? 'close-circle' : 'camera'"></ion-icon>
+                            </ion-button>
+                        </div>
+                        <ion-item>
+                            <ion-input inputmode="text" label="Nume produs" formControlName="name" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu numele ambalajului"></ion-input>
+                            <ion-icon name="pricetag-outline" slot="end"></ion-icon>
+                        </ion-item>
+                        <ion-item>
+                            <ion-input inputmode="text" label="Cantitate produs" formControlName="volume" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu cantitatea ambalajului (ex: 500mL)"></ion-input>
+                            <ion-icon name="cube-outline" slot="end"></ion-icon>
+                        </ion-item>
+                        <ion-radio-group formControlName="productCategoryId">
+                            <ion-radio value="1">Plastic</ion-radio>
+                            <ion-radio value="2">Aluminiu</ion-radio>
+                            <ion-radio value="3">Sticla</ion-radio>
+                        </ion-radio-group>
+
+                        <ion-button class="register__product__button" fill="solid" color="primary" (click)="registerNewProduct()" [disabled]="!canRegisterNewProduct()">
+                            Înregistrează
+                            <ion-icon slot="end" name="checkbox-outline"></ion-icon>
+                        </ion-button>
+                    </form>
+                </div>
+            </ng-template>
+        </ion-modal>
     </div>
 </ion-content>

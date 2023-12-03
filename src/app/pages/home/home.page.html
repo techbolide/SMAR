@@ -1,57 +1,68 @@
-<ion-header class="ion-no-border" mode="md">
-    <ion-toolbar class="topToolbar" color="primary" mode="md">
-        <ion-title>
-            Piața lui Andrei, nr. 9
-        </ion-title>
-    </ion-toolbar>
-</ion-header>
+<ng-container *ngIf="currentUser; else show_loading">
+    <ion-header class="ion-no-border" mode="md">
+        <ion-toolbar class="topToolbar" color="primary" mode="md">
+            <ion-title>
+                {{ currentUser.OfficeName }}
+            </ion-title>
+        </ion-toolbar>
+    </ion-header>
 
-<ion-content [fullscreen]="true">
-    <div class="home__content">
-        <div class="home__top">
-            <div class="home__info">
-                <div>
-                    <h1>Valentin. M</h1>
-                    <p>R062832-0003</p>
-                </div>
-                <ion-button fill="clear" routerLink="/login">
-                    <ion-icon slot="icon-only" name="log-out" color="light"></ion-icon>
-                </ion-button>
-            </div>
-            <div class="scan__top__items">
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+    <ion-content [fullscreen]="true">
+        <div class="home__content">
+            <div class="home__top">
+                <div class="home__info">
                     <div>
-                        <h1>Plastic</h1>
-                        <p [ngStyle]="{'color': getColorForThreshold('plastic') }">{{ currentThresholdForPlastic }} <span>/ {{ maximumThresholdForPlastic }}</span></p>
+                        <h1>{{ getFormattedEmployeeName(currentUser.EmployeeName) }}</h1>
+                        <p>{{ currentUser.EmployeeCode }}</p>
+                    </div>
+                    <ion-button fill="clear" (click)="logout()">
+                        <ion-icon slot="icon-only" name="log-out" color="light"></ion-icon>
+                    </ion-button>
+                </div>
+                <div class="scan__top__items">
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>Plastic</h1>
+                            <p [ngStyle]="{'color': getColorForThreshold('plastic') }">{{ currentUser.PlasticCount }} <span>/ {{ currentUser.PlasticThreshold }}</span></p>
+                        </div>
+                    </div>
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>Aluminiu</h1>
+                            <p [ngStyle]="{'color': getColorForThreshold('can') }">{{ currentUser.AluminiumCount }} <span>/ {{ currentUser.AluminiumThreshold }}</span></p>
+                        </div>
+                    </div>
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>Sticla</h1>
+                            <p [ngStyle]="{'color': getColorForThreshold('glass') }">{{ currentUser.GlassCount }} <span>/ {{ currentUser.GlassThreshold }}</span></p>
+                        </div>
                     </div>
                 </div>
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>Aluminiu</h1>
-                        <p [ngStyle]="{'color': getColorForThreshold('can') }">{{ currentThresholdForCan }} <span>/ {{ maximumThresholdForCan }}</span></p>
-                    </div>
-                </div>
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>Sticla</h1>
-                        <p [ngStyle]="{'color': getColorForThreshold('glass') }">{{ currentThresholdForGlass }} <span>/ {{ maximumThresholdForGlass }}</span></p>
-                    </div>
+                <div class="home__actions">
+                    <ion-button *ngFor="let availableOption of availableOptions" fill="solid" [color]="availableOption.icon === 'pricetag' && !canScan() ? 'primary' : 'dark'" [routerLink]="availableOption.router !== null ? availableOption.router : null">
+                        {{ availableOption.name }}
+                        <ion-icon slot="end" [name]="availableOption.icon"></ion-icon>
+                    </ion-button>
                 </div>
             </div>
-            <div class="home__actions">
-                <ion-button *ngFor="let availableOption of availableOptions" fill="solid" [color]="availableOption.icon === 'pricetag' && !canScan() ? 'primary' : 'dark'" [routerLink]="availableOption.router !== null ? availableOption.router : null">
-                    {{ availableOption.name }}
-                    <ion-icon slot="end" [name]="availableOption.icon"></ion-icon>
-                </ion-button>
-            </div>
+
+            <ion-button class="primary" fill="solid" color="primary" routerLink="/scan" [disabled]="!canScan()">
+                Voucher
+                <ion-icon slot="end" name="scan-circle"></ion-icon>
+            </ion-button>
         </div>
+    </ion-content>
+</ng-container>
 
-        <ion-button class="primary" fill="solid" color="primary" routerLink="/scan" [disabled]="!canScan()">
-            Voucher
-            <ion-icon slot="end" name="scan-circle"></ion-icon>
-        </ion-button>
-    </div>
-</ion-content>
+<ng-template #show_loading>
+    <ion-content [fullscreen]="true">
+        <div class="home__loading">
+            <ion-spinner name="lines"></ion-spinner>
+        </div>
+    </ion-content>
+</ng-template>
+

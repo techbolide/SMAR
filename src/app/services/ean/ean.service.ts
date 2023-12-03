@@ -1,22 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IVoucherItem, IVoucherItemContentType, IVoucherItemType } from 'src/app/interfaces/scan/IVoucher';
+import { StorageService } from '../storage/storage.service';
+import { PRODUCTS_KEY } from '../product/product.service';
+import { IProduct } from 'src/app/interfaces/product/IProduct';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EanService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private storageService: StorageService) { }
 
-    validateEAN(code: string) {
-        const newItem: IVoucherItem = {
-            type: IVoucherItemType.Plastic,
-            name: IVoucherItemContentType.Apa_minerala,
-            quantity: 500,
-            readDate: new Date(),
-            eanCode: code
+    async validateEAN(code: string) {
+        let findItem = undefined;
+        const itemsFromStorage = await this.storageService.getStorageKey(PRODUCTS_KEY);
+        if(itemsFromStorage && itemsFromStorage.value) {
+            const itemsParsed = JSON.parse(itemsFromStorage.value) as IProduct[];
+            findItem = itemsParsed.find(x=> x.EanCode === code);
         }
-        return newItem;
+        return findItem;
     }
 }
