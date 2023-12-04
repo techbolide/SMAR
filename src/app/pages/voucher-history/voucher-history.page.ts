@@ -8,6 +8,9 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
 import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
+import { Router } from '@angular/router';
+import { PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
+import { IUser } from 'src/app/interfaces/authentication/IUser';
 
 
 @Component({
@@ -23,7 +26,8 @@ export class VoucherHistoryPage {
         private voucherService: VoucherService,
         private storageService: StorageService,
         private bluetoothSerial: BluetoothSerial,
-        private cdr: ChangeDetectorRef) { }
+        private cdr: ChangeDetectorRef,
+        private router: Router) { }
 
     ionViewDidEnter() {
         this.getVouchers();
@@ -35,14 +39,14 @@ export class VoucherHistoryPage {
     }
 
     async getVouchers() {
-        const storageDataParsed = await this.getStorageData();
-        if (!storageDataParsed) {
+        const profileDataParsed = await this.getProfileData();
+        if (!profileDataParsed) {
             this.vouchers = [];
             return;
         }
 
         const model: IVoucherGetHistory = {
-            officeCode: storageDataParsed.OfficeCode,
+            officeCode: profileDataParsed.OfficeCode,
             from: 0,
             take: 100
         }
@@ -69,6 +73,16 @@ export class VoucherHistoryPage {
         return null;
     }
 
+    async getProfileData() {
+        const profileData = await this.storageService.getStorageKey(PROFILE_KEY);
+        if (profileData && profileData.value !== null) {
+            const profileDataParsed = JSON.parse(profileData.value) as IUser;
+            return profileDataParsed;
+        }
+
+        return null;
+    }
+
     reprint(voucher: IVoucherReceived) {
         if (this.isReprinting) return;
 
@@ -81,7 +95,8 @@ export class VoucherHistoryPage {
 
     async tryPrintTicket(voucher: IVoucherReceived) {
         const storageDataParsed = await this.getStorageData();
-        if (!storageDataParsed) {
+        const profileDataParsed = await this.getProfileData();
+        if (!storageDataParsed || !profileDataParsed) {
             this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
             this.isReprinting = false;
             return;
@@ -96,8 +111,8 @@ export class VoucherHistoryPage {
                     date: voucher.GeneratedDate.substring(0, 10),
                     hour: voucher.GeneratedTime.substring(0, 8),
                     expire: voucher.ExpirationDate.substring(0, 10),
-                    employeeCode: storageDataParsed.EmployeeCode,
-                    officeCode: storageDataParsed.OfficeCode,
+                    employeeCode: profileDataParsed.EmployeeCode,
+                    officeCode: profileDataParsed.OfficeCode,
                     value: voucher.Value,
                     plasticCount: voucher.PlasticCount,
                     aluminiumCount: voucher.AluminiumCount,
@@ -157,7 +172,8 @@ export class VoucherHistoryPage {
 
     async tryPrint(voucher: IVoucherReceived) {
         const storageDataParsed = await this.getStorageData();
-        if (!storageDataParsed) {
+        const profileDataParsed = await this.getProfileData();
+        if (!storageDataParsed || !profileDataParsed) {
             this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
             this.isReprinting = false;
             return;
@@ -172,8 +188,8 @@ export class VoucherHistoryPage {
                     date: voucher.GeneratedDate.substring(0, 10),
                     hour: voucher.GeneratedTime.substring(0, 8),
                     expire: voucher.ExpirationDate.substring(0, 10),
-                    employeeCode: storageDataParsed.EmployeeCode,
-                    officeCode: storageDataParsed.OfficeCode,
+                    employeeCode: profileDataParsed.EmployeeCode,
+                    officeCode: profileDataParsed.OfficeCode,
                     value: voucher.Value,
                     plasticCount: voucher.PlasticCount,
                     aluminiumCount: voucher.AluminiumCount,
@@ -279,8 +295,20 @@ export class VoucherHistoryPage {
     async scanBarCode() {
         const { barcodes } = await BarcodeScanner.scan();
         barcodes.forEach(barcode => {
-            console.log(barcode);
+            this.goToDetails(barcode.displayValue);
         });
+    }
+
+    goToDetails(details: string) {
+        try {
+            const detailsParsed = JSON.parse(details) as IVoucherQR;
+            if (!detailsParsed) return;
+
+            this.router.navigate(['/voucher-history', detailsParsed.code]);
+
+        } catch {
+
+        }
     }
 
 

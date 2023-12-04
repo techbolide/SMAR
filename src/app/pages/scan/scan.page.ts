@@ -33,6 +33,7 @@ export class ScanPage implements OnInit {
     public processPrinting: boolean = false;
     public registerProduct!: FormGroup;
     public registerProductImages: string[] = [];
+    public tryRegisterNewProduct: boolean = false;
 
     constructor(private eanService: EanService,
         private bluetoothSerial: BluetoothSerial,
@@ -66,6 +67,7 @@ export class ScanPage implements OnInit {
                     expirationDate: res.ExpirationDate.substring(0, 10),
                     generatedDate: res.GeneratedDate.substring(0, 10),
                     generatedTime: res.GeneratedTime.substring(0, 8),
+                    state: res.State,
                     items: []
                 }
             },
@@ -203,15 +205,55 @@ export class ScanPage implements OnInit {
         return null;
     }
 
-
-
-    async tryPrint() {
+    tryPrint() {
         if (!this.currentVoucher || this.processPrinting) return;
 
         if (this.getTotal() <= 0) {
             this.toastService.showToast("Nu puteți printa acest bon deoarece nu aveți ambalaje scanate!", 2000, 'danger', 'bottom');
             return;
         }
+
+        this.processPrinting = true;
+
+        if(this.currentVoucher.state === 1) this.printVoucher();
+        else {
+
+            const modelSent: IVoucherActive = {
+                Code: this.currentVoucher.code,
+                PlasticCount: this.getItemsCount(1),
+                AluminiumCount: this.getItemsCount(2),
+                GlassCount: this.getItemsCount(3),
+                Items: this.currentVoucher.items
+            }
+
+            this.voucherService.activateVoucher(modelSent).subscribe({
+                next: (res) => {
+                    if (!this.currentVoucher) {
+                        this.processPrinting = false;
+                        this.cdr.detectChanges();
+                        return;
+                    }
+
+                    if (res.State === 1) {
+                        this.currentVoucher.state = res.State;
+                        this.toastService.showToast("Bonul a fost activat cu succes!", 2000, 'success', 'bottom');
+                    }
+                    this.printVoucher();
+                },
+                error: (err) => {
+                    console.log(err);
+                    this.toastService.showToast("A intervenit o eroare în activarea voucherului, încercați mai tarziu!", 2000, 'danger', 'bottom');
+                    this.processPrinting = false;
+                    this.cdr.detectChanges();
+                }
+            });
+        }
+
+
+    }
+
+    async printVoucher() {
+        if(!this.currentVoucher) return;
 
         const storageDataParsed = await this.getStorageData();
         const profileDataParsed = await this.getProfileData();
@@ -220,108 +262,70 @@ export class ScanPage implements OnInit {
             return;
         }
 
-        // validare server
-        const modelSent: IVoucherActive = {
-            Code: this.currentVoucher.code,
-            PlasticCount: this.getItemsCount(1),
-            AluminiumCount: this.getItemsCount(2),
-            GlassCount: this.getItemsCount(3),
-            Items: this.currentVoucher.items
-        }
-        this.processPrinting = true;
+        this.bluetoothSerial.connect(storageDataParsed.PrinterIdentifier).subscribe({
+            next: async (res) => {
+                if(!this.currentVoucher) return;
 
-        this.voucherService.activateVoucher(modelSent).subscribe({
-            next: (res) => {
-                if (res.State !== 1) {
-                    this.processPrinting = false;
-                    this.cdr.detectChanges();
-                    this.toastService.showToast("A intervenit o eroare, încercați mai tarziu!", 2000, 'danger', 'bottom');
-                    return;
+                const encoder = new EscPosEncoder();
+
+                const qrCodeInfo: IVoucherQR = {
+                    code: this.currentVoucher.code,
+                    date: this.currentVoucher.generatedDate,
+                    hour: this.currentVoucher.generatedTime,
+                    expire: this.currentVoucher.expirationDate,
+                    employeeCode: profileDataParsed.EmployeeCode,
+                    officeCode: profileDataParsed.OfficeCode,
+                    value: this.getTotal(),
+                    plasticCount: this.getItemsCount(1),
+                    aluminiumCount: this.getItemsCount(2),
+                    glassCount: this.getItemsCount(3)
                 }
-                this.toastService.showToast("Bonul a fost activat cu succes!", 2000, 'success', 'bottom');
-                setTimeout(() => {
-                    this.bluetoothSerial.connect(storageDataParsed.PrinterIdentifier).subscribe({
-                        next: async (res) => {
-                            if (!this.currentVoucher) return;
 
-                            const encoder = new EscPosEncoder();
+                const resultPrint = encoder.
+                    initialize()
+                    .align('center')
+                    .line(storageDataParsed.Header)
+                    .line(storageDataParsed.Subheader)
+                    .newline()
+                    .align('left')
+                    .line(`Cod: ${qrCodeInfo.code}`)
+                    .line(`Operator: ${qrCodeInfo.employeeCode}`)
+                    .table(
+                        [
+                            { width: 16, align: 'left' },
+                            { width: 16, align: 'right' }
+                        ],
+                        [
+                            [`Data: ${this.currentVoucher.generatedDate}`, `Ora: ${this.currentVoucher.generatedTime}`],
+                            ['', ''],
+                            ['Plastic', `x${this.getItemsCount(1)}`],
+                            ['Aluminiu', `x${this.getItemsCount(2)}`],
+                            ['Sticla', `x${this.getItemsCount(3)}`],
+                        ]
+                    )
+                    .align('center')
+                    .bold(true)
+                    .line(`LEI ${this.getTotal().toFixed(2)}`)
+                    .bold(false)
+                    .newline()
+                    .table(
+                        [
+                            { width: 18, align: 'left' },
+                            { width: 14, align: 'right' }
+                        ],
+                        this.getItemsForVoucher()
+                    )
+                    .line(`Expira la: ${this.currentVoucher.expirationDate}`)
+                    .qrcode(JSON.stringify(qrCodeInfo))
+                    .encode();
 
-                            const qrCodeInfo: IVoucherQR = {
-                                code: this.currentVoucher.code,
-                                date: this.currentVoucher.generatedDate,
-                                hour: this.currentVoucher.generatedTime,
-                                expire: this.currentVoucher.expirationDate,
-                                employeeCode: profileDataParsed.EmployeeCode,
-                                officeCode: profileDataParsed.OfficeCode,
-                                value: this.getTotal(),
-                                plasticCount: this.getItemsCount(1),
-                                aluminiumCount: this.getItemsCount(2),
-                                glassCount: this.getItemsCount(3)
-                            }
-
-
-                            /*  Header
-                                Subheader
-                                Info
-                                Info totaluri
-                                Info fiecare linie
-                                QrCode
-                                Footer
-                            */
-                            const resultPrint = encoder.
-                                initialize()
-                                .align('center')
-                                .line(storageDataParsed.Header)
-                                .line(storageDataParsed.Subheader)
-                                .newline()
-                                .align('left')
-                                .line(`Cod: ${qrCodeInfo.code}`)
-                                .line(`Operator: ${qrCodeInfo.employeeCode}`)
-                                .table(
-                                    [
-                                        { width: 16, align: 'left' },
-                                        { width: 16, align: 'right' }
-                                    ],
-                                    [
-                                        [`Data: ${this.currentVoucher.generatedDate}`, `Ora: ${this.currentVoucher.generatedTime}`],
-                                        ['', ''],
-                                        ['Plastic', `x${this.getItemsCount(1)}`],
-                                        ['Aluminiu', `x${this.getItemsCount(2)}`],
-                                        ['Sticla', `x${this.getItemsCount(3)}`],
-                                    ]
-                                )
-                                .align('center')
-                                .bold(true)
-                                .line(`LEI ${this.getTotal().toFixed(2)}`)
-                                .bold(false)
-                                .newline()
-                                .table(
-                                    [
-                                        { width: 18, align: 'left' },
-                                        { width: 14, align: 'right' }
-                                    ],
-                                    this.getItemsForVoucher()
-                                )
-                                .line(`Expira la: ${this.currentVoucher.expirationDate}`)
-                                .qrcode(JSON.stringify(qrCodeInfo))
-                                .encode();
-
-                            await this.bluetoothSerial.write(resultPrint);
-                            this.router.navigateByUrl('/home', { replaceUrl: true });
-                            this.processPrinting = false;
-                            this.cdr.detectChanges();
-                        },
-                        error: (err) => {
-                            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
-                            this.processPrinting = false;
-                            this.cdr.detectChanges();
-                        }
-                    });
-                }, 500);
+                await this.bluetoothSerial.write(resultPrint);
+                this.router.navigateByUrl('/home', { replaceUrl: true });
+                this.processPrinting = false;
+                this.cdr.detectChanges();
             },
             error: (err) => {
-                console.log(err);
-                this.toastService.showToast("A intervenit o eroare, încercați mai tarziu!", 2000, 'danger', 'bottom');
+                this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
                 this.processPrinting = false;
                 this.cdr.detectChanges();
             }
@@ -363,16 +367,22 @@ export class ScanPage implements OnInit {
 
         if (!this.registerProductImages.every(image => image.length > 0)) return false;
 
+        if(this.tryRegisterNewProduct) return false;
+
         return true;
     }
 
     async registerNewProduct() {
         if (!this.canRegisterNewProduct()) return;
 
+        this.tryRegisterNewProduct = true;
         const formValues = this.registerProduct.value;
         const formData = new FormData();
         for (let i = 1; i <= 3; i++) {
-            if (this.registerProductImages[i - 1].length <= 0) continue;
+            if (this.registerProductImages[i - 1].length <= 0) {
+                formData.append(`Image${i}`, '');
+                continue;
+            }
 
             const response = await fetch(this.registerProductImages[i - 1]);
             const blob = await response.blob();
@@ -389,14 +399,17 @@ export class ScanPage implements OnInit {
 
     uploadNewProduct(formData: FormData) {
         this.productService.registerProduct(formData).subscribe({
-            next: (itemReceived) => {
-                this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
+            next: async (itemReceived) => {
+                await this.registerProductModal.dismiss();
                 this.initializeRegisterProductValidators();
-                this.addItemInVoucher(itemReceived);
-                if(this.registerProductModal)
-                    this.registerProductModal.dismiss();
+                setTimeout(() => {
+                    this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
+                    this.addItemInVoucher(itemReceived);
+                    this.tryRegisterNewProduct = false;
+                }, 500);
             },
             error: (err) => {
+                this.tryRegisterNewProduct = false;
                 console.log(err);
             }
         })
@@ -439,6 +452,13 @@ export class ScanPage implements OnInit {
 
 
     async tryGoBack() {
+        if(!this.currentVoucher) return;
+
+        if(this.currentVoucher.state === 1) {
+            this.router.navigateByUrl('/home', { replaceUrl: true });
+            return;
+        }
+
         const { value } = await Dialog.confirm({
             title: "Voucher",
             message: "Ai un bon activ, sunteți sigur că doriți ca acesta să fie anulat?",

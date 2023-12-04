@@ -83,7 +83,7 @@
             </ion-list>
         </div>
 
-        <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported || !currentVoucher">
+        <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher?.state !== 1" (click)="tryScanBarCode()" [disabled]="!isSupported || !currentVoucher">
             Scanează
             <ion-icon slot="end" name="scan-circle"></ion-icon>
         </ion-button>
@@ -91,16 +91,7 @@
         <ion-modal #registerProductModal [initialBreakpoint]="1" [breakpoints]="[0, 1]">
             <ng-template>
                 <div class="register__product">
-                    <!--
 
-                        Poza 1 --- X
-                        Poza 2 --- X
-                        Poza 3 --- Bifa
-                        Input name
-                        Input quantity
-                        Radio category
-
-                    -->
                     <form [formGroup]="registerProduct">
                         <div class="register__product__image" *ngFor="let registerProductImage of registerProductImages; let i = index;">
                             <h1>Poză {{ i + 1 }}</h1>
@@ -124,7 +115,6 @@
 
                         <ion-button class="register__product__button" fill="solid" color="primary" (click)="registerNewProduct()" [disabled]="!canRegisterNewProduct()">
                             Înregistrează
-                            <ion-icon slot="end" name="checkbox-outline"></ion-icon>
                         </ion-button>
                     </form>
                 </div>

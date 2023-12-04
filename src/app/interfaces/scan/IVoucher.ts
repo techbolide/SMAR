@@ -3,6 +3,7 @@ export interface IVoucher {
     expirationDate: string;
     generatedDate: string;
     generatedTime: string;
+    state: number;
     items: IVoucherItem[]
 }
 

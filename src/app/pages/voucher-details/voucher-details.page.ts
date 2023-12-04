@@ -3,7 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
 import { DEBUG_STORAGE, IDebugStorage } from 'src/app/app.component';
+import { IUser } from 'src/app/interfaces/authentication/IUser';
 import { IVoucherActive, IVoucherGetByScan, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/scan/IVoucher';
+import { PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
@@ -33,14 +35,24 @@ export class VoucherDetailsPage implements OnInit {
         });
     }
 
+    async getProfileData() {
+        const profileData = await this.storageService.getStorageKey(PROFILE_KEY);
+        if (profileData && profileData.value !== null) {
+            const profileDataParsed = JSON.parse(profileData.value) as IUser;
+            return profileDataParsed;
+        }
+
+        return null;
+    }
+
     async getVoucher(code: string) {
-        const storageDataParsed = await this.getStorageData();
-        if(!storageDataParsed) return;
+        const profileDataParsed = await this.getProfileData();
+        if (!profileDataParsed) return;
 
         const sentModel: IVoucherGetByScan = {
             Code: code,
-            EmployeeCode: storageDataParsed.EmployeeCode,
-            OfficeCode: storageDataParsed.OfficeCode
+            EmployeeCode: profileDataParsed.EmployeeCode,
+            OfficeCode: profileDataParsed.OfficeCode
         }
 
         this.voucherService.getByScan(sentModel).subscribe({
@@ -76,7 +88,8 @@ export class VoucherDetailsPage implements OnInit {
 
     async tryPrint() {
         const storageDataParsed = await this.getStorageData();
-        if(!storageDataParsed) {
+        const profileDataParsed = await this.getProfileData();
+        if (!storageDataParsed || !profileDataParsed) {
             this.processPrinting = false;
             this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
             return;
@@ -96,8 +109,8 @@ export class VoucherDetailsPage implements OnInit {
                     date: this.currentVoucher.GeneratedDate.substring(0, 10),
                     hour: this.currentVoucher.GeneratedTime.substring(0, 8),
                     expire: this.currentVoucher.ExpirationDate.substring(0, 10),
-                    employeeCode: storageDataParsed.EmployeeCode,
-                    officeCode: storageDataParsed.OfficeCode,
+                    employeeCode: profileDataParsed.EmployeeCode,
+                    officeCode: profileDataParsed.OfficeCode,
                     value: this.currentVoucher.Value,
                     plasticCount: this.currentVoucher.PlasticCount,
                     aluminiumCount: this.currentVoucher.AluminiumCount,
@@ -173,7 +186,8 @@ export class VoucherDetailsPage implements OnInit {
 
     async tryPrintTicket() {
         const storageDataParsed = await this.getStorageData();
-        if(!storageDataParsed) {
+        const profileDataParsed = await this.getProfileData();
+        if (!storageDataParsed || !profileDataParsed) {
             this.processPrinting = false;
             this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
             return;
@@ -193,8 +207,8 @@ export class VoucherDetailsPage implements OnInit {
                     date: this.currentVoucher.GeneratedDate.substring(0, 10),
                     hour: this.currentVoucher.GeneratedTime.substring(0, 8),
                     expire: this.currentVoucher.ExpirationDate.substring(0, 10),
-                    employeeCode: storageDataParsed.EmployeeCode,
-                    officeCode: storageDataParsed.OfficeCode,
+                    employeeCode: profileDataParsed.EmployeeCode,
+                    officeCode: profileDataParsed.OfficeCode,
                     value: this.currentVoucher.Value,
                     plasticCount: this.currentVoucher.PlasticCount,
                     aluminiumCount: this.currentVoucher.AluminiumCount,

@@ -121,9 +121,10 @@ ion-content {
         }
 
         .scan__add {
-            min-height: 100px;
-            font-size: 36px;
+            min-height: 80px;
+            font-size: 28px;
             letter-spacing: -0.4px;
+            text-transform: capitalize;
             --border-radius: 0;
             font-weight: 500;
             position: absolute;
@@ -187,14 +188,14 @@ ion-content {
                 font-size: 18px;
                 font-weight: 400;
                 letter-spacing: -0.5px;
-
             }
         }
 
         .register__product__button {
-            min-height: 100px;
-            font-size: 36px;
+            min-height: 80px;
+            font-size: 28px;
             letter-spacing: -0.4px;
+            text-transform: capitalize;
             --border-radius: 0;
             font-weight: 500;
             margin: 0;
