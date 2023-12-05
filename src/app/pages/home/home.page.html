@@ -24,21 +24,30 @@
                         <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
                         <div>
                             <h1>Plastic</h1>
-                            <p [ngStyle]="{'color': getColorForThreshold('plastic') }">{{ currentUser.PlasticCount }} <span>/ {{ currentUser.PlasticThreshold }}</span></p>
+                            <p [ngStyle]="{'color': getColorForThreshold('plastic') }">
+                                <ngx-animated-counter [params]="paramsForPlastic"></ngx-animated-counter>
+                                <span>/ {{ currentUser.PlasticThreshold }}</span>
+                            </p>
                         </div>
                     </div>
                     <div class="scan__top__item">
                         <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
                         <div>
                             <h1>Aluminiu</h1>
-                            <p [ngStyle]="{'color': getColorForThreshold('can') }">{{ currentUser.AluminiumCount }} <span>/ {{ currentUser.AluminiumThreshold }}</span></p>
+                            <p [ngStyle]="{'color': getColorForThreshold('can') }">
+                                <ngx-animated-counter [params]="paramsForAluminium"></ngx-animated-counter>
+                                <span>/ {{ currentUser.AluminiumThreshold }}</span>
+                            </p>
                         </div>
                     </div>
                     <div class="scan__top__item">
                         <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
                         <div>
                             <h1>Sticla</h1>
-                            <p [ngStyle]="{'color': getColorForThreshold('glass') }">{{ currentUser.GlassCount }} <span>/ {{ currentUser.GlassThreshold }}</span></p>
+                            <p [ngStyle]="{'color': getColorForThreshold('glass') }">
+                                <ngx-animated-counter [params]="paramsForGlass"></ngx-animated-counter>
+                                <span>/ {{ currentUser.GlassThreshold }}</span>
+                            </p>
                         </div>
                     </div>
                 </div>
