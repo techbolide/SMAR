@@ -25,9 +25,15 @@ export class AppComponent {
     initializeApplication() {
         console.log('Initializing Techbolide SMAR...');
         this.platform.ready().then(() => {
-            this.statusBarService.setDefaultStatusBar();
+            this.initializeStatusBar();
             this.debugStorage();
         });
+    }
+
+    initializeStatusBar() {
+        setTimeout(() => {
+            this.statusBarService.setDefaultStatusBar();
+        }, 2000);
     }
 
     async debugStorage() {
