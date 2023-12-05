@@ -35,6 +35,23 @@ export class BagsHistoryPage {
         }, 1000);
     }
 
+    handleRefresh(event: any) {
+        const model: IPaginated = { from: 0, take: 20 }
+        this.bags = null;
+        setTimeout(() => {
+            this.bagService.getBags(model).subscribe({
+                next: (res) => {
+                    this.bags = [...res];
+                    event.target.complete();
+                },
+                error: (err) => {
+                    this.bags = [];
+                    event.target.complete();
+                }
+            });
+        }, 2000);
+    }
+
     getBagStateColor(state: number) {
         switch (state) {
             case 1: return 'dark';

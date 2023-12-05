@@ -18,8 +18,9 @@ ion-content {
         place-items: center;
 
         ion-spinner {
-            width: 36px;
-            height: 36px;
+            width: 42px;
+            height: 42px;
+            opacity: .5;
         }
     }
 
@@ -41,7 +42,7 @@ ion-content {
 
                 ion-item-sliding {
                     ion-item {
-                        --padding-start: 10px;
+                        --padding-start: 16px;
 
                         &:last-child {
                             --border-width: 0px;
@@ -50,19 +51,19 @@ ion-content {
                         .history__end {
                             display: flex;
                             flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
+                            align-items: end;
 
                             ion-badge {
                                 --padding-bottom: 4px;
                                 --padding-top: 4px;
                                 --padding-start: 6px;
                                 --padding-end: 6px;
+                                font-weight: 500;
                             }
 
                             p {
                                 margin: 0;
-                                font-size: 16px;
+                                font-size: 15px;
                                 font-weight: 500;
                             }
                         }

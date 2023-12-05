@@ -37,6 +37,23 @@ export class VoucherHistoryPage {
         this.vouchers = null;
     }
 
+    handleRefresh(event: any) {
+        const model: IPaginated = { from: 0, take: 20 }
+        this.vouchers = null;
+        setTimeout(() => {
+            this.voucherService.getVouchers(model).subscribe({
+                next: (res) => {
+                    this.vouchers = [...res];
+                    event.target.complete();
+                },
+                error: (err) => {
+                    this.vouchers = [];
+                    event.target.complete();
+                }
+            });
+        }, 2000);
+    }
+
     getVouchers() {
         const model: IPaginated = { from: 0, take: 20 }
 

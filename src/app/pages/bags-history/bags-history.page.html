@@ -16,6 +16,9 @@
         </div>
     </ng-container>
     <ng-template #show_history>
+        <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+            <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
         <div class="history__content">
             <div class="history__list" *ngIf="bags !== null && bags.length > 0; else no_bags">
                 <ion-list>

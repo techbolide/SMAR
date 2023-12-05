@@ -18,8 +18,9 @@ ion-content {
         place-items: center;
 
         ion-spinner {
-            width: 36px;
-            height: 36px;
+            width: 42px;
+            height: 42px;
+            opacity: .5;
         }
     }
 
