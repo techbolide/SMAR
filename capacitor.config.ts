@@ -3,8 +3,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-    appId: 'com.techbolide.smar',
-    appName: 'SMAR',
+    appId: 'com.techbolide.sgr',
+    appName: 'Techbolide SGR',
     webDir: 'www',
     server: {
         androidScheme: 'https'

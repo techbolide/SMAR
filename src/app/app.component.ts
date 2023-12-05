@@ -23,7 +23,7 @@ export class AppComponent {
     }
 
     initializeApplication() {
-        console.log('Initializing Techbolide SMAR...');
+        console.log('Initializing Techbolide SGR...');
         this.platform.ready().then(() => {
             this.initializeStatusBar();
             this.debugStorage();
