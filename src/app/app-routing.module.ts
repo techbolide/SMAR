@@ -31,6 +31,18 @@ const routes: Routes = [
         path: 'bag-history',
         loadChildren: () => import('./pages/bags-history/bags-history.module').then(m => m.BagsHistoryPageModule)
     },
+    {
+        path: 'bags-seal',
+        loadChildren: () => import('./pages/bags-seal/bags-seal.module').then(m => m.BagsSealPageModule)
+    },
+    {
+        path: 'settings',
+        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)
+    },
+    {
+        path: 'packaging',
+        loadChildren: () => import('./pages/packaging/packaging.module').then(m => m.PackagingPageModule)
+    },
 ];
 
 @NgModule({

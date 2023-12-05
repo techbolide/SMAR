@@ -1,0 +1,11 @@
+.header-md .topToolbar {
+    --padding-start: 0px !important;
+
+    ion-buttons {
+        ion-button {
+            ion-icon {
+                font-size: 24px;
+            }
+        }
+    }
+}

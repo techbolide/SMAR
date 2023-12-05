@@ -13,11 +13,11 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 })
 export class HomePage {
     public availableOptions: IHomeOption[] = [
-        { name: "Ridicare ambalaje", icon: "car", router: null },
+        { name: "Ridicare ambalaje", icon: "car", router: '/packaging' },
         { name: "Istoric saci", icon: "cube", router: '/bag-history' },
         { name: "Istoric vouchere", icon: "cash", router: '/voucher-history' },
-        { name: "Sigilare saci", icon: "pricetag", router: null },
-        { name: "Setări", icon: "cog", router: null },
+        { name: "Sigilare saci", icon: "pricetag", router: '/bags-seal' },
+        { name: "Setări", icon: "cog", router: '/settings' },
     ]
 
     public currentUser: IUser | null = null;
