@@ -21,15 +21,26 @@ export class HomePage {
     ]
 
     public currentUser: IUser | null = null;
+    public isLogged: boolean = false;
     constructor(private router: Router, private authService: AuthenticationService, private storageService: StorageService, private productService: ProductService) {
+        this.getUser();
+    }
+
+    ionViewDidEnter() {
         this.checkLogged();
+    }
+
+    ionViewDidLeave(){
+        this.isLogged = false;
     }
 
     checkLogged() {
         this.authService.isLogged().subscribe({
             next: (isLogged) => {
-                if(isLogged)
-                    this.getUser();
+                if(isLogged && !this.isLogged) {
+                    this.isLogged = true;
+                    this.authService.doAuth();
+                }
             },
             error: (err) => {
                 console.log(err);
@@ -37,12 +48,20 @@ export class HomePage {
         })
     }
 
-    async getUser() {
-        const profileDataParsed = await this.storageService.getProfileStorage();
-        if(!profileDataParsed) return;
+    getUser() {
+        this.authService.currentUser.subscribe({
+            next: (res) => {
+                if(res) {
+                    this.currentUser = res;
+                    this.getProducts();
+                }
+            },
+            error: (err) => {
+                console.log(err);
+            }
+        })
 
-        this.currentUser = profileDataParsed;
-        this.getProducts();
+
     }
 
     getProducts() {

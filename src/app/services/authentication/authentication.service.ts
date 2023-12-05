@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { map, tap, switchMap, filter, take, catchError } from 'rxjs/operators';
 import { BehaviorSubject, from, Observable, of, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { IUser } from 'src/app/interfaces/authentication/IUser';
 
 export const TOKEN_KEY = 'smar_auth_token';
 export const REFRESH_TOKEN_KEY = 'smar_refresh_token';
@@ -15,6 +16,7 @@ export const PROFILE_KEY = 'smar_profile';
 })
 export class AuthenticationService {
     public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public currentUser: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
     public loginApiLink: string = 'GetToken';
     public profileApiLink: string = 'GetOffice';
     public currentAccessToken: string | null = null;
@@ -60,16 +62,17 @@ export class AuthenticationService {
     }
 
     getProfile() {
-        return this.http.get(environment.apiUrl + this.profileApiLink).pipe(
+        return this.http.get<IUser>(environment.apiUrl + this.profileApiLink).pipe(
             map((res) => res || {})
         );
     }
 
     doAuth() {
         this.getProfile().subscribe({
-            next: async (res: any) => {
+            next: async (res) => {
                 await this.storageService.setStorageKey(PROFILE_KEY, JSON.stringify(res));
                 this.isAuthenticated.next(true);
+                this.currentUser.next(res);
             },
             error: (err: any) => {
                 console.log(err);
