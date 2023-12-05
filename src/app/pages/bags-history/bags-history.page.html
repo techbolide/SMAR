@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border" mode="md">
+    <ion-toolbar class="topToolbar" color="primary" mode="md">
+        <ion-buttons slot="start">
+            <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+            Istoric saci
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ng-container *ngIf="bags === null; else show_history">
+        <div class="history__loading">
+            <ion-spinner name="lines"></ion-spinner>
+        </div>
+    </ng-container>
+    <ng-template #show_history>
+        <div class="history__content">
+            <div class="history__list" *ngIf="bags !== null && bags.length > 0; else no_bags">
+                <ion-list>
+                    <ion-item [button]="true" lines="full" *ngFor="let bag of bags">
+                        <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                        <ion-label>
+                            <h3>{{ bag.Code }}</h3>
+                            <p>x{{ bag.Count }}</p>
+                        </ion-label>
+                        <div class="history__end" slot="end">
+                            <ion-badge slot="end" [color]="getBagStateColor(bag.State)">
+                                {{ getBagStateText(bag.State) }}
+                            </ion-badge>
+                            <p>{{ bag.Date | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
+                        </div>
+
+                    </ion-item>
+                </ion-list>
+            </div>
+
+            <ng-template #no_bags>
+                <div class="no__entries">
+                    <ion-icon name="sad-outline"></ion-icon>
+                    <h1>Nu există niciun sac în istoric</h1>
+                </div>
+            </ng-template>
+        </div>
+    </ng-template>
+
+</ion-content>
