@@ -10,7 +10,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { DatePipe } from '@angular/common';
 import { AuthenticationInterceptor } from './interceptors/authentication/authentication.interceptor';
-import { NgxAnimatedCounterModule } from '@bugsplat/ngx-animated-counter'
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,8 +17,7 @@ import { NgxAnimatedCounterModule } from '@bugsplat/ngx-animated-counter'
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        HttpClientModule,
-        NgxAnimatedCounterModule
+        HttpClientModule
     ],
     providers: [
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

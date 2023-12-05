@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxAnimatedCounterParams } from '@bugsplat/ngx-animated-counter';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
 import { IHomeOption } from 'src/app/interfaces/home/IHomeOption';
 import { AuthenticationService, PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
@@ -23,11 +22,6 @@ export class HomePage {
 
     public currentUser: IUser | null = null;
     public isLogged: boolean = false;
-    public paramsForPlastic: NgxAnimatedCounterParams = { start: 0, end: 0, interval: 30, increment: 1 };
-    public paramsForAluminium: NgxAnimatedCounterParams = { start: 0, end: 0, interval: 30, increment: 1 };
-    public paramsForGlass: NgxAnimatedCounterParams = { start: 0, end: 0, interval: 30, increment: 1 };
-
-    public oldValueForPlastic: number = 0;
 
     constructor(private router: Router, private authService: AuthenticationService, private storageService: StorageService, private productService: ProductService) {
         this.getUser();
@@ -60,8 +54,6 @@ export class HomePage {
             next: (res) => {
                 if (res) {
                     this.currentUser = res;
-                    this.oldValueForPlastic = this.currentUser.PlasticCount;
-                    this.calculateParams();
                     this.getProducts();
                 }
             },
@@ -71,29 +63,6 @@ export class HomePage {
         })
 
 
-    }
-
-    calculateParams() {
-        if(!this.currentUser) return;
-
-        this.paramsForPlastic.end = this.currentUser.PlasticCount;
-        if(this.paramsForPlastic.end < 20) this.paramsForPlastic.interval = 60;
-        else if(this.paramsForPlastic.end < 40) this.paramsForPlastic.interval = 40;
-        else if(this.paramsForPlastic.end < 60) this.paramsForPlastic.interval = 30;
-        else this.paramsForPlastic.interval = 20;
-
-
-        this.paramsForAluminium.end = this.currentUser.AluminiumCount;
-        if(this.paramsForAluminium.end < 20) this.paramsForAluminium.interval = 60;
-        else if(this.paramsForAluminium.end < 40) this.paramsForAluminium.interval = 40;
-        else if(this.paramsForAluminium.end < 60) this.paramsForAluminium.interval = 30;
-        else this.paramsForAluminium.interval = 20;
-
-        this.paramsForGlass.end = this.currentUser.GlassCount;
-        if(this.paramsForGlass.end < 20) this.paramsForGlass.interval = 60;
-        else if(this.paramsForGlass.end < 40) this.paramsForGlass.interval = 40;
-        else if(this.paramsForGlass.end < 60) this.paramsForGlass.interval = 30;
-        else this.paramsForGlass.interval = 20;
     }
 
     getProducts() {

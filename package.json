@@ -24,7 +24,6 @@
     "@awesome-cordova-plugins/bluetooth-classic-serial-port": "^6.4.0",
     "@awesome-cordova-plugins/bluetooth-serial": "^6.4.0",
     "@awesome-cordova-plugins/core": "^6.4.0",
-    "@bugsplat/ngx-animated-counter": "^14.0.1",
     "@capacitor-mlkit/barcode-scanning": "^5.3.0",
     "@capacitor/android": "5.5.1",
     "@capacitor/app": "5.0.6",

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
-import { NgxAnimatedCounterModule } from '@bugsplat/ngx-animated-counter';
 
 
 @NgModule({
@@ -13,8 +12,7 @@ import { NgxAnimatedCounterModule } from '@bugsplat/ngx-animated-counter';
         CommonModule,
         FormsModule,
         IonicModule,
-        HomePageRoutingModule,
-        NgxAnimatedCounterModule
+        HomePageRoutingModule
     ],
     declarations: [HomePage]
 })
