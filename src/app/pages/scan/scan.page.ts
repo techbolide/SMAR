@@ -3,8 +3,8 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { Dialog } from '@capacitor/dialog';
-import { IVoucher, IVoucherActive, IVoucherInitialize, IVoucherItem, IVoucherItemContentType, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/scan/IVoucher';
-import { IVoucherItemType } from '../../interfaces/scan/IVoucher';
+import { IVoucher, IVoucherActive, IVoucherInitialize, IVoucherItem, IVoucherItemContentType, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/voucher/IVoucher';
+import { IVoucherItemType } from '../../interfaces/voucher/IVoucher';
 import { EanService } from 'src/app/services/ean/ean.service';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
@@ -20,6 +20,7 @@ import { IonModal } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product/product.service';
 import { IProduct } from 'src/app/interfaces/product/IProduct';
+import { BlePrinterService } from 'src/app/services/ble-printer/ble-printer.service';
 
 @Component({
     selector: 'app-scan',
@@ -36,14 +37,13 @@ export class ScanPage implements OnInit {
     public tryRegisterNewProduct: boolean = false;
 
     constructor(private eanService: EanService,
-        private bluetoothSerial: BluetoothSerial,
-        private storageService: StorageService,
         private voucherService: VoucherService,
         private toastService: ToastService,
         private router: Router,
         private cdr: ChangeDetectorRef,
         private formBuilder: FormBuilder,
-        private productService: ProductService
+        private productService: ProductService,
+        private blePrinterService: BlePrinterService
     ) { }
 
     ngOnInit() {
@@ -185,26 +185,6 @@ export class ScanPage implements OnInit {
         return this.currentVoucher.items.filter(x => x.type === type).length;
     }
 
-    async getStorageData() {
-        const storageData = await this.storageService.getStorageKey(DEBUG_STORAGE);
-        if (storageData && storageData.value !== null) {
-            const storageDataParsed = JSON.parse(storageData.value) as IDebugStorage;
-            return storageDataParsed;
-        }
-
-        return null;
-    }
-
-    async getProfileData() {
-        const profileData = await this.storageService.getStorageKey(PROFILE_KEY);
-        if (profileData && profileData.value !== null) {
-            const profileDataParsed = JSON.parse(profileData.value) as IUser;
-            return profileDataParsed;
-        }
-
-        return null;
-    }
-
     tryPrint() {
         if (!this.currentVoucher || this.processPrinting) return;
 
@@ -236,9 +216,12 @@ export class ScanPage implements OnInit {
 
                     if (res.State === 1) {
                         this.currentVoucher.state = res.State;
-                        this.toastService.showToast("Bonul a fost activat cu succes!", 2000, 'success', 'bottom');
+                        this.toastService.showToast("Bonul a fost activat cu succes!", 1000, 'success', 'bottom');
                     }
-                    this.printVoucher();
+
+                    setTimeout(() => {
+                        this.printVoucher();
+                    }, 1000);
                 },
                 error: (err) => {
                     console.log(err);
@@ -255,81 +238,33 @@ export class ScanPage implements OnInit {
     async printVoucher() {
         if(!this.currentVoucher) return;
 
-        const storageDataParsed = await this.getStorageData();
-        const profileDataParsed = await this.getProfileData();
-        if (!storageDataParsed || !profileDataParsed) {
-            this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
-            return;
-        }
+        const voucherReceived: IVoucherReceived = {
+            Code: this.currentVoucher.code,
+            ExpirationDate: this.currentVoucher.expirationDate,
+            GeneratedDate: this.currentVoucher.generatedDate,
+            GeneratedTime: this.currentVoucher.generatedTime,
+            InsertBy: '',
+            InsertDate: '',
+            State: this.currentVoucher.state,
+            PlasticCount: this.getItemsCount(1),
+            AluminiumCount: this.getItemsCount(2),
+            GlassCount: this.getItemsCount(3),
+            Value: this.getTotal(),
+            Message: ''
+        };
 
-        this.bluetoothSerial.connect(storageDataParsed.PrinterIdentifier).subscribe({
-            next: async (res) => {
-                if(!this.currentVoucher) return;
-
-                const encoder = new EscPosEncoder();
-
-                const qrCodeInfo: IVoucherQR = {
-                    code: this.currentVoucher.code,
-                    date: this.currentVoucher.generatedDate,
-                    hour: this.currentVoucher.generatedTime,
-                    expire: this.currentVoucher.expirationDate,
-                    employeeCode: profileDataParsed.EmployeeCode,
-                    officeCode: profileDataParsed.OfficeCode,
-                    value: this.getTotal(),
-                    plasticCount: this.getItemsCount(1),
-                    aluminiumCount: this.getItemsCount(2),
-                    glassCount: this.getItemsCount(3)
-                }
-
-                const resultPrint = encoder.
-                    initialize()
-                    .align('center')
-                    .line(storageDataParsed.Header)
-                    .line(storageDataParsed.Subheader)
-                    .newline()
-                    .align('left')
-                    .line(`Cod: ${qrCodeInfo.code}`)
-                    .line(`Operator: ${qrCodeInfo.employeeCode}`)
-                    .table(
-                        [
-                            { width: 16, align: 'left' },
-                            { width: 16, align: 'right' }
-                        ],
-                        [
-                            [`Data: ${this.currentVoucher.generatedDate}`, `Ora: ${this.currentVoucher.generatedTime}`],
-                            ['', ''],
-                            ['Plastic', `x${this.getItemsCount(1)}`],
-                            ['Aluminiu', `x${this.getItemsCount(2)}`],
-                            ['Sticla', `x${this.getItemsCount(3)}`],
-                        ]
-                    )
-                    .align('center')
-                    .bold(true)
-                    .line(`LEI ${this.getTotal().toFixed(2)}`)
-                    .bold(false)
-                    .newline()
-                    .table(
-                        [
-                            { width: 18, align: 'left' },
-                            { width: 14, align: 'right' }
-                        ],
-                        this.getItemsForVoucher()
-                    )
-                    .line(`Expira la: ${this.currentVoucher.expirationDate}`)
-                    .qrcode(JSON.stringify(qrCodeInfo))
-                    .encode();
-
-                await this.bluetoothSerial.write(resultPrint);
+        const formatVoucher = await this.voucherService.formatVoucher(voucherReceived);
+        try {
+            await this.blePrinterService.print(formatVoucher);
+            this.toastService.showToast("Voucher printat cu succes!", 2000, 'success', 'bottom');
+            setTimeout(() => {
                 this.router.navigateByUrl('/home', { replaceUrl: true });
-                this.processPrinting = false;
-                this.cdr.detectChanges();
-            },
-            error: (err) => {
-                this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
-                this.processPrinting = false;
-                this.cdr.detectChanges();
-            }
-        });
+            }, 500);
+        } catch {
+            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+        }
+        this.processPrinting = false;
+        this.cdr.detectChanges();
     }
 
     getItemsForVoucher() {

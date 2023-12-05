@@ -1,8 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs';
-import { IVoucherActive, IVoucherGetByScan, IVoucherGetHistory, IVoucherInitialize, IVoucherReceived } from 'src/app/interfaces/scan/IVoucher';
+import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
+import { Subscription, catchError } from 'rxjs';
+import { IDebugStorage } from 'src/app/app.component';
+import { IUser } from 'src/app/interfaces/authentication/IUser';
+import { IVoucherActive, IVoucherGetByScan, IPaginated, IVoucherInitialize, IVoucherReceived, IVoucherQR } from 'src/app/interfaces/voucher/IVoucher';
 import { environment } from 'src/environments/environment';
+import { StorageService } from '../storage/storage.service';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +18,10 @@ export class VoucherService {
     public listApiLink: string = 'GetVouchers';
     public getByScanApiLink: string = 'GetByScan';
     public useApiLink: string = 'UseVoucher';
-    constructor(private http: HttpClient) { }
+
+    public bluetoothConection: Subscription | null = null;
+
+    constructor(private http: HttpClient, private storageService: StorageService) { }
 
     initializeVoucher() {
         return this.http.get<IVoucherReceived>(environment.apiUrl + this.initializeApiLink);
@@ -23,7 +31,7 @@ export class VoucherService {
         return this.http.post<IVoucherReceived>(environment.apiUrl + this.activateApiLink, model);
     }
 
-    getVouchers(model: IVoucherGetHistory) {
+    getVouchers(model: IPaginated) {
         return this.http.post<IVoucherReceived[]>(environment.apiUrl + this.listApiLink, model);
     }
 
@@ -33,5 +41,115 @@ export class VoucherService {
 
     useVoucher(model: IVoucherReceived) {
         return this.http.post<IVoucherReceived>(environment.apiUrl + this.useApiLink, model);
+    }
+
+    async formatVoucher(voucher: IVoucherReceived) {
+        const storageDataParsed = await this.storageService.getDebugStorage();
+        const profileDataParsed = await this.storageService.getProfileStorage();
+        if (!storageDataParsed || !profileDataParsed)
+            throw("Missing storage asset");
+
+
+        const encoder = new EscPosEncoder();
+        const qrCodeInfo: IVoucherQR = {
+            code: voucher.Code,
+            date: voucher.GeneratedDate.substring(0, 10),
+            hour: voucher.GeneratedTime.substring(0, 8),
+            expire: voucher.ExpirationDate.substring(0, 10),
+            employeeCode: profileDataParsed.EmployeeCode,
+            officeCode: profileDataParsed.OfficeCode,
+            value: voucher.Value,
+            plasticCount: voucher.PlasticCount,
+            aluminiumCount: voucher.AluminiumCount,
+            glassCount: voucher.GlassCount
+        }
+
+        const resultPrint = encoder.
+            initialize()
+            .align('center')
+            .line(storageDataParsed.Header)
+            .line(storageDataParsed.Subheader)
+            .newline()
+            .align('left')
+            .line(`Cod: ${qrCodeInfo.code}`)
+            .line(`Operator: ${qrCodeInfo.employeeCode}`)
+            .table(
+                [
+                    { width: 16, align: 'left' },
+                    { width: 16, align: 'right' }
+                ],
+                [
+                    [`Data: ${voucher.GeneratedDate.substring(0, 10)}`, `Ora: ${voucher.GeneratedTime.substring(0, 8)}`],
+                    ['', ''],
+                    ['Plastic', `x${voucher.PlasticCount}`],
+                    ['Aluminiu', `x${voucher.AluminiumCount}`],
+                    ['Sticla', `x${voucher.GlassCount}`],
+                ]
+            )
+            .align('center')
+            .bold(true)
+            .line(`LEI ${voucher.Value.toFixed(2)}`)
+            .bold(false)
+            .newline()
+            .line(`Expira la: ${voucher.ExpirationDate.substring(0, 10)}`)
+            .qrcode(JSON.stringify(qrCodeInfo))
+            .encode();
+
+
+        return resultPrint;
+    }
+
+    async formatTicket(voucher: IVoucherReceived) {
+        const storageDataParsed = await this.storageService.getDebugStorage();
+        const profileDataParsed = await this.storageService.getProfileStorage();
+        if (!storageDataParsed || !profileDataParsed)
+            throw("Missing storage asset");
+
+
+        const encoder = new EscPosEncoder();
+
+        const qrCodeInfo: IVoucherQR = {
+            code: voucher.Code,
+            date: voucher.GeneratedDate.substring(0, 10),
+            hour: voucher.GeneratedTime.substring(0, 8),
+            expire: voucher.ExpirationDate.substring(0, 10),
+            employeeCode: profileDataParsed.EmployeeCode,
+            officeCode: profileDataParsed.OfficeCode,
+            value: voucher.Value,
+            plasticCount: voucher.PlasticCount,
+            aluminiumCount: voucher.AluminiumCount,
+            glassCount: voucher.GlassCount
+        }
+
+        const resultPrint = encoder.
+            initialize()
+            .align('center')
+            .line(storageDataParsed.Header)
+            .line(storageDataParsed.Subheader)
+            .newline()
+            .align('left')
+            .line(`Bon: ${qrCodeInfo.code}`)
+            .line(`Operator: ${qrCodeInfo.employeeCode}`)
+            .table(
+                [
+                    { width: 16, align: 'left' },
+                    { width: 16, align: 'right' }
+                ],
+                [
+                    [`Data: ${qrCodeInfo.date}`, `Ora: ${qrCodeInfo.hour}`],
+                    ['', ''],
+                    ['Plastic', `x${qrCodeInfo.plasticCount}`],
+                    ['Aluminiu', `x${qrCodeInfo.aluminiumCount}`],
+                    ['Sticla', `x${qrCodeInfo.glassCount}`],
+                ]
+            )
+            .align('center')
+            .bold(true)
+            .line(`LEI ${qrCodeInfo.value.toFixed(2)}`)
+            .bold(false)
+            .encode();
+
+
+        return resultPrint;
     }
 }

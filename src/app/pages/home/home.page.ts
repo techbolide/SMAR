@@ -14,7 +14,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 export class HomePage {
     public availableOptions: IHomeOption[] = [
         { name: "Ridicare ambalaje", icon: "car", router: null },
-        { name: "Istoric saci", icon: "cube", router: null },
+        { name: "Istoric saci", icon: "cube", router: '/bag-history' },
         { name: "Istoric vouchere", icon: "cash", router: '/voucher-history' },
         { name: "Sigilare saci", icon: "pricetag", router: null },
         { name: "Setări", icon: "cog", router: null},
@@ -38,19 +38,14 @@ export class HomePage {
     }
 
     async getUser() {
-        const profileData = await this.storageService.getStorageKey(PROFILE_KEY);
-        if(profileData && profileData.value !== null) {
-            const profileDataParsed = JSON.parse(profileData.value) as IUser;
-            this.currentUser = profileDataParsed;
+        const profileDataParsed = await this.storageService.getProfileStorage();
+        if(!profileDataParsed) return;
 
-            if(this.currentUser) {
-                this.getProducts();
-            }
-        }
+        this.currentUser = profileDataParsed;
+        this.getProducts();
     }
 
     getProducts() {
-        console.log("GETTING PRODUCTS FROM SERVER....");
         this.productService.getProducts().subscribe({
             next: (items) => {
                 this.storageService.setStorageKey(PRODUCTS_KEY, JSON.stringify(items));

@@ -3,7 +3,7 @@ import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Capacitor } from '@capacitor/core';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { DEBUG_STORAGE, IDebugStorage } from 'src/app/app.component';
-import { IVoucherGetHistory, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/scan/IVoucher';
+import { IPaginated, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/voucher/IVoucher';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 import { VoucherService } from 'src/app/services/voucher/voucher.service';
@@ -11,6 +11,7 @@ import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
 import { Router } from '@angular/router';
 import { PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
+import { BlePrinterService } from 'src/app/services/ble-printer/ble-printer.service';
 
 
 @Component({
@@ -24,10 +25,8 @@ export class VoucherHistoryPage {
     public isReprinting = false;
     constructor(private toastService: ToastService,
         private voucherService: VoucherService,
-        private storageService: StorageService,
-        private bluetoothSerial: BluetoothSerial,
-        private cdr: ChangeDetectorRef,
-        private router: Router) { }
+        private router: Router,
+        private blePrinterService: BlePrinterService) { }
 
     ionViewDidEnter() {
         this.getVouchers();
@@ -38,18 +37,8 @@ export class VoucherHistoryPage {
         this.vouchers = null;
     }
 
-    async getVouchers() {
-        const profileDataParsed = await this.getProfileData();
-        if (!profileDataParsed) {
-            this.vouchers = [];
-            return;
-        }
-
-        const model: IVoucherGetHistory = {
-            officeCode: profileDataParsed.OfficeCode,
-            from: 0,
-            take: 100
-        }
+    getVouchers() {
+        const model: IPaginated = { from: 0, take: 20 }
 
         setTimeout(() => {
             this.voucherService.getVouchers(model).subscribe({
@@ -63,26 +52,6 @@ export class VoucherHistoryPage {
         }, 1000);
     }
 
-    async getStorageData() {
-        const storageData = await this.storageService.getStorageKey(DEBUG_STORAGE);
-        if (storageData && storageData.value !== null) {
-            const storageDataParsed = JSON.parse(storageData.value) as IDebugStorage;
-            return storageDataParsed;
-        }
-
-        return null;
-    }
-
-    async getProfileData() {
-        const profileData = await this.storageService.getStorageKey(PROFILE_KEY);
-        if (profileData && profileData.value !== null) {
-            const profileDataParsed = JSON.parse(profileData.value) as IUser;
-            return profileDataParsed;
-        }
-
-        return null;
-    }
-
     reprint(voucher: IVoucherReceived) {
         if (this.isReprinting) return;
 
@@ -94,159 +63,26 @@ export class VoucherHistoryPage {
     }
 
     async tryPrintTicket(voucher: IVoucherReceived) {
-        const storageDataParsed = await this.getStorageData();
-        const profileDataParsed = await this.getProfileData();
-        if (!storageDataParsed || !profileDataParsed) {
-            this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
-            this.isReprinting = false;
-            return;
+        const formatTicket = await this.voucherService.formatTicket(voucher);
+        try {
+            await this.blePrinterService.print(formatTicket);
+            this.toastService.showToast("Bon reprintat cu succes!", 2000, 'success', 'bottom');
+        } catch {
+            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
         }
-
-        this.bluetoothSerial.connect(storageDataParsed.PrinterIdentifier).subscribe({
-            next: async (res) => {
-                const encoder = new EscPosEncoder();
-
-                const qrCodeInfo: IVoucherQR = {
-                    code: voucher.Code,
-                    date: voucher.GeneratedDate.substring(0, 10),
-                    hour: voucher.GeneratedTime.substring(0, 8),
-                    expire: voucher.ExpirationDate.substring(0, 10),
-                    employeeCode: profileDataParsed.EmployeeCode,
-                    officeCode: profileDataParsed.OfficeCode,
-                    value: voucher.Value,
-                    plasticCount: voucher.PlasticCount,
-                    aluminiumCount: voucher.AluminiumCount,
-                    glassCount: voucher.GlassCount
-                }
-
-
-                /*  Header
-                    Subheader
-                    Info
-                    Info totaluri
-                    Info fiecare linie
-                    QrCode
-                    Footer
-                */
-
-                const resultPrint = encoder.
-                    initialize()
-                    .align('center')
-                    .line(storageDataParsed.Header)
-                    .line(storageDataParsed.Subheader)
-                    .newline()
-                    .align('left')
-                    .line(`Bon: ${qrCodeInfo.code}`)
-                    .line(`Operator: ${qrCodeInfo.employeeCode}`)
-                    .table(
-                        [
-                            { width: 16, align: 'left' },
-                            { width: 16, align: 'right' }
-                        ],
-                        [
-                            [`Data: ${qrCodeInfo.date}`, `Ora: ${qrCodeInfo.hour}`],
-                            ['', ''],
-                            ['Plastic', `x${qrCodeInfo.plasticCount}`],
-                            ['Aluminiu', `x${qrCodeInfo.aluminiumCount}`],
-                            ['Sticla', `x${qrCodeInfo.glassCount}`],
-                        ]
-                    )
-                    .align('center')
-                    .bold(true)
-                    .line(`LEI ${qrCodeInfo.value.toFixed(2)}`)
-                    .bold(false)
-                    .encode();
-
-                await this.bluetoothSerial.write(resultPrint);
-                this.toastService.showToast("Bon reprintat cu succes!", 2000, 'success', 'bottom');
-                this.isReprinting = false;
-                this.cdr.detectChanges();
-            },
-            error: (err) => {
-                this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
-                this.isReprinting = false;
-                this.cdr.detectChanges();
-            }
-        });
+        this.isReprinting = false;
     }
 
     async tryPrint(voucher: IVoucherReceived) {
-        const storageDataParsed = await this.getStorageData();
-        const profileDataParsed = await this.getProfileData();
-        if (!storageDataParsed || !profileDataParsed) {
-            this.toastService.showToast("Nu puteți printa acest bon deoarece a intervenit o eroare!", 2000, 'danger', 'bottom');
-            this.isReprinting = false;
-            return;
+        const formatVoucher = await this.voucherService.formatVoucher(voucher);
+        try {
+            await this.blePrinterService.print(formatVoucher);
+            this.toastService.showToast("Voucher reprintat cu succes!", 2000, 'success', 'bottom');
+        } catch {
+            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
         }
+        this.isReprinting = false;
 
-        this.bluetoothSerial.connect(storageDataParsed.PrinterIdentifier).subscribe({
-            next: async (res) => {
-                const encoder = new EscPosEncoder();
-
-                const qrCodeInfo: IVoucherQR = {
-                    code: voucher.Code,
-                    date: voucher.GeneratedDate.substring(0, 10),
-                    hour: voucher.GeneratedTime.substring(0, 8),
-                    expire: voucher.ExpirationDate.substring(0, 10),
-                    employeeCode: profileDataParsed.EmployeeCode,
-                    officeCode: profileDataParsed.OfficeCode,
-                    value: voucher.Value,
-                    plasticCount: voucher.PlasticCount,
-                    aluminiumCount: voucher.AluminiumCount,
-                    glassCount: voucher.GlassCount
-                }
-
-
-                /*  Header
-                    Subheader
-                    Info
-                    Info totaluri
-                    Info fiecare linie
-                    QrCode
-                    Footer
-                */
-                const resultPrint = encoder.
-                    initialize()
-                    .align('center')
-                    .line(storageDataParsed.Header)
-                    .line(storageDataParsed.Subheader)
-                    .newline()
-                    .align('left')
-                    .line(`Cod: ${qrCodeInfo.code}`)
-                    .line(`Operator: ${qrCodeInfo.employeeCode}`)
-                    .table(
-                        [
-                            { width: 16, align: 'left' },
-                            { width: 16, align: 'right' }
-                        ],
-                        [
-                            [`Data: ${voucher.GeneratedDate.substring(0, 10)}`, `Ora: ${voucher.GeneratedTime.substring(0, 8)}`],
-                            ['', ''],
-                            ['Plastic', `x${voucher.PlasticCount}`],
-                            ['Aluminiu', `x${voucher.AluminiumCount}`],
-                            ['Sticla', `x${voucher.GlassCount}`],
-                        ]
-                    )
-                    .align('center')
-                    .bold(true)
-                    .line(`LEI ${voucher.Value.toFixed(2)}`)
-                    .bold(false)
-                    .line(`Expira la: ${voucher.ExpirationDate.substring(0, 10)}`)
-                    .qrcode(JSON.stringify(qrCodeInfo))
-                    .encode();
-
-
-                await this.bluetoothSerial.write(resultPrint);
-                this.toastService.showToast("Bon reprintat cu succes!", 2000, 'success', 'bottom');
-                this.isReprinting = false;
-                this.cdr.detectChanges();
-            },
-            error: (err) => {
-                this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
-                this.isReprinting = false;
-                this.cdr.detectChanges();
-            }
-        });
     }
 
     checkSupported() {
@@ -331,7 +167,7 @@ export class VoucherHistoryPage {
     getVoucherStateText(state: number) {
         switch (state) {
             case 1: return 'ACTIV';
-            case 2: return 'FOLOSIT';
+            case 2: return 'UTILIZAT';
             case 3: return 'EXPIRAT';
             case 4: return 'SUSPECT';
             case 10: return 'INVALID';

@@ -79,16 +79,14 @@ export interface IVoucherActive {
     Items: IVoucherItem[];
 }
 
-export interface IVoucherGetHistory
-{
-    officeCode: string;
-    from: number;
-    take: number;
-}
-
 export interface IVoucherGetByScan
 {
     Code: string;
-    EmployeeCode: string;
-    OfficeCode: string;
+}
+
+
+export interface IPaginated
+{
+    from: number;
+    take: number;
 }
