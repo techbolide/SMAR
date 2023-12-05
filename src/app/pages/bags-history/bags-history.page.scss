@@ -41,7 +41,7 @@ ion-content {
                 padding: 0;
 
                 ion-item {
-                    --padding-start: 10px;
+                    --padding-start: 16px;
 
                     .history__end {
                         display: flex;
@@ -53,13 +53,13 @@ ion-content {
                             --padding-top: 4px;
                             --padding-start: 6px;
                             --padding-end: 6px;
+                            font-weight: 500;
                         }
 
                         p {
                             margin: 0;
                             font-size: 12px;
                             font-weight: 300;
-                            font-style: italic;
                         }
                     }
 

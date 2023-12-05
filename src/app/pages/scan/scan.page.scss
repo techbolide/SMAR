@@ -1,4 +1,16 @@
 ion-content {
+    .scan__loading {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        place-items: center;
+
+        ion-spinner {
+            width: 42px;
+            height: 42px;
+            opacity: .5;
+        }
+    }
     .scan__content {
         width: 100%;
         height: 100%;

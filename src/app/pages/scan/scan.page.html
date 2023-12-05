@@ -1,124 +1,136 @@
-<ion-header class="ion-no-border" mode="md">
-    <ion-toolbar class="topToolbar" color="primary" mode="md">
-        <ion-buttons slot="start">
-            <ion-button color="light" (click)="tryGoBack()">
-                <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title>
-            {{ currentVoucher?.code }}
-        </ion-title>
-        <ion-buttons slot="end">
-            <ng-container *ngIf="processPrinting || !currentVoucher; else try_print">
-                <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
-            </ng-container>
-            <ng-template #try_print>
-                <ion-button (click)="tryPrint()">
-                    <ion-icon slot="icon-only" name="print"></ion-icon>
+
+
+<ng-container *ngIf="currentVoucher; else show_loading">
+    <ion-header class="ion-no-border" mode="md">
+        <ion-toolbar class="topToolbar" color="primary" mode="md">
+            <ion-buttons slot="start">
+                <ion-button color="light" (click)="tryGoBack()">
+                    <ion-icon slot="icon-only" name="chevron-back"></ion-icon>
                 </ion-button>
-            </ng-template>
+            </ion-buttons>
+            <ion-title>
+                {{ currentVoucher.code }}
+            </ion-title>
+            <ion-buttons slot="end">
+                <ng-container *ngIf="processPrinting; else try_print">
+                    <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
+                </ng-container>
+                <ng-template #try_print>
+                    <ion-button (click)="tryPrint()">
+                        <ion-icon slot="icon-only" name="print"></ion-icon>
+                    </ion-button>
+                </ng-template>
 
-        </ion-buttons>
-    </ion-toolbar>
-</ion-header>
+            </ion-buttons>
+        </ion-toolbar>
+    </ion-header>
 
-<ion-content [fullscreen]="true">
-    <div class="scan__content">
-        <div class="scan__top__info">
-            <div class="scan__top__calendar">
-                <div class="scan__top__calendar__part">
-                    <ion-icon name="calendar"></ion-icon>
-                    <h1>{{ currentVoucher?.generatedDate }}</h1>
-                </div>
-                <div class="scan__top__calendar__part">
-                    <ion-icon name="alarm"></ion-icon>
-                    <h1>{{ currentVoucher?.generatedTime }}</h1>
-                </div>
-            </div>
-            <div class="scan__top__items">
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>Plastic</h1>
-                        <p>x{{ getItemsCount(1) }}</p>
+    <ion-content [fullscreen]="true">
+        <div class="scan__content">
+            <div class="scan__top__info">
+                <div class="scan__top__calendar">
+                    <div class="scan__top__calendar__part">
+                        <ion-icon name="calendar"></ion-icon>
+                        <h1>{{ currentVoucher.generatedDate }}</h1>
+                    </div>
+                    <div class="scan__top__calendar__part">
+                        <ion-icon name="alarm"></ion-icon>
+                        <h1>{{ currentVoucher.generatedTime }}</h1>
                     </div>
                 </div>
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>Aluminiu</h1>
-                        <p>x{{ getItemsCount(2) }}</p>
-                    </div>
-                </div>
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>Sticla</h1>
-                        <p>x{{ getItemsCount(3) }}</p>
-                    </div>
-                </div>
-            </div>
-            <h1>LEI {{ getTotal().toFixed(2) }}</h1>
-
-        </div>
-
-        <div class="scan__list" *ngIf="currentVoucher && currentVoucher.items.length > 0">
-            <ion-list>
-                <ion-item-sliding *ngFor="let voucherItem of currentVoucher.items">
-                    <ion-item [button]="true" lines="full">
-                        <ion-icon [src]="'../../../assets/icon/' + getFormattedType(voucherItem.type) + '.svg'"
-                            slot="start"></ion-icon>
-                        <ion-label>
-                            <h3>{{ voucherItem.name }}</h3>
-                            <p>{{ voucherItem.quantity }} - <strong>{{ voucherItem.eanCode }}</strong></p>
-                        </ion-label>
-                        <ion-text slot="end">{{ voucherItem.readDate | date: 'HH:mm:ss' }}</ion-text>
-                    </ion-item>
-                    <ion-item-options slot="end">
-                        <ion-item-option color="danger" expandable="true">
-                            <ion-icon slot="icon-only" name="trash"></ion-icon>
-                        </ion-item-option>
-                    </ion-item-options>
-                </ion-item-sliding>
-            </ion-list>
-        </div>
-
-        <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher?.state !== 1" (click)="tryScanBarCode()" [disabled]="!isSupported || !currentVoucher">
-            Scanează
-            <ion-icon slot="end" name="scan-circle"></ion-icon>
-        </ion-button>
-
-        <ion-modal #registerProductModal [initialBreakpoint]="1" [breakpoints]="[0, 1]">
-            <ng-template>
-                <div class="register__product">
-
-                    <form [formGroup]="registerProduct">
-                        <div class="register__product__image" *ngFor="let registerProductImage of registerProductImages; let i = index;">
-                            <h1>Poză {{ i + 1 }}</h1>
-                            <ion-button [color]="registerProductImage.length > 0 ? 'danger' : 'primary'" (click)="markAction(i)">
-                                <ion-icon slot="icon-only" [name]="registerProductImage.length > 0 ? 'close-circle' : 'camera'"></ion-icon>
-                            </ion-button>
+                <div class="scan__top__items">
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>Plastic</h1>
+                            <p>x{{ getItemsCount(1) }}</p>
                         </div>
-                        <ion-item>
-                            <ion-input inputmode="text" label="Nume produs" formControlName="name" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu numele ambalajului"></ion-input>
-                            <ion-icon name="pricetag-outline" slot="end"></ion-icon>
-                        </ion-item>
-                        <ion-item>
-                            <ion-input inputmode="text" label="Cantitate produs" formControlName="volume" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu cantitatea ambalajului (ex: 500mL)"></ion-input>
-                            <ion-icon name="cube-outline" slot="end"></ion-icon>
-                        </ion-item>
-                        <ion-radio-group formControlName="productCategoryId">
-                            <ion-radio value="1">Plastic</ion-radio>
-                            <ion-radio value="2">Aluminiu</ion-radio>
-                            <ion-radio value="3">Sticla</ion-radio>
-                        </ion-radio-group>
-
-                        <ion-button class="register__product__button" fill="solid" color="primary" (click)="registerNewProduct()" [disabled]="!canRegisterNewProduct()">
-                            Înregistrează
-                        </ion-button>
-                    </form>
+                    </div>
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>Aluminiu</h1>
+                            <p>x{{ getItemsCount(2) }}</p>
+                        </div>
+                    </div>
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>Sticla</h1>
+                            <p>x{{ getItemsCount(3) }}</p>
+                        </div>
+                    </div>
                 </div>
-            </ng-template>
-        </ion-modal>
-    </div>
-</ion-content>
+                <h1>LEI {{ getTotal().toFixed(2) }}</h1>
+
+            </div>
+
+            <div class="scan__list" *ngIf="currentVoucher.items.length > 0">
+                <ion-list>
+                    <ion-item-sliding *ngFor="let voucherItem of currentVoucher.items">
+                        <ion-item [button]="true" lines="full">
+                            <ion-icon [src]="'../../../assets/icon/' + getFormattedType(voucherItem.type) + '.svg'"
+                                slot="start"></ion-icon>
+                            <ion-label>
+                                <h3>{{ voucherItem.name }}</h3>
+                                <p>{{ voucherItem.quantity }} - <strong>{{ voucherItem.eanCode }}</strong></p>
+                            </ion-label>
+                            <ion-text slot="end">{{ voucherItem.readDate | date: 'HH:mm:ss' }}</ion-text>
+                        </ion-item>
+                        <ion-item-options slot="end">
+                            <ion-item-option color="danger" expandable="true" (click)="deleteItemFromVoucher(voucherItem.uniqueID)">
+                                <ion-icon slot="icon-only" name="trash"></ion-icon>
+                            </ion-item-option>
+                        </ion-item-options>
+                    </ion-item-sliding>
+                </ion-list>
+            </div>
+
+            <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher.state !== 1" (click)="tryScanBarCode()" [disabled]="!isSupported">
+                Scanează
+                <ion-icon slot="end" name="scan-circle"></ion-icon>
+            </ion-button>
+        </div>
+    </ion-content>
+</ng-container>
+
+<ng-template #show_loading>
+    <ion-content [fullscreen]="true">
+        <div class="scan__loading">
+            <ion-spinner name="lines"></ion-spinner>
+        </div>
+    </ion-content>
+</ng-template>
+
+<ion-modal #registerProductModal [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+    <ng-template>
+        <div class="register__product">
+
+            <form [formGroup]="registerProduct">
+                <div class="register__product__image" *ngFor="let registerProductImage of registerProductImages; let i = index;">
+                    <h1>Poză {{ i + 1 }}</h1>
+                    <ion-button [color]="registerProductImage.length > 0 ? 'danger' : 'primary'" (click)="markAction(i)">
+                        <ion-icon slot="icon-only" [name]="registerProductImage.length > 0 ? 'close-circle' : 'camera'"></ion-icon>
+                    </ion-button>
+                </div>
+                <ion-item>
+                    <ion-input inputmode="text" label="Nume produs" formControlName="name" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu numele ambalajului"></ion-input>
+                    <ion-icon name="pricetag-outline" slot="end"></ion-icon>
+                </ion-item>
+                <ion-item>
+                    <ion-input inputmode="text" label="Cantitate produs" formControlName="volume" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu cantitatea ambalajului (ex: 500mL)"></ion-input>
+                    <ion-icon name="cube-outline" slot="end"></ion-icon>
+                </ion-item>
+                <ion-radio-group formControlName="productCategoryId">
+                    <ion-radio value="1">Plastic</ion-radio>
+                    <ion-radio value="2">Aluminiu</ion-radio>
+                    <ion-radio value="3">Sticla</ion-radio>
+                </ion-radio-group>
+
+                <ion-button class="register__product__button" fill="solid" color="primary" (click)="registerNewProduct()" [disabled]="!canRegisterNewProduct()">
+                    Înregistrează
+                </ion-button>
+            </form>
+        </div>
+    </ng-template>
+</ion-modal>

@@ -28,7 +28,7 @@ import { BlePrinterService } from 'src/app/services/ble-printer/ble-printer.serv
     styleUrls: ['./scan.page.scss'],
 })
 export class ScanPage implements OnInit {
-    @ViewChild('registerProductModal') registerProductModal!: IonModal;
+    @ViewChild('registerProductModal', { static: true }) registerProductModal!: IonModal;
     public isSupported = false;
     public currentVoucher: IVoucher | null = null;
     public processPrinting: boolean = false;
@@ -60,22 +60,24 @@ export class ScanPage implements OnInit {
     }
 
     initializeVoucher() {
-        this.voucherService.initializeVoucher().subscribe({
-            next: (res) => {
-                this.currentVoucher = {
-                    code: res.Code,
-                    expirationDate: res.ExpirationDate.substring(0, 10),
-                    generatedDate: res.GeneratedDate.substring(0, 10),
-                    generatedTime: res.GeneratedTime.substring(0, 8),
-                    state: res.State,
-                    items: []
+        setTimeout(() => {
+            this.voucherService.initializeVoucher().subscribe({
+                next: (res) => {
+                    this.currentVoucher = {
+                        code: res.Code,
+                        expirationDate: res.ExpirationDate.substring(0, 10),
+                        generatedDate: res.GeneratedDate.substring(0, 10),
+                        generatedTime: res.GeneratedTime.substring(0, 8),
+                        state: res.State,
+                        items: []
+                    }
+                },
+                error: (err) => {
+                    console.log(err);
+                    this.currentVoucher = null;
                 }
-            },
-            error: (err) => {
-                console.log(err);
-                this.currentVoucher = null;
-            }
-        });
+            });
+        }, 500);
     }
 
     async isGoogleBarcodeScannerModuleAvailable() {
@@ -155,10 +157,39 @@ export class ScanPage implements OnInit {
         this.addItemInVoucher(itemReceived);
     }
 
+    generateRandomString(): string {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let result = '';
+
+        for (let i = 0; i < 3; i++) {
+            const randomChar = characters.charAt(Math.floor(Math.random() * characters.length));
+            result += randomChar + randomChar;
+        }
+
+        return result;
+    }
+
+    checkIfUniqueIdExists() {
+        if (!this.currentVoucher) return;
+
+        let generatedID = this.generateRandomString();
+        let findItem = this.currentVoucher.items.find((x) => x.uniqueID === generatedID);
+        while (findItem) {
+            generatedID = this.generateRandomString();
+            findItem = this.currentVoucher.items.find((x) => x.uniqueID === generatedID);
+        }
+
+        return generatedID;
+    }
+
     addItemInVoucher(itemReceived: IProduct) {
-        if(!this.currentVoucher) return;
+        if (!this.currentVoucher) return;
+
+        const generatedID = this.checkIfUniqueIdExists();
+        if(!generatedID) return;
 
         const newVoucherItem: IVoucherItem = {
+            uniqueID: generatedID,
             type: itemReceived.Type,
             name: itemReceived.Name,
             quantity: itemReceived.Volume,
@@ -166,6 +197,18 @@ export class ScanPage implements OnInit {
             eanCode: itemReceived.EanCode
         };
         this.currentVoucher.items.push(newVoucherItem);
+        this.currentVoucher.items.sort((a, b) => b.readDate.getTime() - a.readDate.getTime());
+        this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'bottom');
+    }
+
+    deleteItemFromVoucher(uniqueID: string) {
+        if (!this.currentVoucher) return;
+
+        const findItem = this.currentVoucher.items.find((x) => x.uniqueID === uniqueID);
+        if(!findItem) return;
+
+        this.currentVoucher.items = this.currentVoucher.items.filter(x=> x.uniqueID !== findItem.uniqueID);
+        this.toastService.showToast('Produsul a fost șters cu succes!', 2000, 'success', 'bottom');
     }
 
     async requestPermissions() {
@@ -195,7 +238,7 @@ export class ScanPage implements OnInit {
 
         this.processPrinting = true;
 
-        if(this.currentVoucher.state === 1) this.printVoucher();
+        if (this.currentVoucher.state === 1) this.printVoucher();
         else {
 
             const modelSent: IVoucherActive = {
@@ -236,7 +279,7 @@ export class ScanPage implements OnInit {
     }
 
     async printVoucher() {
-        if(!this.currentVoucher) return;
+        if (!this.currentVoucher) return;
 
         const voucherReceived: IVoucherReceived = {
             Code: this.currentVoucher.code,
@@ -302,7 +345,7 @@ export class ScanPage implements OnInit {
 
         if (!this.registerProductImages.every(image => image.length > 0)) return false;
 
-        if(this.tryRegisterNewProduct) return false;
+        if (this.tryRegisterNewProduct) return false;
 
         return true;
     }
@@ -338,7 +381,6 @@ export class ScanPage implements OnInit {
                 await this.registerProductModal.dismiss();
                 this.initializeRegisterProductValidators();
                 setTimeout(() => {
-                    this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
                     this.addItemInVoucher(itemReceived);
                     this.tryRegisterNewProduct = false;
                 }, 500);
@@ -387,9 +429,9 @@ export class ScanPage implements OnInit {
 
 
     async tryGoBack() {
-        if(!this.currentVoucher) return;
+        if (!this.currentVoucher) return;
 
-        if(this.currentVoucher.state === 1) {
+        if (this.currentVoucher.state === 1) {
             this.router.navigateByUrl('/home', { replaceUrl: true });
             return;
         }

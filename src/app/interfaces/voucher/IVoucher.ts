@@ -8,6 +8,7 @@ export interface IVoucher {
 }
 
 export interface IVoucherItem {
+    uniqueID: string;
     type: IVoucherItemType;
     name: string;
     quantity: string;
