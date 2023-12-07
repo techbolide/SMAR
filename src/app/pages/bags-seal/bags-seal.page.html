@@ -10,5 +10,42 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+    <div class="seal__content">
+        <div class="seal__category">
+            <h1>Alege categoria de sigilare</h1>
+            <ion-radio-group [(ngModel)]="selectedCategory" (ngModelChange)="resetForm()">
+                <ion-radio value="1">Plastic</ion-radio>
+                <ion-radio value="2">Aluminiu</ion-radio>
+                <ion-radio value="3">Sticla</ion-radio>
+            </ion-radio-group>
+        </div>
 
+        <ng-container *ngIf="selectedCategory">
+            <ion-item>
+                <ng-container *ngIf="selectedCategory === '1'; else aluminium">
+                    <ion-input inputmode="number" label="Cantitate de sigilare" label-placement="stacked" type="number" required spellcheck="false" placeholder="Introdu cantitatea de sigilare" [(ngModel)]="plasticQuantity"></ion-input>
+                </ng-container>
+                <ng-template #aluminium>
+                    <ng-container *ngIf="selectedCategory === '2'; else glass">
+                        <ion-input inputmode="number" label="Cantitate de sigilare" label-placement="stacked" type="number" required spellcheck="false" placeholder="Introdu cantitatea de sigilare" [(ngModel)]="aluminiumQuantity"></ion-input>
+                    </ng-container>
+                </ng-template>
+                <ng-template #glass>
+                    <ion-input inputmode="number" label="Cantitate de sigilare" label-placement="stacked" type="number" required spellcheck="false" placeholder="Introdu cantitatea de sigilare" [(ngModel)]="glassQuantity"></ion-input>
+                </ng-template>
+                <ion-icon name="bag-outline" slot="end"></ion-icon>
+            </ion-item>
+
+            <ion-button fill="solid" color="primary" [disabled]="!hasValidQuantity() || loadingSeal" (click)="sealBag()">
+                <ng-container *ngIf="loadingSeal; else seal_bag">
+                    <ion-spinner name="lines"></ion-spinner>
+                </ng-container>
+                <ng-template #seal_bag>
+                    Sigilează sacul
+                </ng-template>
+            </ion-button>
+        </ng-container>
+
+
+    </div>
 </ion-content>
