@@ -23,7 +23,7 @@
             <div class="history__list" *ngIf="bags !== null && bags.length > 0; else no_bags">
                 <ion-list>
                     <ion-item [button]="true" lines="full" *ngFor="let bag of bags">
-                        <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                        <ion-icon [src]="'../../../assets/icon/' + getFormattedType(bag.Category) + '.svg'" slot="start"></ion-icon>
                         <ion-label>
                             <h3>{{ bag.Code }}</h3>
                             <p>x{{ bag.Count }}</p>

@@ -35,6 +35,14 @@ export class BagsHistoryPage {
         }, 1000);
     }
 
+    getFormattedType(category: number) {
+        switch (category) {
+            case 2: return 'can';
+            case 3: return 'glass';
+            default: return 'plastic-bottle';
+        }
+    }
+
     handleRefresh(event: any) {
         const model: IPaginated = { from: 0, take: 20 }
         this.bags = null;
