@@ -6,6 +6,9 @@ import { IHomeOption } from 'src/app/interfaces/home/IHomeOption';
 import { AuthenticationService, PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
 import { PRODUCTS_KEY, ProductService } from 'src/app/services/product/product.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
+import { Subscription } from 'rxjs';
+
+const INTERVAL_REFRESH = 180000;
 
 @Component({
     selector: 'app-home',
@@ -24,20 +27,61 @@ export class HomePage {
     public currentUser: IUser | null = null;
     public isLogged: boolean = false;
 
+    public currentRefreshInterval: NodeJS.Timeout | null = null;
+
+    public loggedSubscription: Subscription | null = null;
+    public userSubscription: Subscription | null = null;
+    public productsSubscription: Subscription | null = null;
+
     constructor(private router: Router, private authService: AuthenticationService, private storageService: StorageService, private productService: ProductService) {
         this.getUser();
     }
 
     ionViewDidEnter() {
         this.checkLogged();
+        this.createRefreshInterval();
     }
 
     ionViewDidLeave() {
         this.isLogged = false;
+        this.clearSubscriptions();
+        this.clearRefreshInterval();
+    }
+
+    clearSubscriptions() {
+        if(this.loggedSubscription) {
+            this.loggedSubscription.unsubscribe();
+            this.loggedSubscription = null;
+        }
+        if(this.userSubscription) {
+            this.userSubscription.unsubscribe();
+            this.userSubscription = null;
+        }
+        if(this.productsSubscription) {
+            this.productsSubscription.unsubscribe();
+            this.productsSubscription = null;
+        }
+
+    }
+
+    createRefreshInterval() {
+        if(this.currentRefreshInterval) return;
+
+        this.currentRefreshInterval = setInterval(() => {
+            this.isLogged = false;
+            this.checkLogged();
+        }, INTERVAL_REFRESH);
+    }
+
+    clearRefreshInterval() {
+        if(!this.currentRefreshInterval) return;
+
+        clearInterval(this.currentRefreshInterval);
+        this.currentRefreshInterval = null;
     }
 
     checkLogged() {
-        this.authService.isLogged().subscribe({
+        this.loggedSubscription = this.authService.isLogged().subscribe({
             next: (isLogged) => {
                 if (isLogged && !this.isLogged) {
                     this.isLogged = true;
@@ -74,7 +118,7 @@ export class HomePage {
     }
 
     getUser() {
-        this.authService.currentUser.subscribe({
+        this.userSubscription = this.authService.currentUser.subscribe({
             next: (res) => {
                 if (res) {
                     this.currentUser = res;
@@ -90,7 +134,7 @@ export class HomePage {
     }
 
     getProducts() {
-        this.productService.getProducts().subscribe({
+        this.productsSubscription = this.productService.getProducts().subscribe({
             next: (items) => {
                 this.storageService.setStorageKey(PRODUCTS_KEY, JSON.stringify(items));
             },
