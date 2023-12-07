@@ -188,6 +188,13 @@ ion-content {
             --background: transparent;
             --padding-start: 0px;
             --inner-padding-end: 8px;
+
+            ion-icon {
+                font-size: 20px;
+                margin: 0;
+                margin-top: 16px;
+                color: rgb(0 0 0 / 20%);
+            }
         }
 
         ion-radio-group {

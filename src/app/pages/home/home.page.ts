@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Dialog } from '@capacitor/dialog';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
 import { IHomeOption } from 'src/app/interfaces/home/IHomeOption';
 import { AuthenticationService, PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
@@ -47,6 +48,29 @@ export class HomePage {
                 console.log(err);
             }
         })
+    }
+
+    goToRoute(route: string | null) {
+        if(!route) return;
+
+        if(route === '/bags-seal' && this.canScan()) {
+            this.askSeal(route);
+        } else {
+            this.router.navigateByUrl(route, { replaceUrl: true });
+        }
+    }
+
+    async askSeal(route: string) {
+        const { value } = await Dialog.confirm({
+            title: "Sigilare saci",
+            message: "Nu ați atins cantitatea maxima, sigur doriți să sigilați?",
+            okButtonTitle: "Da",
+            cancelButtonTitle: "Nu",
+        });
+
+        if (!value) return;
+
+        this.router.navigateByUrl(route, { replaceUrl: true });
     }
 
     getUser() {

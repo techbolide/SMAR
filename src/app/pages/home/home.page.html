@@ -24,9 +24,8 @@
                         <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
                         <div>
                             <h1>Plastic</h1>
-                            <p [ngStyle]="{'color': getColorForThreshold('plastic') }">
-                                {{ currentUser.PlasticCount }}
-                                <span>/ {{ currentUser.PlasticThreshold }}</span>
+                            <p [ngClass]="{'seal-orange': currentUser.PlasticCount === currentUser.PlasticThreshold, 'seal-red': currentUser.PlasticCount > currentUser.PlasticThreshold }">
+                                {{ currentUser.PlasticCount }} / {{ currentUser.PlasticThreshold }}
                             </p>
                         </div>
                     </div>
@@ -34,9 +33,8 @@
                         <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
                         <div>
                             <h1>Aluminiu</h1>
-                            <p [ngStyle]="{'color': getColorForThreshold('can') }">
-                                {{ currentUser.AluminiumCount }}
-                                <span>/ {{ currentUser.AluminiumThreshold }}</span>
+                            <p [ngClass]="{'seal-orange': currentUser.AluminiumCount === currentUser.AluminiumThreshold, 'seal-red': currentUser.AluminiumCount > currentUser.AluminiumThreshold }">
+                                {{ currentUser.AluminiumCount }} / {{ currentUser.AluminiumThreshold }}
                             </p>
                         </div>
                     </div>
@@ -44,15 +42,14 @@
                         <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
                         <div>
                             <h1>Sticla</h1>
-                            <p [ngStyle]="{'color': getColorForThreshold('glass') }">
-                                {{ currentUser.GlassCount }}
-                                <span>/ {{ currentUser.GlassThreshold }}</span>
+                            <p [ngClass]="{'seal-orange': currentUser.GlassCount === currentUser.GlassThreshold, 'seal-red': currentUser.GlassCount > currentUser.GlassThreshold }">
+                                {{ currentUser.GlassCount }} / {{ currentUser.GlassThreshold }}
                             </p>
                         </div>
                     </div>
                 </div>
                 <div class="home__actions">
-                    <ion-button *ngFor="let availableOption of availableOptions" fill="solid" [color]="availableOption.icon === 'pricetag' && !canScan() ? 'primary' : 'dark'" [routerLink]="availableOption.router !== null ? availableOption.router : null">
+                    <ion-button *ngFor="let availableOption of availableOptions" fill="solid" [color]="availableOption.icon === 'pricetag' && !canScan() ? 'primary' : 'dark'" (click)="goToRoute(availableOption.router)">
                         {{ availableOption.name }}
                         <ion-icon slot="end" [name]="availableOption.icon"></ion-icon>
                     </ion-button>
