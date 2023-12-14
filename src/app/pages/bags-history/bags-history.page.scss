@@ -46,7 +46,7 @@ ion-content {
                     .history__end {
                         display: flex;
                         flex-direction: column;
-                        align-items: end;
+                        align-items: flex-end;
 
                         ion-badge {
                             --padding-bottom: 4px;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Dialog } from '@capacitor/dialog';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
@@ -33,7 +33,11 @@ export class HomePage {
     public userSubscription: Subscription | null = null;
     public productsSubscription: Subscription | null = null;
 
-    constructor(private router: Router, private authService: AuthenticationService, private storageService: StorageService, private productService: ProductService) {
+    constructor(private router: Router,
+        private authService: AuthenticationService,
+        private storageService: StorageService,
+        private productService: ProductService,
+        private cdr: ChangeDetectorRef) {
         this.getUser();
     }
 
@@ -85,8 +89,9 @@ export class HomePage {
             next: (isLogged) => {
                 if (isLogged && !this.isLogged) {
                     this.isLogged = true;
+                    this.cdr.detectChanges();
                     this.authService.doAuth();
-                }
+                } else this.router.navigateByUrl('/login', { replaceUrl: true});
             },
             error: (err) => {
                 console.log(err);
