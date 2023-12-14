@@ -78,7 +78,7 @@
                             <ion-text slot="end">{{ voucherItem.readDate | date: 'HH:mm:ss' }}</ion-text>
                         </ion-item>
                         <ion-item-options slot="end">
-                            <ion-item-option color="danger" expandable="true" (click)="deleteItemFromVoucher(voucherItem.uniqueID)">
+                            <ion-item-option color="danger" expandable="true" (click)="tryDeleteItemFromVoucher(voucherItem.uniqueID)">
                                 <ion-icon slot="icon-only" name="trash"></ion-icon>
                             </ion-item-option>
                         </ion-item-options>

@@ -91,7 +91,7 @@ export class HomePage {
                     this.isLogged = true;
                     this.cdr.detectChanges();
                     this.authService.doAuth();
-                } else this.router.navigateByUrl('/login', { replaceUrl: true});
+                }
             },
             error: (err) => {
                 console.log(err);

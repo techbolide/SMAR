@@ -33,7 +33,7 @@ export class AppComponent {
     initializeStatusBar() {
         setTimeout(() => {
             this.statusBarService.setDefaultStatusBar();
-        }, 2000);
+        }, 2100);
     }
 
     async debugStorage() {
@@ -42,8 +42,8 @@ export class AppComponent {
             Subheader: 'Str. Principala, nr 18, Tatarani, com. Romanesti',
             Footer: ' ',
             Subfooter: ' ',
-            // PrinterIdentifier: '57:4C:54:02:CA:0C' -- stef
-            PrinterIdentifier: '57:4C:54:02:97:6E' // -- vali
+            PrinterIdentifier: '57:4C:54:02:CA:0C' //-- stef
+            // PrinterIdentifier: '57:4C:54:02:97:6E' // -- vali
         }
         await this.storageService.setStorageKey(DEBUG_STORAGE, JSON.stringify(debugStorage));
     }

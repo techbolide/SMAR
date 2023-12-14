@@ -16,7 +16,7 @@ export class StatusBarService {
         if (isWeb) return;
 
         const isAndroid = Capacitor.getPlatform() === 'android';
-        const navigationBarColor = '#FFFFFF';
+        const navigationBarColor = '#F3F3F3';
         const statusBarColor = '#9926F7';
         const style = Style.Dark;
 

@@ -5,13 +5,13 @@ import { AuthenticationService } from 'src/app/services/authentication/authentic
 import { ToastService } from 'src/app/services/toast/toast.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.page.html',
-    styleUrls: ['./login.page.scss'],
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.page.html',
+    styleUrls: ['./reset-password.page.scss'],
 })
-export class LoginPage implements OnInit {
-    public loginForm!: FormGroup;
-    public isLogging: boolean = false;
+export class ResetPasswordPage implements OnInit {
+    public resetForm!: FormGroup;
+    public isResetting: boolean = false;
     constructor(private router: Router,
         private formBuilder: FormBuilder,
         private authService: AuthenticationService,
@@ -23,34 +23,35 @@ export class LoginPage implements OnInit {
     }
 
     initValidators() {
-        this.loginForm = this.formBuilder.group({
+        this.resetForm = this.formBuilder.group({
             username: ['', [Validators.required, Validators.minLength(1)]],
-            password: ['', [Validators.required, Validators.minLength(1)]],
         });
     }
 
-    login() {
-        if(!this.loginForm.valid || this.isLogging) return;
+    resetPassword() {
+        if(!this.resetForm.valid || this.isResetting) return;
 
-        this.isLogging = true;
-        const formValues = this.loginForm.value;
+        this.isResetting = true;
+        const formValues = this.resetForm.value;
 
         setTimeout(() => {
-            this.authService.login(formValues).subscribe({
+            this.authService.resetPassword(formValues).subscribe({
                 next: (res) => {
-                    this.isLogging = false;
+                    this.isResetting = false;
                     this.cdr.detectChanges();
-                    this.router.navigateByUrl('/home', { replaceUrl: true });
+                    this.router.navigateByUrl('/login', { replaceUrl: true });
+                    this.toastService.showToast("O parolă temporară a fost trimisa pe email-ul contului!", 2000, 'success', 'bottom');
                 },
                 error: (err) => {
                     this.initValidators();
-                    this.isLogging = false;
+                    this.isResetting = false;
                     this.cdr.detectChanges();
-                    this.toastService.showToast("Nume de utilizator sau parolă sunt invalide, încearcă din nou!", 2000, 'danger', 'bottom');
+                    this.toastService.showToast("A intervenit o eroare în trimiterea parolei, încearcă din nou!", 2000, 'danger', 'bottom');
                     console.log(err);
                 }
             });
         }, 1000);
 
     }
+
 }

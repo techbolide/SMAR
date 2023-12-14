@@ -18,6 +18,7 @@ export class AuthenticationService {
     public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public currentUser: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
     public loginApiLink: string = 'GetToken';
+    public resetApiLink: string = 'ResetPassword';
     public profileApiLink: string = 'GetOffice';
     public currentAccessToken: string | null = null;
     constructor(private http: HttpClient, private storageService: StorageService, private router: Router) {
@@ -36,6 +37,10 @@ export class AuthenticationService {
 
     getToken() {
         return this.storageService.getStorageKey(TOKEN_KEY);
+    }
+
+    resetPassword(model: any) {
+        return this.http.post(environment.apiUrl + this.resetApiLink, model);
     }
 
     login(credentials: any) {

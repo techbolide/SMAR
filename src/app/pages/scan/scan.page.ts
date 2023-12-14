@@ -198,7 +198,22 @@ export class ScanPage implements OnInit {
         };
         this.currentVoucher.items.push(newVoucherItem);
         this.currentVoucher.items.sort((a, b) => b.readDate.getTime() - a.readDate.getTime());
-        this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'bottom');
+        this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
+    }
+
+    async tryDeleteItemFromVoucher(uniqueID: string) {
+        if (!this.currentVoucher) return;
+
+        const { value } = await Dialog.confirm({
+            title: "Voucher",
+            message: "Sunteți sigur că doriți să ștergeti acest ambalaj din listă",
+            okButtonTitle: "Da",
+            cancelButtonTitle: "Nu",
+        });
+
+        if (!value) return;
+
+        this.deleteItemFromVoucher(uniqueID);
     }
 
     deleteItemFromVoucher(uniqueID: string) {
@@ -208,7 +223,7 @@ export class ScanPage implements OnInit {
         if(!findItem) return;
 
         this.currentVoucher.items = this.currentVoucher.items.filter(x=> x.uniqueID !== findItem.uniqueID);
-        this.toastService.showToast('Produsul a fost șters cu succes!', 2000, 'success', 'bottom');
+        this.toastService.showToast('Produsul a fost șters cu succes!', 2000, 'success', 'top');
     }
 
     async requestPermissions() {
