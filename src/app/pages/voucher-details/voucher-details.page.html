@@ -6,7 +6,7 @@
         <ion-title>
             {{ currentVoucher?.Code }}
         </ion-title>
-        <ion-buttons slot="end">
+        <ion-buttons slot="end" *ngIf="currentVoucher?.State === 1 || currentVoucher?.State === 2">
             <ng-container *ngIf="processPrinting || !currentVoucher; else try_print">
                 <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
             </ng-container>

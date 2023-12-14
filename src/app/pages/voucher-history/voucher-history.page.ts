@@ -70,7 +70,7 @@ export class VoucherHistoryPage {
     }
 
     reprint(voucher: IVoucherReceived) {
-        if (this.isReprinting) return;
+        if (this.isReprinting || (voucher.State !== 1 && voucher.State !== 2)) return;
 
         this.isReprinting = true;
         setTimeout(() => {
