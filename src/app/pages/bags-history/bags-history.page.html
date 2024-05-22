@@ -4,7 +4,7 @@
             <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
         </ion-buttons>
         <ion-title>
-            Istoric saci
+            {{ 'Home.Options.BagsHistory' | translate }}
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -30,7 +30,7 @@
                         </ion-label>
                         <div class="history__end" slot="end">
                             <ion-badge slot="end" [color]="getBagStateColor(bag.State)">
-                                {{ getBagStateText(bag.State) }}
+                                {{ getBagStateText(bag.State) | translate }}
                             </ion-badge>
                             <p>{{ bag.Date | date: 'yyyy-MM-dd HH:mm:ss' }}</p>
                         </div>
@@ -42,7 +42,9 @@
             <ng-template #no_bags>
                 <div class="no__entries">
                     <ion-icon name="sad-outline"></ion-icon>
-                    <h1>Nu există niciun sac în istoric</h1>
+                    <h1>
+                        {{ 'BagsHistory.NoEntries' | translate }}
+                    </h1>
                 </div>
             </ng-template>
         </div>

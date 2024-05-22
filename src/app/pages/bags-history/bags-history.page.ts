@@ -72,10 +72,10 @@ export class BagsHistoryPage {
 
     getBagStateText(state: number) {
         switch (state) {
-            case 1: return 'CREAT';
-            case 2: return 'RIDICAT';
-            case 3: return 'VALIDAT';
-            case 4: return 'SUSPECT';
+            case 1: return 'BagsHistory.Types.Created';
+            case 2: return 'BagsHistory.Types.Picked';
+            case 3: return 'BagsHistory.Types.Validated';
+            case 4: return 'BagsHistory.Types.Suspect';
             default: return 'N/A';
         }
     }
