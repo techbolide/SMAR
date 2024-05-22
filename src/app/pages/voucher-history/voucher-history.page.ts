@@ -183,11 +183,11 @@ export class VoucherHistoryPage {
 
     getVoucherStateText(state: number) {
         switch (state) {
-            case 1: return 'ACTIV';
-            case 2: return 'UTILIZAT';
-            case 3: return 'EXPIRAT';
-            case 4: return 'SUSPECT';
-            case 10: return 'INVALID';
+            case 1: return 'VoucherHistory.Types.Active';
+            case 2: return 'VoucherHistory.Types.Used';
+            case 3: return 'VoucherHistory.Types.Expired';
+            case 4: return 'VoucherHistory.Types.Suspect';
+            case 10: return 'VoucherHistory.Types.Invalid';
             default: return 'N/A';
         }
     }
