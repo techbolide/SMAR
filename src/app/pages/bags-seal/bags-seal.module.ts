@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BagsSealPageRoutingModule } from './bags-seal-routing.module';
 
 import { BagsSealPage } from './bags-seal.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        BagsSealPageRoutingModule
+        BagsSealPageRoutingModule,
+        TranslateModule
     ],
     declarations: [BagsSealPage]
 })
