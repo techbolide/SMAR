@@ -149,5 +149,10 @@ ion-toolbar {
     ion-title {
         font-size: 22px;
         font-weight: 300;
+
+        b {
+            font-weight: 500;
+            font-size: 20px;
+        }
     }
 }
