@@ -60,5 +60,34 @@
         "NoEntries": "Nu există niciun voucher în istoric",
         "Scan": "Scanează",
         "Use": "Utilizează"
+    },
+    "NewVoucher": {
+        "ActiveVoucherDialog": {
+            "Title": "Voucher curent",
+            "Subtitle": "Ai un bon activ, sunteți sigur că doriți ca acesta să fie anulat?",
+            "Confirm": "Anulează",
+            "Cancel": "Continuă scanarea"
+        },
+        "NoProductFoundDialog": {
+            "Title": "Ambalaj negăsit",
+            "Subtitle": "Ambalaj negăsit în baza de date! Doriți să îl înregistrați?",
+            "Confirm": "Da, înregistrează-l",
+            "Cancel": "Nu"
+        },
+        "DeleteItemDialog": {
+            "Title": "Voucher curent",
+            "Subtitle": "Sunteți sigur că doriți să ștergeti acest ambalaj din listă?",
+            "Confirm": "Da, șterge-l",
+            "Cancel": "Nu, continuă"
+        },
+        "NewProductBottom": {
+            "Picture": "Imagine",
+            "Name": "Nume produs",
+            "NamePlaceholder": "Introdu numele ambalajului",
+            "Quantity": "Cantitatea produsului",
+            "QuantityPlaceholder": "Introdu cantitatea (ex: 500mL)",
+            "Register": "Înregistrează"
+        },
+        "Scan": "Scanează"
     }
 }

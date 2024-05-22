@@ -60,5 +60,34 @@
         "NoEntries": "There are no vouchers in the history",
         "Scan": "Scan",
         "Use": "Use it"
+    },
+    "NewVoucher": {
+        "ActiveVoucherDialog": {
+            "Title": "Current Voucher",
+            "Subtitle": "You have an active voucher, are you sure you want to cancel it?",
+            "Confirm": "Cancel",
+            "Cancel": "Continue scanning"
+        },
+        "NoProductFoundDialog": {
+            "Title": "Product Not Found",
+            "Subtitle": "Product not found in the database! Do you want to register it?",
+            "Confirm": "Yes, register it",
+            "Cancel": "No"
+        },
+        "DeleteItemDialog": {
+            "Title": "Current Voucher",
+            "Subtitle": "Are you sure you want to delete this item from the list?",
+            "Confirm": "Yes, delete it",
+            "Cancel": "No, continue"
+        },
+        "NewProductBottom": {
+            "Picture": "Picture",
+            "Name": "Product Name",
+            "NamePlaceholder": "Enter the packaging name",
+            "Quantity": "Product Quantity",
+            "QuantityPlaceholder": "Enter the quantity (e.g., 500mL)",
+            "Register": "Register"
+        },
+        "Scan": "Scan"
     }
 }

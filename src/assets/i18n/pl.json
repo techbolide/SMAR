@@ -60,5 +60,34 @@
         "NoEntries": "Brak voucherów w historii",
         "Scan": "Skanuj",
         "Use": "Użyj"
+    },
+    "NewVoucher": {
+        "ActiveVoucherDialog": {
+            "Title": "Aktualny Voucher",
+            "Subtitle": "Masz aktywny voucher, czy na pewno chcesz go anulować?",
+            "Confirm": "Anuluj",
+            "Cancel": "Kontynuuj skanowanie"
+        },
+        "NoProductFoundDialog": {
+            "Title": "Produkt nie znaleziony",
+            "Subtitle": "Produkt nie został znaleziony w bazie danych! Czy chcesz go zarejestrować?",
+            "Confirm": "Tak, zarejestruj",
+            "Cancel": "Nie"
+        },
+        "DeleteItemDialog": {
+            "Title": "Aktualny Voucher",
+            "Subtitle": "Czy na pewno chcesz usunąć ten element z listy?",
+            "Confirm": "Tak, usuń",
+            "Cancel": "Nie, kontynuuj"
+        },
+        "NewProductBottom": {
+            "Picture": "Obraz",
+            "Name": "Nazwa produktu",
+            "NamePlaceholder": "Wprowadź nazwę opakowania",
+            "Quantity": "Ilość produktu",
+            "QuantityPlaceholder": "Wprowadź ilość (np. 500ml)",
+            "Register": "Zarejestruj"
+        },
+        "Scan": "Skanuj"
     }
 }
