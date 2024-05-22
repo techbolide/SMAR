@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
@@ -16,7 +17,8 @@ export class ResetPasswordPage implements OnInit {
         private formBuilder: FormBuilder,
         private authService: AuthenticationService,
         private toastService: ToastService,
-        private cdr: ChangeDetectorRef) { }
+        private cdr: ChangeDetectorRef,
+        private translateService: TranslateService) { }
 
     ngOnInit() {
         this.initValidators();
@@ -35,21 +37,30 @@ export class ResetPasswordPage implements OnInit {
         const formValues = this.resetForm.value;
 
         setTimeout(() => {
-            this.authService.resetPassword(formValues).subscribe({
-                next: (res) => {
-                    this.isResetting = false;
-                    this.cdr.detectChanges();
-                    this.router.navigateByUrl('/login', { replaceUrl: true });
-                    this.toastService.showToast("O parolă temporară a fost trimisa pe email-ul contului!", 2000, 'success', 'bottom');
-                },
-                error: (err) => {
-                    this.initValidators();
-                    this.isResetting = false;
-                    this.cdr.detectChanges();
-                    this.toastService.showToast("A intervenit o eroare în trimiterea parolei, încearcă din nou!", 2000, 'danger', 'bottom');
-                    console.log(err);
-                }
-            });
+
+            // JUST FOR TESTING - DELETE IN PRODUCTION
+
+
+            this.isResetting = false;
+            this.cdr.detectChanges();
+            this.router.navigateByUrl('/login', { replaceUrl: true });
+            this.toastService.showToast(this.translateService.instant('Toast.ResetPassword'), 2000, 'success', 'bottom');
+
+            // this.authService.resetPassword(formValues).subscribe({
+            //     next: (res) => {
+            //         this.isResetting = false;
+            //         this.cdr.detectChanges();
+            //         this.router.navigateByUrl('/login', { replaceUrl: true });
+            //         this.toastService.showToast("O parolă temporară a fost trimisa pe email-ul contului!", 2000, 'success', 'bottom');
+            //     },
+            //     error: (err) => {
+            //         this.initValidators();
+            //         this.isResetting = false;
+            //         this.cdr.detectChanges();
+            //         this.toastService.showToast("A intervenit o eroare în trimiterea parolei, încearcă din nou!", 2000, 'danger', 'bottom');
+            //         console.log(err);
+            //     }
+            // });
         }, 1000);
 
     }

@@ -1,4 +1,19 @@
 {
+    "Toast": {
+        "InvalidLogin": "Nieprawidłowa nazwa użytkownika lub hasło, spróbuj ponownie!",
+        "ResetPassword": "Tymczasowe hasło zostało wysłane na e-mail konta!",
+        "BagSealed": "Worek został pomyślnie uszczelniony!",
+        "CameraPermission": "Proszę udzielić kamery pozwolenia na korzystanie z czytnika kodów kreskowych.",
+        "ProductRegistered": "Produkt został pomyślnie zarejestrowany!",
+        "ProductDeleted": "Produkt został pomyślnie usunięty!",
+        "CantScanWithoutProducts": "Nie możesz wydrukować tego bonu, ponieważ nie masz zeskanowanych opakowań!",
+        "VoucherActivate": "Bon został pomyślnie aktywowany!",
+        "VoucherActivateError": "Wystąpił błąd podczas aktywowania bonu, spróbuj ponownie później!",
+        "VoucherPrint": "Bon pomyślnie wydrukowany!",
+        "VoucherReprint": "Bon pomyślnie wydrukowany ponownie!",
+        "PrinterError": "Wystąpił błąd drukarki, spróbuj ponownie później!",
+        "TicketPrint": "Bon wydrukowany ponownie pomyślnie!"
+    },
     "Login": {
         "Title": "Ręczne rozwiązanie do zbierania DRS",
         "Subtitle": "Chroń swoje dane",

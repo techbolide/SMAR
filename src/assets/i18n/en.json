@@ -1,4 +1,19 @@
 {
+    "Toast": {
+        "InvalidLogin": "Invalid username or password, please try again!",
+        "ResetPassword": "A temporary password has been sent to the account's email!",
+        "BagSealed": "The bag has been successfully sealed!",
+        "CameraPermission": "Please grant camera permission to use the barcode scanner.",
+        "ProductRegistered": "The product has been successfully registered!",
+        "ProductDeleted": "The product has been successfully deleted!",
+        "CantScanWithoutProducts": "You cannot print this voucher as you have no scanned packages!",
+        "VoucherActivate": "The voucher has been successfully activated!",
+        "VoucherActivateError": "An error occurred while activating the voucher, please try again later!",
+        "VoucherPrint": "Voucher printed successfully!",
+        "VoucherReprint": "Voucher reprinted successfully!",
+        "PrinterError": "An error occurred with the printer, please try again later!",
+        "TicketPrint": "Ticket reprinted successfully!"
+    },
     "Login": {
         "Title": "Manual Collection Solution DRS",
         "Subtitle": "Keep your data safe",

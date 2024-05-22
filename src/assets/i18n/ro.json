@@ -1,4 +1,19 @@
 {
+    "Toast": {
+        "InvalidLogin": "Nume de utilizator sau parolă sunt invalide, încearcă din nou!",
+        "ResetPassword": "O parolă temporară a fost trimisa pe email-ul contului!",
+        "BagSealed": "Sacul a fost sigilat cu succes!",
+        "CameraPermission": "Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.",
+        "ProductRegistered": "Produsul a fost înregistrat cu succes!",
+        "ProductDeleted": "Produsul a fost șters cu succes!",
+        "CantScanWithoutProducts": "Nu puteți printa acest bon deoarece nu aveți ambalaje scanate!",
+        "VoucherActivate": "Bonul a fost activat cu succes!",
+        "VoucherActivateError": "A intervenit o eroare în activarea voucherului, încercați mai tarziu!",
+        "VoucherPrint": "Voucher printat cu succes!",
+        "VoucherReprint": "Voucher reprintat cu succes!",
+        "PrinterError": "A intervenit o eroare în legătura cu printerul, încercați mai tarziu!",
+        "TicketPrint": "Bon reprintat cu succes!"
+    },
     "Login": {
         "Title": "Soluție de colectare manuală SGR",
         "Subtitle": "Pastrează-ți datele în siguranță",

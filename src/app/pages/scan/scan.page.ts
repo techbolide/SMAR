@@ -112,7 +112,7 @@ export class ScanPage implements OnInit {
         if (!this.currentVoucher) return;
         const granted = await this.requestPermissions();
         if (!granted) {
-            this.toastService.showToast("Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.CameraPermission'), 2000, 'danger', 'bottom');
             return;
         }
 
@@ -200,7 +200,7 @@ export class ScanPage implements OnInit {
         };
         this.currentVoucher.items.push(newVoucherItem);
         this.currentVoucher.items.sort((a, b) => b.readDate.getTime() - a.readDate.getTime());
-        this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
+        this.toastService.showToast(this.translateService.instant('Toast.ProductRegistered'), 2000, 'success', 'top');
     }
 
     async tryDeleteItemFromVoucher(uniqueID: string) {
@@ -225,7 +225,7 @@ export class ScanPage implements OnInit {
         if(!findItem) return;
 
         this.currentVoucher.items = this.currentVoucher.items.filter(x=> x.uniqueID !== findItem.uniqueID);
-        this.toastService.showToast('Produsul a fost șters cu succes!', 2000, 'success', 'top');
+        this.toastService.showToast(this.translateService.instant('Toast.ProductDeleted'), 2000, 'success', 'top');
     }
 
     async requestPermissions() {
@@ -249,7 +249,7 @@ export class ScanPage implements OnInit {
         if (!this.currentVoucher || this.processPrinting) return;
 
         if (this.getTotal() <= 0) {
-            this.toastService.showToast("Nu puteți printa acest bon deoarece nu aveți ambalaje scanate!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.CantScanWithoutProducts'), 2000, 'danger', 'bottom');
             return;
         }
 
@@ -276,7 +276,7 @@ export class ScanPage implements OnInit {
 
                     if (res.State === 1) {
                         this.currentVoucher.state = res.State;
-                        this.toastService.showToast("Bonul a fost activat cu succes!", 1000, 'success', 'bottom');
+                        this.toastService.showToast(this.translateService.instant('Toast.VoucherActivate'), 1000, 'success', 'bottom');
                     }
 
                     setTimeout(() => {
@@ -285,7 +285,7 @@ export class ScanPage implements OnInit {
                 },
                 error: (err) => {
                     console.log(err);
-                    this.toastService.showToast("A intervenit o eroare în activarea voucherului, încercați mai tarziu!", 2000, 'danger', 'bottom');
+                    this.toastService.showToast(this.translateService.instant('Toast.VoucherActivateError'), 2000, 'danger', 'bottom');
                     this.processPrinting = false;
                     this.cdr.detectChanges();
                 }
@@ -316,12 +316,12 @@ export class ScanPage implements OnInit {
         const formatVoucher = await this.voucherService.formatVoucher(voucherReceived);
         try {
             await this.blePrinterService.print(formatVoucher);
-            this.toastService.showToast("Voucher printat cu succes!", 2000, 'success', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.VoucherPrint'), 2000, 'success', 'bottom');
             setTimeout(() => {
                 this.router.navigateByUrl('/home', { replaceUrl: true });
             }, 500);
         } catch {
-            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.processPrinting = false;
         this.cdr.detectChanges();
