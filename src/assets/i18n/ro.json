@@ -1,0 +1,64 @@
+{
+    "Login": {
+        "Title": "Soluție de colectare manuală SGR",
+        "Subtitle": "Pastrează-ți datele în siguranță",
+        "Username": "Nume de utilizator",
+        "UsernamePlaceholder": "Introdu numele de utilizator",
+        "Password": "Parolă",
+        "Authenticate": "Autentificare",
+        "Forgot": "Ți-ai uitat parola?"
+    },
+    "Forgot": {
+        "Title": "Soluție de colectare manuală SGR",
+        "Subtitle": "Resetează-ți parola contului",
+        "Username": "Nume de utilizator",
+        "UsernamePlaceholder": "Introdu numele de utilizator",
+        "Sent": "Trimite parola"
+    },
+    "Home": {
+        "Plastic": "Plastic",
+        "Aluminium": "Aluminiu",
+        "Glass": "Sticla",
+        "Options": {
+            "Pickup": "Ridicare ambalaje",
+            "BagsHistory": "Istoric saci",
+            "VoucherHistory": "Istoric vouchere",
+            "BagsSeal": "Sigilare saci",
+            "Settings": "Setări"
+        },
+        "NewVoucher": "Voucher"
+    },
+    "BagsHistory": {
+        "Types": {
+            "Created": "Creat",
+            "Picked": "Ridicat",
+            "Validated": "Validat",
+            "Suspect": "Suspect"
+        },
+        "NoEntries": "Nu există niciun sac în istoric"
+    },
+    "BagsSeal": {
+        "WarningQuantityDialog": {
+            "Title": "Sigilare saci",
+            "Subtitle": "Nu ați atins cantitatea maxima, sigur doriți să sigilați un sac?",
+            "Confirm": "Da, sigileaza",
+            "Cancel": "Nu"
+        },
+        "ChooseCategory": "Alege categoria de sigilare",
+        "Quantity": "Cantitatea de sigilare",
+        "QuantityPlaceholder": "Introdu cantitatea de sigilare",
+        "Seal": "Sigilează sacul"
+    },
+    "VoucherHistory": {
+        "Types": {
+            "Active": "Activ",
+            "Used": "Utilizat",
+            "Expired": "Expirat",
+            "Suspect": "Suspect",
+            "Invalid": "Invalid"
+        },
+        "NoEntries": "Nu există niciun voucher în istoric",
+        "Scan": "Scanează",
+        "Use": "Utilizează"
+    }
+}

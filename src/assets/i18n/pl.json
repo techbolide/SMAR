@@ -1,0 +1,64 @@
+{
+    "Login": {
+        "Title": "Ręczne rozwiązanie do zbierania DRS",
+        "Subtitle": "Chroń swoje dane",
+        "Username": "Nazwa użytkownika",
+        "UsernamePlaceholder": "Wprowadź nazwę użytkownika",
+        "Password": "Hasło",
+        "Authenticate": "Zaloguj się",
+        "Forgot": "Zapomniałeś hasła?"
+    },
+    "Forgot": {
+        "Title": "Ręczne rozwiązanie do zbierania DRS",
+        "Subtitle": "Zresetuj hasło do konta",
+        "Username": "Nazwa użytkownika",
+        "UsernamePlaceholder": "Wprowadź nazwę użytkownika",
+        "Sent": "Wyślij hasło"
+    },
+    "Home": {
+        "Plastic": "Plastik",
+        "Aluminium": "Aluminium",
+        "Glass": "Szkło",
+        "Options": {
+            "Pickup": "Odbiór opakowań",
+            "BagsHistory": "Historia worków",
+            "VoucherHistory": "Historia voucherów",
+            "BagsSeal": "Uszczelnij worki",
+            "Settings": "Ustawienia"
+        },
+        "NewVoucher": "Kupon"
+    },
+    "BagsHistory": {
+        "Types": {
+            "Created": "Utworzony",
+            "Picked": "Odebrany",
+            "Validated": "Zweryfikowany",
+            "Suspect": "Podejrzany"
+        },
+        "NoEntries": "Brak worków w historii"
+    },
+    "BagsSeal": {
+        "WarningQuantityDialog": {
+            "Title": "Zaklej worki",
+            "Subtitle": "Nie osiągnąłeś maksymalnej ilości, czy na pewno chcesz zakleić worek?",
+            "Confirm": "Tak, zaklej",
+            "Cancel": "Nie"
+        },
+        "ChooseCategory": "Wybierz kategorię uszczelniania",
+        "Quantity": "Ilość uszczelniania",
+        "QuantityPlaceholder": "Wprowadź ilość uszczelniania",
+        "Seal": "Zaklej worek"
+    },
+    "VoucherHistory": {
+        "Types": {
+            "Active": "Aktywny",
+            "Used": "Użyty",
+            "Expired": "Wygasły",
+            "Suspect": "Podejrzany",
+            "Invalid": "Nieprawidłowy"
+        },
+        "NoEntries": "Brak voucherów w historii",
+        "Scan": "Skanuj",
+        "Use": "Użyj"
+    }
+}

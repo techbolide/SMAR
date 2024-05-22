@@ -1,0 +1,64 @@
+{
+    "Login": {
+        "Title": "Manual Collection Solution DRS",
+        "Subtitle": "Keep your data safe",
+        "Username": "Username",
+        "UsernamePlaceholder": "Enter your username",
+        "Password": "Password",
+        "Authenticate": "Log in",
+        "Forgot": "Forgot your password?"
+    },
+    "Forgot": {
+        "Title": "Manual Collection Solution DRS",
+        "Subtitle": "Reset your account password",
+        "Username": "Username",
+        "UsernamePlaceholder": "Enter your username",
+        "Sent": "Send password"
+    },
+    "Home": {
+        "Plastic": "Plastic",
+        "Aluminium": "Aluminum",
+        "Glass": "Glass",
+        "Options": {
+            "Pickup": "Package pickup",
+            "BagsHistory": "Bag history",
+            "VoucherHistory": "Voucher history",
+            "BagsSeal": "Seal bags",
+            "Settings": "Settings"
+        },
+        "NewVoucher": "Voucher"
+    },
+    "BagsHistory": {
+        "Types": {
+            "Created": "Created",
+            "Picked": "Picked up",
+            "Validated": "Validated",
+            "Suspect": "Suspicious"
+        },
+        "NoEntries": "There are no bags in the history"
+    },
+    "BagsSeal": {
+        "WarningQuantityDialog": {
+            "Title": "Seal Bags",
+            "Subtitle": "You have not reached the maximum quantity, are you sure you want to seal a bag?",
+            "Confirm": "Yes, seal",
+            "Cancel": "No"
+        },
+        "ChooseCategory": "Choose the sealing category",
+        "Quantity": "Sealing quantity",
+        "QuantityPlaceholder": "Enter the sealing quantity",
+        "Seal": "Seal the bag"
+    },
+    "VoucherHistory": {
+        "Types": {
+            "Active": "Active",
+            "Used": "Used",
+            "Expired": "Expired",
+            "Suspect": "Suspicious",
+            "Invalid": "Invalid"
+        },
+        "NoEntries": "There are no vouchers in the history",
+        "Scan": "Scan",
+        "Use": "Use it"
+    }
+}
