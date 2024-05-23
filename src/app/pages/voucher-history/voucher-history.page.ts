@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { PROFILE_KEY } from 'src/app/services/authentication/authentication.service';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
 import { BlePrinterService } from 'src/app/services/ble-printer/ble-printer.service';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class VoucherHistoryPage {
     constructor(private toastService: ToastService,
         private voucherService: VoucherService,
         private router: Router,
-        private blePrinterService: BlePrinterService) { }
+        private blePrinterService: BlePrinterService,
+        private translateService: TranslateService) { }
 
     ionViewDidEnter() {
         this.getVouchers();
@@ -83,9 +85,9 @@ export class VoucherHistoryPage {
         const formatTicket = await this.voucherService.formatTicket(voucher);
         try {
             await this.blePrinterService.print(formatTicket);
-            this.toastService.showToast("Bon reprintat cu succes!", 2000, 'success', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.VoucherReprint'), 2000, 'success', 'bottom');
         } catch {
-            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.isReprinting = false;
     }
@@ -94,9 +96,9 @@ export class VoucherHistoryPage {
         const formatVoucher = await this.voucherService.formatVoucher(voucher);
         try {
             await this.blePrinterService.print(formatVoucher);
-            this.toastService.showToast("Voucher reprintat cu succes!", 2000, 'success', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.VoucherReprint'), 2000, 'success', 'bottom');
         } catch {
-            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.isReprinting = false;
 
@@ -118,7 +120,7 @@ export class VoucherHistoryPage {
     async tryScanBarCode() {
         const granted = await this.requestPermissions();
         if (!granted) {
-            this.toastService.showToast("Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.CameraPermission'), 2000, 'danger', 'bottom');
             return;
         }
 
@@ -183,11 +185,11 @@ export class VoucherHistoryPage {
 
     getVoucherStateText(state: number) {
         switch (state) {
-            case 1: return 'ACTIV';
-            case 2: return 'UTILIZAT';
-            case 3: return 'EXPIRAT';
-            case 4: return 'SUSPECT';
-            case 10: return 'INVALID';
+            case 1: return 'VoucherHistory.Types.Active';
+            case 2: return 'VoucherHistory.Types.Used';
+            case 3: return 'VoucherHistory.Types.Expired';
+            case 4: return 'VoucherHistory.Types.Suspect';
+            case 10: return 'VoucherHistory.Types.Invalid';
             default: return 'N/A';
         }
     }

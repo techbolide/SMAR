@@ -1,0 +1,108 @@
+{
+    "Toast": {
+        "InvalidLogin": "Invalid username or password, please try again!",
+        "ResetPassword": "A temporary password has been sent to the account's email!",
+        "BagSealed": "The bag has been successfully sealed!",
+        "CameraPermission": "Please grant camera permission to use the barcode scanner.",
+        "ProductRegistered": "The product has been successfully registered!",
+        "ProductDeleted": "The product has been successfully deleted!",
+        "CantScanWithoutProducts": "You cannot print this voucher as you have no scanned packages!",
+        "VoucherActivate": "The voucher has been successfully activated!",
+        "VoucherActivateError": "An error occurred while activating the voucher, please try again later!",
+        "VoucherPrint": "Voucher printed successfully!",
+        "VoucherReprint": "Voucher reprinted successfully!",
+        "PrinterError": "An error occurred with the printer, please try again later!",
+        "TicketPrint": "Ticket reprinted successfully!"
+    },
+    "Login": {
+        "Title": "Manual Collection Solution DRS",
+        "Subtitle": "Keep your data safe",
+        "Username": "Username",
+        "UsernamePlaceholder": "Enter your username",
+        "Password": "Password",
+        "Authenticate": "Log in",
+        "Forgot": "Forgot your password?"
+    },
+    "Forgot": {
+        "Title": "Manual Collection Solution DRS",
+        "Subtitle": "Reset your account password",
+        "Username": "Username",
+        "UsernamePlaceholder": "Enter your username",
+        "Sent": "Send password"
+    },
+    "Home": {
+        "Plastic": "Plastic",
+        "Aluminium": "Aluminum",
+        "Glass": "Glass",
+        "Options": {
+            "Pickup": "Package pickup",
+            "BagsHistory": "Bag history",
+            "VoucherHistory": "Voucher history",
+            "BagsSeal": "Seal bags",
+            "Settings": "Settings"
+        },
+        "NewVoucher": "Voucher"
+    },
+    "BagsHistory": {
+        "Types": {
+            "Created": "Created",
+            "Picked": "Picked up",
+            "Validated": "Validated",
+            "Suspect": "Suspicious"
+        },
+        "NoEntries": "There are no bags in the history"
+    },
+    "BagsSeal": {
+        "WarningQuantityDialog": {
+            "Title": "Seal Bags",
+            "Subtitle": "You have not reached the maximum quantity, are you sure you want to seal a bag?",
+            "Confirm": "Yes, seal",
+            "Cancel": "No"
+        },
+        "ChooseCategory": "Choose the sealing category",
+        "Quantity": "Sealing quantity",
+        "QuantityPlaceholder": "Enter the sealing quantity",
+        "Seal": "Seal the bag"
+    },
+    "VoucherHistory": {
+        "Types": {
+            "Active": "Active",
+            "Used": "Used",
+            "Expired": "Expired",
+            "Suspect": "Suspicious",
+            "Invalid": "Invalid"
+        },
+        "NoEntries": "There are no vouchers in the history",
+        "Scan": "Scan",
+        "Use": "Use it"
+    },
+    "NewVoucher": {
+        "ActiveVoucherDialog": {
+            "Title": "Current Voucher",
+            "Subtitle": "You have an active voucher, are you sure you want to cancel it?",
+            "Confirm": "Cancel",
+            "Cancel": "Continue scanning"
+        },
+        "NoProductFoundDialog": {
+            "Title": "Product Not Found",
+            "Subtitle": "Product not found in the database! Do you want to register it?",
+            "Confirm": "Yes, register it",
+            "Cancel": "No"
+        },
+        "DeleteItemDialog": {
+            "Title": "Current Voucher",
+            "Subtitle": "Are you sure you want to delete this item from the list?",
+            "Confirm": "Yes, delete it",
+            "Cancel": "No, continue"
+        },
+        "NewProductBottom": {
+            "Picture": "Picture",
+            "Name": "Product Name",
+            "NamePlaceholder": "Enter the packaging name",
+            "Quantity": "Product Quantity",
+            "QuantityPlaceholder": "Enter the quantity (e.g., 500mL)",
+            "Register": "Register"
+        },
+        "Scan": "Scan"
+    }
+}

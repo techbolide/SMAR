@@ -1,0 +1,108 @@
+{
+    "Toast": {
+        "InvalidLogin": "Nieprawidłowa nazwa użytkownika lub hasło, spróbuj ponownie!",
+        "ResetPassword": "Tymczasowe hasło zostało wysłane na e-mail konta!",
+        "BagSealed": "Worek został pomyślnie uszczelniony!",
+        "CameraPermission": "Proszę udzielić kamery pozwolenia na korzystanie z czytnika kodów kreskowych.",
+        "ProductRegistered": "Produkt został pomyślnie zarejestrowany!",
+        "ProductDeleted": "Produkt został pomyślnie usunięty!",
+        "CantScanWithoutProducts": "Nie możesz wydrukować tego bonu, ponieważ nie masz zeskanowanych opakowań!",
+        "VoucherActivate": "Bon został pomyślnie aktywowany!",
+        "VoucherActivateError": "Wystąpił błąd podczas aktywowania bonu, spróbuj ponownie później!",
+        "VoucherPrint": "Bon pomyślnie wydrukowany!",
+        "VoucherReprint": "Bon pomyślnie wydrukowany ponownie!",
+        "PrinterError": "Wystąpił błąd drukarki, spróbuj ponownie później!",
+        "TicketPrint": "Bon wydrukowany ponownie pomyślnie!"
+    },
+    "Login": {
+        "Title": "Ręczne rozwiązanie do zbierania DRS",
+        "Subtitle": "Chroń swoje dane",
+        "Username": "Nazwa użytkownika",
+        "UsernamePlaceholder": "Wprowadź nazwę użytkownika",
+        "Password": "Hasło",
+        "Authenticate": "Zaloguj się",
+        "Forgot": "Zapomniałeś hasła?"
+    },
+    "Forgot": {
+        "Title": "Ręczne rozwiązanie do zbierania DRS",
+        "Subtitle": "Zresetuj hasło do konta",
+        "Username": "Nazwa użytkownika",
+        "UsernamePlaceholder": "Wprowadź nazwę użytkownika",
+        "Sent": "Wyślij hasło"
+    },
+    "Home": {
+        "Plastic": "Plastik",
+        "Aluminium": "Aluminium",
+        "Glass": "Szkło",
+        "Options": {
+            "Pickup": "Odbiór opakowań",
+            "BagsHistory": "Historia worków",
+            "VoucherHistory": "Historia voucherów",
+            "BagsSeal": "Uszczelnij worki",
+            "Settings": "Ustawienia"
+        },
+        "NewVoucher": "Kupon"
+    },
+    "BagsHistory": {
+        "Types": {
+            "Created": "Utworzony",
+            "Picked": "Odebrany",
+            "Validated": "Zweryfikowany",
+            "Suspect": "Podejrzany"
+        },
+        "NoEntries": "Brak worków w historii"
+    },
+    "BagsSeal": {
+        "WarningQuantityDialog": {
+            "Title": "Zaklej worki",
+            "Subtitle": "Nie osiągnąłeś maksymalnej ilości, czy na pewno chcesz zakleić worek?",
+            "Confirm": "Tak, zaklej",
+            "Cancel": "Nie"
+        },
+        "ChooseCategory": "Wybierz kategorię uszczelniania",
+        "Quantity": "Ilość uszczelniania",
+        "QuantityPlaceholder": "Wprowadź ilość uszczelniania",
+        "Seal": "Zaklej worek"
+    },
+    "VoucherHistory": {
+        "Types": {
+            "Active": "Aktywny",
+            "Used": "Użyty",
+            "Expired": "Wygasły",
+            "Suspect": "Podejrzany",
+            "Invalid": "Nieprawidłowy"
+        },
+        "NoEntries": "Brak voucherów w historii",
+        "Scan": "Skanuj",
+        "Use": "Użyj"
+    },
+    "NewVoucher": {
+        "ActiveVoucherDialog": {
+            "Title": "Aktualny Voucher",
+            "Subtitle": "Masz aktywny voucher, czy na pewno chcesz go anulować?",
+            "Confirm": "Anuluj",
+            "Cancel": "Kontynuuj skanowanie"
+        },
+        "NoProductFoundDialog": {
+            "Title": "Produkt nie znaleziony",
+            "Subtitle": "Produkt nie został znaleziony w bazie danych! Czy chcesz go zarejestrować?",
+            "Confirm": "Tak, zarejestruj",
+            "Cancel": "Nie"
+        },
+        "DeleteItemDialog": {
+            "Title": "Aktualny Voucher",
+            "Subtitle": "Czy na pewno chcesz usunąć ten element z listy?",
+            "Confirm": "Tak, usuń",
+            "Cancel": "Nie, kontynuuj"
+        },
+        "NewProductBottom": {
+            "Picture": "Obraz",
+            "Name": "Nazwa produktu",
+            "NamePlaceholder": "Wprowadź nazwę opakowania",
+            "Quantity": "Ilość produktu",
+            "QuantityPlaceholder": "Wprowadź ilość (np. 500ml)",
+            "Register": "Zarejestruj"
+        },
+        "Scan": "Skanuj"
+    }
+}

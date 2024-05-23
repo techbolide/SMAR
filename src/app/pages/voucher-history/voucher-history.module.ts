@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { VoucherHistoryPageRoutingModule } from './voucher-history-routing.module';
 
 import { VoucherHistoryPage } from './voucher-history.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         IonicModule,
-        VoucherHistoryPageRoutingModule
+        VoucherHistoryPageRoutingModule,
+        TranslateModule
     ],
     declarations: [VoucherHistoryPage]
 })

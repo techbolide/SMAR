@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
+import { TranslateService } from '@ngx-translate/core';
 import { DEBUG_STORAGE, IDebugStorage } from 'src/app/app.component';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
 import { IVoucherActive, IVoucherGetByScan, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/voucher/IVoucher';
@@ -23,7 +24,8 @@ export class VoucherDetailsPage implements OnInit {
         private voucherService: VoucherService,
         private storageService: StorageService,
         private toastService: ToastService,
-        private blePrinterService: BlePrinterService) { }
+        private blePrinterService: BlePrinterService,
+        private translateService: TranslateService) { }
 
     ngOnInit() {
         this.getParams();
@@ -64,9 +66,9 @@ export class VoucherDetailsPage implements OnInit {
         const formatTicket = await this.voucherService.formatTicket(this.currentVoucher);
         try {
             await this.blePrinterService.print(formatTicket);
-            this.toastService.showToast("Bon reprintat cu succes!", 2000, 'success', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.TicketPrint'), 2000, 'success', 'bottom');
         } catch {
-            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.processPrinting = false;
     }
@@ -77,9 +79,9 @@ export class VoucherDetailsPage implements OnInit {
         const formatVoucher = await this.voucherService.formatVoucher(this.currentVoucher);
         try {
             await this.blePrinterService.print(formatVoucher);
-            this.toastService.showToast("Voucher reprintat cu succes!", 2000, 'success', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.VoucherReprint'), 2000, 'success', 'bottom');
         } catch {
-            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.processPrinting = false;
 

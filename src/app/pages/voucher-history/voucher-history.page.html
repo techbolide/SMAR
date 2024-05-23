@@ -4,7 +4,7 @@
             <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
         </ion-buttons>
         <ion-title>
-            Istoric vouchere
+            {{ 'Home.Options.VoucherHistory' | translate }}
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -32,7 +32,7 @@
                             </ion-label>
                             <div class="history__end" slot="end">
                                 <ion-badge [color]="getVoucherStateColor(voucher.State)">
-                                    {{ getVoucherStateText(voucher.State) }}
+                                    {{ getVoucherStateText(voucher.State) | translate }}
                                 </ion-badge>
                                 <p>LEI {{ voucher.Value.toFixed(2) }} </p>
                             </div>
@@ -55,13 +55,13 @@
             <ng-template #no_vouchers>
                 <div class="no__entries">
                     <ion-icon name="sad-outline"></ion-icon>
-                    <h1>Nu există niciun voucher în istoric</h1>
+                    <h1>{{ 'VoucherHistory.NoEntries' | translate }}</h1>
                 </div>
             </ng-template>
 
 
             <ion-button class="scan__add" fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!isSupported">
-                Scanează
+                {{ 'VoucherHistory.Scan' | translate }}
                 <ion-icon slot="end" name="scan-circle"></ion-icon>
             </ion-button>
         </div>

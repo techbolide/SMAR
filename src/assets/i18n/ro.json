@@ -1,0 +1,108 @@
+{
+    "Toast": {
+        "InvalidLogin": "Nume de utilizator sau parolă sunt invalide, încearcă din nou!",
+        "ResetPassword": "O parolă temporară a fost trimisa pe email-ul contului!",
+        "BagSealed": "Sacul a fost sigilat cu succes!",
+        "CameraPermission": "Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.",
+        "ProductRegistered": "Produsul a fost înregistrat cu succes!",
+        "ProductDeleted": "Produsul a fost șters cu succes!",
+        "CantScanWithoutProducts": "Nu puteți printa acest bon deoarece nu aveți ambalaje scanate!",
+        "VoucherActivate": "Bonul a fost activat cu succes!",
+        "VoucherActivateError": "A intervenit o eroare în activarea voucherului, încercați mai tarziu!",
+        "VoucherPrint": "Voucher printat cu succes!",
+        "VoucherReprint": "Voucher reprintat cu succes!",
+        "PrinterError": "A intervenit o eroare în legătura cu printerul, încercați mai tarziu!",
+        "TicketPrint": "Bon reprintat cu succes!"
+    },
+    "Login": {
+        "Title": "Soluție de colectare manuală SGR",
+        "Subtitle": "Pastrează-ți datele în siguranță",
+        "Username": "Nume de utilizator",
+        "UsernamePlaceholder": "Introdu numele de utilizator",
+        "Password": "Parolă",
+        "Authenticate": "Autentificare",
+        "Forgot": "Ți-ai uitat parola?"
+    },
+    "Forgot": {
+        "Title": "Soluție de colectare manuală SGR",
+        "Subtitle": "Resetează-ți parola contului",
+        "Username": "Nume de utilizator",
+        "UsernamePlaceholder": "Introdu numele de utilizator",
+        "Sent": "Trimite parola"
+    },
+    "Home": {
+        "Plastic": "Plastic",
+        "Aluminium": "Aluminiu",
+        "Glass": "Sticla",
+        "Options": {
+            "Pickup": "Ridicare ambalaje",
+            "BagsHistory": "Istoric saci",
+            "VoucherHistory": "Istoric vouchere",
+            "BagsSeal": "Sigilare saci",
+            "Settings": "Setări"
+        },
+        "NewVoucher": "Voucher"
+    },
+    "BagsHistory": {
+        "Types": {
+            "Created": "Creat",
+            "Picked": "Ridicat",
+            "Validated": "Validat",
+            "Suspect": "Suspect"
+        },
+        "NoEntries": "Nu există niciun sac în istoric"
+    },
+    "BagsSeal": {
+        "WarningQuantityDialog": {
+            "Title": "Sigilare saci",
+            "Subtitle": "Nu ați atins cantitatea maxima, sigur doriți să sigilați un sac?",
+            "Confirm": "Da, sigileaza",
+            "Cancel": "Nu"
+        },
+        "ChooseCategory": "Alege categoria de sigilare",
+        "Quantity": "Cantitatea de sigilare",
+        "QuantityPlaceholder": "Introdu cantitatea de sigilare",
+        "Seal": "Sigilează sacul"
+    },
+    "VoucherHistory": {
+        "Types": {
+            "Active": "Activ",
+            "Used": "Utilizat",
+            "Expired": "Expirat",
+            "Suspect": "Suspect",
+            "Invalid": "Invalid"
+        },
+        "NoEntries": "Nu există niciun voucher în istoric",
+        "Scan": "Scanează",
+        "Use": "Utilizează"
+    },
+    "NewVoucher": {
+        "ActiveVoucherDialog": {
+            "Title": "Voucher curent",
+            "Subtitle": "Ai un bon activ, sunteți sigur că doriți ca acesta să fie anulat?",
+            "Confirm": "Anulează",
+            "Cancel": "Continuă scanarea"
+        },
+        "NoProductFoundDialog": {
+            "Title": "Ambalaj negăsit",
+            "Subtitle": "Ambalaj negăsit în baza de date! Doriți să îl înregistrați?",
+            "Confirm": "Da, înregistrează-l",
+            "Cancel": "Nu"
+        },
+        "DeleteItemDialog": {
+            "Title": "Voucher curent",
+            "Subtitle": "Sunteți sigur că doriți să ștergeti acest ambalaj din listă?",
+            "Confirm": "Da, șterge-l",
+            "Cancel": "Nu, continuă"
+        },
+        "NewProductBottom": {
+            "Picture": "Imagine",
+            "Name": "Nume produs",
+            "NamePlaceholder": "Introdu numele ambalajului",
+            "Quantity": "Cantitatea produsului",
+            "QuantityPlaceholder": "Introdu cantitatea (ex: 500mL)",
+            "Register": "Înregistrează"
+        },
+        "Scan": "Scanează"
+    }
+}

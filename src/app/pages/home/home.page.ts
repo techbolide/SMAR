@@ -7,6 +7,7 @@ import { AuthenticationService, PROFILE_KEY } from 'src/app/services/authenticat
 import { PRODUCTS_KEY, ProductService } from 'src/app/services/product/product.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 const INTERVAL_REFRESH = 180000;
 
@@ -17,11 +18,11 @@ const INTERVAL_REFRESH = 180000;
 })
 export class HomePage {
     public availableOptions: IHomeOption[] = [
-        { name: "Ridicare ambalaje", icon: "car", router: '/packaging' },
-        { name: "Istoric saci", icon: "cube", router: '/bag-history' },
-        { name: "Istoric vouchere", icon: "cash", router: '/voucher-history' },
-        { name: "Sigilare saci", icon: "pricetag", router: '/bags-seal' },
-        { name: "Setări", icon: "cog", router: '/settings' },
+        { name: "Home.Options.Pickup", icon: "car", router: '/packaging' },
+        { name: "Home.Options.BagsHistory", icon: "cube", router: '/bag-history' },
+        { name: "Home.Options.VoucherHistory", icon: "cash", router: '/voucher-history' },
+        { name: "Home.Options.BagsSeal", icon: "pricetag", router: '/bags-seal' },
+        { name: "Home.Options.Settings", icon: "cog", router: '/settings' },
     ]
 
     public currentUser: IUser | null = null;
@@ -37,7 +38,8 @@ export class HomePage {
         private authService: AuthenticationService,
         private storageService: StorageService,
         private productService: ProductService,
-        private cdr: ChangeDetectorRef) {
+        private cdr: ChangeDetectorRef,
+        private translateService: TranslateService) {
         this.getUser();
     }
 
@@ -111,10 +113,10 @@ export class HomePage {
 
     async askSeal(route: string) {
         const { value } = await Dialog.confirm({
-            title: "Sigilare saci",
-            message: "Nu ați atins cantitatea maxima, sigur doriți să sigilați?",
-            okButtonTitle: "Da",
-            cancelButtonTitle: "Nu",
+            title: this.translateService.instant('BagsSeal.WarningQuantityDialog.Title'),
+            message: this.translateService.instant('BagsSeal.WarningQuantityDialog.Subtitle'),
+            okButtonTitle: this.translateService.instant('BagsSeal.WarningQuantityDialog.Confirm'),
+            cancelButtonTitle: this.translateService.instant('BagsSeal.WarningQuantityDialog.Cancel'),
         });
 
         if (!value) return;

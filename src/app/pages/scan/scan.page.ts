@@ -21,6 +21,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProductService } from 'src/app/services/product/product.service';
 import { IProduct } from 'src/app/interfaces/product/IProduct';
 import { BlePrinterService } from 'src/app/services/ble-printer/ble-printer.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-scan',
@@ -43,7 +44,8 @@ export class ScanPage implements OnInit {
         private cdr: ChangeDetectorRef,
         private formBuilder: FormBuilder,
         private productService: ProductService,
-        private blePrinterService: BlePrinterService
+        private blePrinterService: BlePrinterService,
+        private translateService: TranslateService
     ) { }
 
     ngOnInit() {
@@ -110,7 +112,7 @@ export class ScanPage implements OnInit {
         if (!this.currentVoucher) return;
         const granted = await this.requestPermissions();
         if (!granted) {
-            this.toastService.showToast("Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.CameraPermission'), 2000, 'danger', 'bottom');
             return;
         }
 
@@ -198,17 +200,17 @@ export class ScanPage implements OnInit {
         };
         this.currentVoucher.items.push(newVoucherItem);
         this.currentVoucher.items.sort((a, b) => b.readDate.getTime() - a.readDate.getTime());
-        this.toastService.showToast('Produsul a fost înregistrat cu succes!', 2000, 'success', 'top');
+        this.toastService.showToast(this.translateService.instant('Toast.ProductRegistered'), 2000, 'success', 'top');
     }
 
     async tryDeleteItemFromVoucher(uniqueID: string) {
         if (!this.currentVoucher) return;
 
         const { value } = await Dialog.confirm({
-            title: "Voucher",
-            message: "Sunteți sigur că doriți să ștergeti acest ambalaj din listă",
-            okButtonTitle: "Da",
-            cancelButtonTitle: "Nu",
+            title: this.translateService.instant('NewVoucher.DeleteItemDialog.Title'),
+            message: this.translateService.instant('NewVoucher.DeleteItemDialog.Subtitle'),
+            okButtonTitle: this.translateService.instant('NewVoucher.DeleteItemDialog.Confirm'),
+            cancelButtonTitle: this.translateService.instant('NewVoucher.DeleteItemDialog.Cancel'),
         });
 
         if (!value) return;
@@ -223,7 +225,7 @@ export class ScanPage implements OnInit {
         if(!findItem) return;
 
         this.currentVoucher.items = this.currentVoucher.items.filter(x=> x.uniqueID !== findItem.uniqueID);
-        this.toastService.showToast('Produsul a fost șters cu succes!', 2000, 'success', 'top');
+        this.toastService.showToast(this.translateService.instant('Toast.ProductDeleted'), 2000, 'success', 'top');
     }
 
     async requestPermissions() {
@@ -247,7 +249,7 @@ export class ScanPage implements OnInit {
         if (!this.currentVoucher || this.processPrinting) return;
 
         if (this.getTotal() <= 0) {
-            this.toastService.showToast("Nu puteți printa acest bon deoarece nu aveți ambalaje scanate!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.CantScanWithoutProducts'), 2000, 'danger', 'bottom');
             return;
         }
 
@@ -274,7 +276,7 @@ export class ScanPage implements OnInit {
 
                     if (res.State === 1) {
                         this.currentVoucher.state = res.State;
-                        this.toastService.showToast("Bonul a fost activat cu succes!", 1000, 'success', 'bottom');
+                        this.toastService.showToast(this.translateService.instant('Toast.VoucherActivate'), 1000, 'success', 'bottom');
                     }
 
                     setTimeout(() => {
@@ -283,7 +285,7 @@ export class ScanPage implements OnInit {
                 },
                 error: (err) => {
                     console.log(err);
-                    this.toastService.showToast("A intervenit o eroare în activarea voucherului, încercați mai tarziu!", 2000, 'danger', 'bottom');
+                    this.toastService.showToast(this.translateService.instant('Toast.VoucherActivateError'), 2000, 'danger', 'bottom');
                     this.processPrinting = false;
                     this.cdr.detectChanges();
                 }
@@ -314,12 +316,12 @@ export class ScanPage implements OnInit {
         const formatVoucher = await this.voucherService.formatVoucher(voucherReceived);
         try {
             await this.blePrinterService.print(formatVoucher);
-            this.toastService.showToast("Voucher printat cu succes!", 2000, 'success', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.VoucherPrint'), 2000, 'success', 'bottom');
             setTimeout(() => {
                 this.router.navigateByUrl('/home', { replaceUrl: true });
             }, 500);
         } catch {
-            this.toastService.showToast("A intervenit o eroare în legătura cu printerul, încercați mai tarziu!", 2000, 'danger', 'bottom');
+            this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.processPrinting = false;
         this.cdr.detectChanges();
@@ -333,10 +335,10 @@ export class ScanPage implements OnInit {
 
     async noProductFound(eanCode: string) {
         const { value } = await Dialog.confirm({
-            title: "Ambalaj negăsit",
-            message: "Ambalaj negăsit în baza de date! Doriți să îl înregistrați?",
-            okButtonTitle: "Da",
-            cancelButtonTitle: "Nu",
+            title: this.translateService.instant('NewVoucher.NoProductFoundDialog.Title'),
+            message: this.translateService.instant('NewVoucher.NoProductFoundDialog.Subtitle'),
+            okButtonTitle: this.translateService.instant('NewVoucher.NoProductFoundDialog.Confirm'),
+            cancelButtonTitle: this.translateService.instant('NewVoucher.NoProductFoundDialog.Cancel'),
         });
 
         if (!value) return;
@@ -452,10 +454,10 @@ export class ScanPage implements OnInit {
         }
 
         const { value } = await Dialog.confirm({
-            title: "Voucher",
-            message: "Ai un bon activ, sunteți sigur că doriți ca acesta să fie anulat?",
-            okButtonTitle: "Anulează",
-            cancelButtonTitle: "Continuă scanarea",
+            title: this.translateService.instant('NewVoucher.ActiveVoucherDialog.Title'),
+            message: this.translateService.instant('NewVoucher.ActiveVoucherDialog.Subtitle'),
+            okButtonTitle: this.translateService.instant('NewVoucher.ActiveVoucherDialog.Confirm'),
+            cancelButtonTitle: this.translateService.instant('NewVoucher.ActiveVoucherDialog.Cancel'),
         });
 
         if (!value) return;

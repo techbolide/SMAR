@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ISealBag } from 'src/app/interfaces/bag/IBag';
 import { BagService } from 'src/app/services/bag/bag.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -17,7 +18,10 @@ export class BagsSealPage {
     public glassQuantity: number = 0;
 
     public loadingSeal: boolean = false;
-    constructor(private bagService: BagService, private toastService: ToastService, private router: Router) { }
+    constructor(private bagService: BagService,
+        private toastService: ToastService,
+        private router: Router,
+        private translateService: TranslateService) { }
 
     resetForm() {
         this.plasticQuantity = 0;
@@ -46,7 +50,7 @@ export class BagsSealPage {
 
             this.bagService.sealBag(model).subscribe({
                 next: (res) => {
-                    this.toastService.showToast("Sacul a fost sigilat cu succes!", 2000, 'success', 'bottom');
+                    this.toastService.showToast(this.translateService.instant('Toast.BagSealed'), 2000, 'success', 'bottom');
                     this.resetForm();
 
                     setTimeout(() => {

@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'src/app/services/authentication/authentication.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
 
@@ -16,7 +17,8 @@ export class LoginPage implements OnInit {
         private formBuilder: FormBuilder,
         private authService: AuthenticationService,
         private toastService: ToastService,
-        private cdr: ChangeDetectorRef) { }
+        private cdr: ChangeDetectorRef,
+        private translateService: TranslateService) { }
 
     ngOnInit() {
         this.initValidators();
@@ -46,7 +48,7 @@ export class LoginPage implements OnInit {
                     this.initValidators();
                     this.isLogging = false;
                     this.cdr.detectChanges();
-                    this.toastService.showToast("Nume de utilizator sau parolă sunt invalide, încearcă din nou!", 2000, 'danger', 'bottom');
+                    this.toastService.showToast(this.translateService.instant('Toast.InvalidLogin'), 2000, 'danger', 'bottom');
                     console.log(err);
                 }
             });

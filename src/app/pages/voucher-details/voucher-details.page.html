@@ -37,21 +37,21 @@
                 <div class="scan__top__item">
                     <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
                     <div>
-                        <h1>Plastic</h1>
+                        <h1>{{ 'Home.Plastic' | translate }}</h1>
                         <p>x{{ currentVoucher.PlasticCount }}</p>
                     </div>
                 </div>
                 <div class="scan__top__item">
                     <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
                     <div>
-                        <h1>Aluminiu</h1>
+                        <h1>{{ 'Home.Aluminium' | translate }}</h1>
                         <p>x{{ currentVoucher.AluminiumCount }}</p>
                     </div>
                 </div>
                 <div class="scan__top__item">
                     <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
                     <div>
-                        <h1>Sticla</h1>
+                        <h1>{{ 'Home.Glass' | translate }}</h1>
                         <p>x{{ currentVoucher.GlassCount }}</p>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
         </div>
 
         <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher.State === 1" (click)="useVoucher()">
-            Utilizează
+            {{ 'VoucherHistory.Use' | translate }}
             <ion-icon slot="end" name="checkmark-circle"></ion-icon>
         </ion-button>
     </div>

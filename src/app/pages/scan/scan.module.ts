@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ScanPageRoutingModule } from './scan-routing.module';
 
 import { ScanPage } from './scan.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { ScanPage } from './scan.page';
         FormsModule,
         IonicModule,
         ScanPageRoutingModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        TranslateModule
     ],
     declarations: [ScanPage],
 })

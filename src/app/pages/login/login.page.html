@@ -5,18 +5,18 @@
 
         <!-- Title -->
         <div class="login__title">
-            <h1>Soluție de colectare manuală SGR</h1>
-            <p>Pastrează-ți datele în siguranță</p>
+            <h1>{{ 'Login.Title' | translate }}</h1>
+            <p>{{ 'Login.Subtitle' | translate }}</p>
         </div>
 
         <!-- Form -->
         <form [formGroup]="loginForm">
             <ion-item mode="ios">
-                <ion-input inputmode="text" label="Nume de utilizator" formControlName="username" label-placement="stacked" type="text" required spellcheck="false" placeholder="Introdu numele de utilizator" fill="solid"></ion-input>
+                <ion-input inputmode="text" label="{{ 'Login.Username' | translate }}" formControlName="username" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'Login.UsernamePlaceholder' | translate }}" fill="solid"></ion-input>
                 <ion-icon name="person" slot="end"></ion-icon>
             </ion-item>
             <ion-item mode="ios">
-                <ion-input label="Parolă" label-placement="stacked" type="password" formControlName="password" required spellcheck="false" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" fill="solid"></ion-input>
+                <ion-input label="{{ 'Login.Password' | translate }}" label-placement="stacked" type="password" formControlName="password" required spellcheck="false" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" fill="solid"></ion-input>
                 <ion-icon name="key" slot="end"></ion-icon>
             </ion-item>
         </form>
@@ -28,10 +28,12 @@
                     <ion-spinner name="lines"></ion-spinner>
                 </ng-container>
                 <ng-template #show_button>
-                    Autentificare
+                    {{ 'Login.Authenticate' | translate }}
                 </ng-template>
             </ion-button>
-            <p routerLink="/reset-password">Ți-ai uitat parola?</p>
+            <p routerLink="/reset-password">
+                {{ 'Login.Forgot' | translate }}
+            </p>
         </div>
 
     </div>
