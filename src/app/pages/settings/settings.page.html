@@ -10,5 +10,61 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+    <ng-container *ngIf="loadingSettings; else show_settings">
+        <div class="loading__page">
+            <ion-spinner name="lines"></ion-spinner>
+        </div>
+    </ng-container>
+    <ng-template #show_settings>
+        <div class="settings__content">
+            <ion-list>
+                <ion-item button (click)="chooseLanguage()">
+                    <ion-avatar aria-hidden="true" slot="end" *ngIf="currentLanguage">
+                        <img alt="Flag" [src]="'./assets/flags/' + currentLanguage + '.svg'" />
+                    </ion-avatar>
+                    <ion-label>
+                        <h3>{{ 'Settings.Language.Title' | translate }}</h3>
+                        <p>{{ 'Settings.Language.Subtitle' | translate }}</p>
+                    </ion-label>
+                </ion-item>
+                <ion-item button *ngIf="currentSettings">
+                    <ion-toggle [checked]="currentSettings.AllowNotifications" (ionChange)="notifications($event)">
+                        <ion-label>
+                            <h3>{{ 'Settings.Notifications.Title' | translate }}</h3>
+                            <p>{{ 'Settings.Notifications.Subtitle' | translate }}</p>
+                        </ion-label>
+                    </ion-toggle>
+                </ion-item>
+            </ion-list>
 
+            <ion-list class="settings" *ngIf="currentSettings">
+                <ion-item mode="ios">
+                    <ion-input inputmode="text" [(ngModel)]="currentSettings.Header" label="{{ 'Settings.Header.Title' | translate }}" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'Settings.Header.Placeholder' | translate }}" fill="solid"></ion-input>
+                    <ion-icon name="person" slot="end"></ion-icon>
+                </ion-item>
+                <ion-item mode="ios">
+                    <ion-input inputmode="text" [(ngModel)]="currentSettings.Subheader" label="{{ 'Settings.SubHeader.Title' | translate }}" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'Settings.SubHeader.Placeholder' | translate }}" fill="solid"></ion-input>
+                    <ion-icon name="person" slot="end"></ion-icon>
+                </ion-item>
+                <ion-item mode="ios">
+                    <ion-input inputmode="text" [(ngModel)]="currentSettings.Footer" label="{{ 'Settings.Footer.Title' | translate }}" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'Settings.Footer.Placeholder' | translate }}" fill="solid"></ion-input>
+                    <ion-icon name="person" slot="end"></ion-icon>
+                </ion-item>
+                <ion-item mode="ios">
+                    <ion-input inputmode="text" [(ngModel)]="currentSettings.Subfooter" label="{{ 'Settings.SubFooter.Title' | translate }}" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'Settings.SubFooter.Placeholder' | translate }}" fill="solid"></ion-input>
+                    <ion-icon name="person" slot="end"></ion-icon>
+                </ion-item>
+                <ion-item mode="ios">
+                    <ion-input inputmode="text" [(ngModel)]="currentSettings.PrinterIdentifier" label="{{ 'Settings.Printer.Title' | translate }}" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'Settings.Printer.Placeholder' | translate }}" fill="solid"></ion-input>
+                    <ion-icon name="person" slot="end"></ion-icon>
+                </ion-item>
+            </ion-list>
+
+            <ion-button fill="solid" color="primary" (click)="saveDetails()">
+                {{ 'Settings.Save' | translate }}
+                <ion-icon slot="end" name="checkmark-done"></ion-icon>
+            </ion-button>
+        </div>
+
+    </ng-template>
 </ion-content>

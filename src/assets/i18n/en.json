@@ -104,5 +104,40 @@
             "Register": "Register"
         },
         "Scan": "Scan"
+    },
+    "Settings": {
+        "Language": {
+            "Title": "Language",
+            "Subtitle": "Select your preferred language"
+        },
+        "Notifications": {
+            "Title": "Allow Notifications",
+            "Subtitle": "Unsubscribe at any time",
+            "Enable": "Notifications are now enabled. The application will send you periodic updates.",
+            "Disable": "Notifications are now disabled. The application will no longer send you updates."
+        },
+        "Header": {
+            "Title": "Title",
+            "Placeholder": "Enter the title"
+        },
+        "SubHeader": {
+            "Title": "Subtitle",
+            "Placeholder": "Enter the subtitle"
+        },
+        "Footer": {
+            "Title": "Footer",
+            "Placeholder": "Enter the footer"
+        },
+        "SubFooter": {
+            "Title": "Subfooter",
+            "Placeholder": "Enter the subfooter"
+        },
+        "Printer": {
+            "Title": "Printer Connection",
+            "Placeholder": "Enter the printer connection address"
+        },
+        "Save": "Save details",
+        "Cancel": "Cancel",
+        "SaveSuccess": "Details saved successfully. Changes have been applied."
     }
 }

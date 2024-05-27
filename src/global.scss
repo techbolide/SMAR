@@ -82,3 +82,16 @@
 ion-content {
     --background: #F3F3F3;
 }
+
+.loading__page {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+
+    ion-spinner {
+        width: 28px;
+        height: 28px;
+        opacity: 0.5;
+    }
+}

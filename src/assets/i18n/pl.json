@@ -104,5 +104,40 @@
             "Register": "Zarejestruj"
         },
         "Scan": "Skanuj"
+    },
+    "Settings": {
+        "Language": {
+            "Title": "Język",
+            "Subtitle": "Wybierz preferowany język"
+        },
+        "Notifications": {
+            "Title": "Zezwól na powiadomienia",
+            "Subtitle": "Zrezygnuj w dowolnym momencie",
+            "Enable": "Powiadomienia są teraz włączone. Aplikacja będzie wysyłać Ci okresowe powiadomienia.",
+            "Disable": "Powiadomienia są teraz wyłączone. Aplikacja nie będzie już wysyłać powiadomień."
+        },
+        "Header": {
+            "Title": "Tytuł",
+            "Placeholder": "Wprowadź tytuł"
+        },
+        "SubHeader": {
+            "Title": "Podtytuł",
+            "Placeholder": "Wprowadź podtytuł"
+        },
+        "Footer": {
+            "Title": "Stopka",
+            "Placeholder": "Wprowadź stopkę"
+        },
+        "SubFooter": {
+            "Title": "Podstopka",
+            "Placeholder": "Wprowadź podstopkę"
+        },
+        "Printer": {
+            "Title": "Połączenie z drukarką",
+            "Placeholder": "Wprowadź adres połączenia z drukarką"
+        },
+        "Save": "Zapisz szczegóły",
+        "Cancel": "Anuluj",
+        "SaveSuccess": "Szczegóły zostały pomyślnie zapisane. Zmiany zostały zastosowane."
     }
 }

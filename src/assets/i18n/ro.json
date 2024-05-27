@@ -104,5 +104,40 @@
             "Register": "Înregistrează"
         },
         "Scan": "Scanează"
+    },
+    "Settings": {
+        "Language": {
+            "Title": "Limbă",
+            "Subtitle": "Selectați limba preferată"
+        },
+        "Notifications": {
+            "Title": "Permiteți notificările",
+            "Subtitle": "Dezabonați-vă în orice moment",
+            "Enable": "Notificările sunt acum activate. Aplicația vă va trimite notificări periodice.",
+            "Disable": "Notificările sunt acum dezactivate. Aplicația nu vă va mai trimite notificări."
+        },
+        "Header": {
+            "Title": "Titlu",
+            "Placeholder": "Introduceți titlul"
+        },
+        "SubHeader": {
+            "Title": "Subtitlu",
+            "Placeholder": "Introduceți subtitlul"
+        },
+        "Footer": {
+            "Title": "Subsol",
+            "Placeholder": "Introduceți subsolul"
+        },
+        "SubFooter": {
+            "Title": "Subsubsol",
+            "Placeholder": "Introduceți subsubsolul"
+        },
+        "Printer": {
+            "Title": "Conectare imprimantă",
+            "Placeholder": "Introduceți adresa de conectare a imprimantei"
+        },
+        "Save": "Salvează detalii",
+        "Cancel": "Anulează",
+        "SaveSuccess": "Detaliile au fost salvate cu succes. Modificările au fost aplicate."
     }
 }

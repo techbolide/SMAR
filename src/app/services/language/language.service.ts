@@ -4,6 +4,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
+import { ILanguageNames } from 'src/app/interfaces/language/ILanguageNames';
 
 export const LANGUAGE_KEY = 'smar_language';
 
@@ -11,9 +12,17 @@ export const LANGUAGE_KEY = 'smar_language';
     providedIn: 'root'
 })
 export class LanguageService {
-    public availableLanguages: string[] = ['ro', 'en'];
+    public availableLanguages: string[] = ['ro', 'en', 'pl'];
     public currentLanguage: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
     public currentLocale: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+
+    private languageNames: ILanguageNames = {
+        ro: 'Română',
+        en: 'English',
+        pl: 'Polski'
+    };
+
+
     constructor(public translate: TranslateService, private storageService: StorageService, private http: HttpClient) { }
 
     async initialize() {
@@ -52,5 +61,9 @@ export class LanguageService {
 
     getLanguage() {
         return this.currentLanguage;
+    }
+
+    getLocalizedLanguageName(langCode: string): string {
+        return this.languageNames[langCode] || langCode;
     }
 }

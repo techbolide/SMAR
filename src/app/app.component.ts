@@ -11,6 +11,7 @@ export interface IDebugStorage {
     Footer: string;
     Subfooter: string;
     PrinterIdentifier: string;
+    AllowNotifications: boolean;
 }
 
 @Component({
@@ -39,13 +40,16 @@ export class AppComponent {
     }
 
     async debugStorage() {
+        const storageDataParsed = await this.storageService.getDebugStorage();
+        if(storageDataParsed) return;
+
         const debugStorage: IDebugStorage = {
-            Header: 'Piata lui Andrei, nr. 9',
-            Subheader: 'Str. Principala, nr 18, Tatarani, com. Romanesti',
-            Footer: ' ',
-            Subfooter: ' ',
-            // PrinterIdentifier: '57:4C:54:02:CA:0C' -- stef
-            PrinterIdentifier: '57:4C:54:02:97:6E' // -- vali
+            Header: 'Kaufland Kraków-Dębniki, Kapel',
+            Subheader: 'Kapelanka 54, 30-349 Kraków, Poland',
+            Footer: '',
+            Subfooter: '',
+            AllowNotifications: true,
+            PrinterIdentifier: '57:4C:54:02:97:6E'
         }
         await this.storageService.setStorageKey(DEBUG_STORAGE, JSON.stringify(debugStorage));
     }
