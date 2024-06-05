@@ -96,10 +96,21 @@ export class SettingsPage {
                 action: lang,
             },
             handler: () => {
-                this.languageService.setLanguage(lang);
+                this.changeLanguage(lang);
             }
         }));
 
         return buttons;
+    }
+
+    async changeLanguage(language: string) {
+        if(this.currentLanguage === language) {
+            this.toastService.showToast(this.translateService.instant('Settings.Language.Same'), 1000, 'danger', 'bottom');
+            return;
+        }
+        await this.languageService.setLanguage(language);
+        setTimeout(() => {
+            this.toastService.showToast(this.translateService.instant('Settings.Language.Success'), 1500, 'success', 'bottom');
+        }, 250);
     }
 }
