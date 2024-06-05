@@ -70,6 +70,7 @@
             "Used": "Użyty",
             "Expired": "Wygasły",
             "Suspect": "Podejrzany",
+            "Cash": "Gotówka",
             "Invalid": "Nieprawidłowy"
         },
         "NoEntries": "Brak voucherów w historii",
@@ -103,12 +104,19 @@
             "QuantityPlaceholder": "Wprowadź ilość (np. 500ml)",
             "Register": "Zarejestruj"
         },
+        "ModalType": {
+            "Title": "Wybierz rodzaj zwrotu",
+            "Cash": "Gotówka",
+            "Voucher": "Bon"
+        },
         "Scan": "Skanuj"
     },
     "Settings": {
         "Language": {
             "Title": "Język",
-            "Subtitle": "Wybierz preferowany język"
+            "Subtitle": "Wybierz preferowany język",
+            "Same": "Ten język jest już ustawiony na tym koncie!",
+            "Success": "Pomyślnie zmieniłeś język aplikacji!"
         },
         "Notifications": {
             "Title": "Zezwól na powiadomienia",

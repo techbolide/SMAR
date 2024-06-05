@@ -1,5 +1,3 @@
-
-
 <ng-container *ngIf="currentVoucher; else show_loading">
     <ion-header class="ion-no-border" mode="md">
         <ion-toolbar class="topToolbar" color="primary" mode="md">
@@ -16,9 +14,18 @@
                     <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
                 </ng-container>
                 <ng-template #try_print>
-                    <ion-button (click)="tryPrint()">
-                        <ion-icon slot="icon-only" name="print"></ion-icon>
-                    </ion-button>
+                    <ng-container *ngIf="currentVoucher.state === -1; else show_print">
+                        <ion-button (click)="openVoucherModal()">
+                            <ion-icon slot="icon-only" name="checkmark-done-circle"></ion-icon>
+                        </ion-button>
+                    </ng-container>
+                    <ng-template #show_print>
+                        <ng-container *ngIf="currentVoucher.state === 1">
+                            <ion-button (click)="tryPrint('voucher')">
+                                <ion-icon slot="icon-only" name="print"></ion-icon>
+                            </ion-button>
+                        </ng-container>
+                    </ng-template>
                 </ng-template>
 
             </ion-buttons>
@@ -78,7 +85,8 @@
                             <ion-text slot="end">{{ voucherItem.readDate | date: 'HH:mm:ss' }}</ion-text>
                         </ion-item>
                         <ion-item-options slot="end">
-                            <ion-item-option color="danger" expandable="true" (click)="tryDeleteItemFromVoucher(voucherItem.uniqueID)">
+                            <ion-item-option color="danger" expandable="true"
+                                (click)="tryDeleteItemFromVoucher(voucherItem.uniqueID)">
                                 <ion-icon slot="icon-only" name="trash"></ion-icon>
                             </ion-item-option>
                         </ion-item-options>
@@ -86,11 +94,39 @@
                 </ion-list>
             </div>
 
-            <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher.state !== 1" (click)="tryScanBarCode()" [disabled]="!isSupported">
+            <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher.state !== 1"
+                (click)="tryScanBarCode()" [disabled]="!isSupported">
                 {{ 'NewVoucher.Scan' | translate }}
                 <ion-icon slot="end" name="scan-circle"></ion-icon>
             </ion-button>
         </div>
+
+        <ion-modal id="voucher-modal" #voucherModal>
+            <ng-template>
+                <div class="wrapper">
+                    <h1>
+                        {{ 'NewVoucher.ModalType.Title' | translate }}
+                    </h1>
+
+                    <div class="wrapper_buttons">
+                        <div class="wrapper_button ion-activatable" (click)="tryPrint('cash')">
+                            <ion-ripple-effect></ion-ripple-effect>
+                            <ion-icon name="cash-outline"></ion-icon>
+                            <h1>
+                                {{ 'NewVoucher.ModalType.Cash' | translate }}
+                            </h1>
+                        </div>
+                        <div class="wrapper_button ion-activatable" (click)="tryPrint('voucher')">
+                            <ion-ripple-effect></ion-ripple-effect>
+                            <ion-icon name="ticket-outline"></ion-icon>
+                            <h1>
+                                {{ 'NewVoucher.ModalType.Voucher' | translate }}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </ion-modal>
     </ion-content>
 </ng-container>
 
@@ -107,18 +143,25 @@
         <div class="register__product">
 
             <form [formGroup]="registerProduct">
-                <div class="register__product__image" *ngFor="let registerProductImage of registerProductImages; let i = index;">
+                <div class="register__product__image"
+                    *ngFor="let registerProductImage of registerProductImages; let i = index;">
                     <h1>{{ 'NewVoucher.NewProductBottom.Picture' | translate }} {{ i + 1 }}</h1>
-                    <ion-button [color]="registerProductImage.length > 0 ? 'danger' : 'primary'" (click)="markAction(i)">
-                        <ion-icon slot="icon-only" [name]="registerProductImage.length > 0 ? 'close-circle' : 'camera'"></ion-icon>
+                    <ion-button [color]="registerProductImage.length > 0 ? 'danger' : 'primary'"
+                        (click)="markAction(i)">
+                        <ion-icon slot="icon-only"
+                            [name]="registerProductImage.length > 0 ? 'close-circle' : 'camera'"></ion-icon>
                     </ion-button>
                 </div>
                 <ion-item>
-                    <ion-input inputmode="text" label="{{ 'NewVoucher.NewProductBottom.Name' | translate }}" formControlName="name" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'NewVoucher.NewProductBottom.NamePlaceholder' | translate }}"></ion-input>
+                    <ion-input inputmode="text" label="{{ 'NewVoucher.NewProductBottom.Name' | translate }}"
+                        formControlName="name" label-placement="stacked" type="text" required spellcheck="false"
+                        placeholder="{{ 'NewVoucher.NewProductBottom.NamePlaceholder' | translate }}"></ion-input>
                     <ion-icon name="pricetag-outline" slot="end"></ion-icon>
                 </ion-item>
                 <ion-item>
-                    <ion-input inputmode="text" label="{{ 'NewVoucher.NewProductBottom.Quantity' | translate }}" formControlName="volume" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'NewVoucher.NewProductBottom.QuantityPlaceholder' | translate }}"></ion-input>
+                    <ion-input inputmode="text" label="{{ 'NewVoucher.NewProductBottom.Quantity' | translate }}"
+                        formControlName="volume" label-placement="stacked" type="text" required spellcheck="false"
+                        placeholder="{{ 'NewVoucher.NewProductBottom.QuantityPlaceholder' | translate }}"></ion-input>
                     <ion-icon name="cube-outline" slot="end"></ion-icon>
                 </ion-item>
                 <ion-radio-group formControlName="productCategoryId">
@@ -127,7 +170,8 @@
                     <ion-radio value="3">{{ 'Home.Glass' | translate }}</ion-radio>
                 </ion-radio-group>
 
-                <ion-button class="register__product__button" fill="solid" color="primary" (click)="registerNewProduct()" [disabled]="!canRegisterNewProduct()">
+                <ion-button class="register__product__button" fill="solid" color="primary"
+                    (click)="registerNewProduct()" [disabled]="!canRegisterNewProduct()">
                     {{ 'NewVoucher.NewProductBottom.Register' | translate }}
                 </ion-button>
             </form>

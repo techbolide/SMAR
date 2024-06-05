@@ -178,6 +178,7 @@ export class VoucherHistoryPage {
             case 2: return 'warning';
             case 3: return 'danger';
             case 4: return 'danger';
+            case 5: return 'secondary';
             case 10: return 'danger';
             default: return 'dark';
         }
@@ -189,6 +190,7 @@ export class VoucherHistoryPage {
             case 2: return 'VoucherHistory.Types.Used';
             case 3: return 'VoucherHistory.Types.Expired';
             case 4: return 'VoucherHistory.Types.Suspect';
+            case 5: return 'VoucherHistory.Types.Cash';
             case 10: return 'VoucherHistory.Types.Invalid';
             default: return 'N/A';
         }

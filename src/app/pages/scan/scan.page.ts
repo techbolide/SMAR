@@ -30,6 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ScanPage implements OnInit {
     @ViewChild('registerProductModal', { static: true }) registerProductModal!: IonModal;
+    @ViewChild('voucherModal', { static: false }) voucherModal!: IonModal;
     public isSupported = false;
     public currentVoucher: IVoucher | null = null;
     public processPrinting: boolean = false;
@@ -245,54 +246,65 @@ export class ScanPage implements OnInit {
         return this.currentVoucher.items.filter(x => x.type === type).length;
     }
 
-    tryPrint() {
-        if (!this.currentVoucher || this.processPrinting) return;
+    tryPrint(type: string) {
+        if (!this.currentVoucher) return;
 
-        if (this.getTotal() <= 0) {
-            this.toastService.showToast(this.translateService.instant('Toast.CantScanWithoutProducts'), 2000, 'danger', 'bottom');
+        this.voucherModal.dismiss();
+        this.processPrinting = true;
+
+
+        if (this.currentVoucher.state === 1) {
+            this.printVoucher();
             return;
         }
 
-        this.processPrinting = true;
-
-        if (this.currentVoucher.state === 1) this.printVoucher();
-        else {
-
-            const modelSent: IVoucherActive = {
-                Code: this.currentVoucher.code,
-                PlasticCount: this.getItemsCount(1),
-                AluminiumCount: this.getItemsCount(2),
-                GlassCount: this.getItemsCount(3),
-                Items: this.currentVoucher.items
-            }
-
-            this.voucherService.activateVoucher(modelSent).subscribe({
-                next: (res) => {
-                    if (!this.currentVoucher) {
-                        this.processPrinting = false;
-                        this.cdr.detectChanges();
-                        return;
-                    }
-
-                    if (res.State === 1) {
-                        this.currentVoucher.state = res.State;
-                        this.toastService.showToast(this.translateService.instant('Toast.VoucherActivate'), 1000, 'success', 'bottom');
-                    }
-
-                    setTimeout(() => {
-                        this.printVoucher();
-                    }, 1000);
-                },
-                error: (err) => {
-                    console.log(err);
-                    this.toastService.showToast(this.translateService.instant('Toast.VoucherActivateError'), 2000, 'danger', 'bottom');
-                    this.processPrinting = false;
-                    this.cdr.detectChanges();
-                }
-            });
+        if(this.currentVoucher.state === 5 && type === 'cash') {
+            this.router.navigateByUrl('/home', { replaceUrl: true });
+            return;
         }
 
+        const modelSent: IVoucherActive = {
+            Code: this.currentVoucher.code,
+            PlasticCount: this.getItemsCount(1),
+            AluminiumCount: this.getItemsCount(2),
+            GlassCount: this.getItemsCount(3),
+            Items: this.currentVoucher.items,
+            Type: type
+        }
 
+        this.voucherService.activateVoucher(modelSent).subscribe({
+            next: (res) => {
+                if (!this.currentVoucher) {
+                    this.processPrinting = false;
+                    this.cdr.detectChanges();
+                    return;
+                }
+
+                this.currentVoucher.state = res.State;
+                this.toastService.showToast(this.translateService.instant('Toast.VoucherActivate'), 1000, 'success', 'bottom');
+
+                if(this.currentVoucher.state === 1) setTimeout(() => { this.printVoucher(); }, 1000);
+                else if(this.currentVoucher.state === 5) setTimeout(() => { this.router.navigateByUrl('/home', { replaceUrl: true }); }, 1000);
+            },
+            error: (err) => {
+                console.log(err);
+                this.toastService.showToast(this.translateService.instant('Toast.VoucherActivateError'), 2000, 'danger', 'bottom');
+                this.processPrinting = false;
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
+    openVoucherModal() {
+        if(this.processPrinting)
+            return;
+
+        // if (this.getTotal() <= 0) {
+        //     this.toastService.showToast(this.translateService.instant('Toast.CantScanWithoutProducts'), 2000, 'danger', 'bottom');
+        //     return;
+        // }
+
+        this.voucherModal.present();
     }
 
     async printVoucher() {
@@ -448,7 +460,7 @@ export class ScanPage implements OnInit {
     async tryGoBack() {
         if (!this.currentVoucher) return;
 
-        if (this.currentVoucher.state === 1) {
+        if (this.currentVoucher.state === 1 || this.currentVoucher.state === 5) {
             this.router.navigateByUrl('/home', { replaceUrl: true });
             return;
         }

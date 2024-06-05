@@ -215,3 +215,50 @@ ion-content {
 ion-modal {
     --height: auto;
 }
+
+ion-modal#voucher-modal {
+    --width: fit-content;
+    --min-width: 250px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#voucher-modal h1 {
+    margin: 20px 20px 10px 20px;
+    font-size: 24px;
+}
+
+ion-modal#voucher-modal .wrapper_buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+ion-modal#voucher-modal .wrapper_button {
+    width: 125px;
+    height: 125px;
+    background: linear-gradient(271deg, rgba(153, 38, 247, 0.2) 2.62%, rgba(0, 0, 0, 0.08) 96.83%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+ion-modal#voucher-modal .wrapper_button h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+ion-modal#voucher-modal .wrapper_button ion-icon {
+    font-size: 32px;
+}
+
+ion-modal#voucher-modal .wrapper {
+    margin-bottom: 10px;
+}

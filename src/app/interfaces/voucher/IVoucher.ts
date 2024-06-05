@@ -78,6 +78,7 @@ export interface IVoucherActive {
     AluminiumCount: number;
     GlassCount: number;
     Items: IVoucherItem[];
+    Type: string;
 }
 
 export interface IVoucherGetByScan

@@ -38,14 +38,16 @@
                             </div>
                         </ion-item>
                         <ion-item-options slot="end">
-                            <ion-item-option color="tertiary" [expandable]="voucher.State === 1 || voucher.State === 2" (click)="reprint(voucher)" [disabled]="voucher.State !== 1 && voucher.State !== 2">
-                                <ng-container *ngIf="isReprinting; else show_print">
-                                    <ion-spinner name="lines"></ion-spinner>
-                                </ng-container>
-                                <ng-template #show_print>
-                                    <ion-icon slot="icon-only" name="print"></ion-icon>
-                                </ng-template>
-                            </ion-item-option>
+                            @if(voucher.State === 1 || voucher.State === 2) {
+                                <ion-item-option color="tertiary" (click)="reprint(voucher)">
+                                    <ng-container *ngIf="isReprinting; else show_print">
+                                        <ion-spinner name="lines"></ion-spinner>
+                                    </ng-container>
+                                    <ng-template #show_print>
+                                        <ion-icon slot="icon-only" name="print"></ion-icon>
+                                    </ng-template>
+                                </ion-item-option>
+                            }
                         </ion-item-options>
                     </ion-item-sliding>
 

@@ -70,6 +70,7 @@
             "Used": "Utilizat",
             "Expired": "Expirat",
             "Suspect": "Suspect",
+            "Cash": "Cash",
             "Invalid": "Invalid"
         },
         "NoEntries": "Nu există niciun voucher în istoric",
@@ -103,12 +104,19 @@
             "QuantityPlaceholder": "Introdu cantitatea (ex: 500mL)",
             "Register": "Înregistrează"
         },
+        "ModalType": {
+            "Title": "Alege tipul de returnare",
+            "Cash": "Cash",
+            "Voucher": "Voucher"
+        },
         "Scan": "Scanează"
     },
     "Settings": {
         "Language": {
             "Title": "Limbă",
-            "Subtitle": "Selectați limba preferată"
+            "Subtitle": "Selectați limba preferată",
+            "Same": "Aceasta limbă este deja setată pe acest cont!",
+            "Success": "Ai schimbat cu succes limba aplicației!"
         },
         "Notifications": {
             "Title": "Permiteți notificările",

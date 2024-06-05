@@ -70,6 +70,7 @@
             "Used": "Used",
             "Expired": "Expired",
             "Suspect": "Suspicious",
+            "Cash": "Cash",
             "Invalid": "Invalid"
         },
         "NoEntries": "There are no vouchers in the history",
@@ -103,12 +104,19 @@
             "QuantityPlaceholder": "Enter the quantity (e.g., 500mL)",
             "Register": "Register"
         },
+        "ModalType": {
+            "Title": "Choose the return type",
+            "Cash": "Cash",
+            "Voucher": "Voucher"
+        },
         "Scan": "Scan"
     },
     "Settings": {
         "Language": {
             "Title": "Language",
-            "Subtitle": "Select your preferred language"
+            "Subtitle": "Select your preferred language",
+            "Same": "This language is already set on this account!",
+            "Success": "You have successfully changed the application language!"
         },
         "Notifications": {
             "Title": "Allow Notifications",
