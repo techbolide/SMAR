@@ -3,6 +3,7 @@
         "InvalidLogin": "Nume de utilizator sau parolă sunt invalide, încearcă din nou!",
         "ResetPassword": "O parolă temporară a fost trimisa pe email-ul contului!",
         "BagSealed": "Sacul a fost sigilat cu succes!",
+        "SealNotEnoughQuantity": "Nu dețineți aceasta cantitate pentru a putea fi sigilata!",
         "CameraPermission": "Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.",
         "ProductRegistered": "Produsul a fost înregistrat cu succes!",
         "ProductDeleted": "Produsul a fost șters cu succes!",
@@ -46,6 +47,7 @@
     "BagsHistory": {
         "Types": {
             "Created": "Creat",
+            "Requested": "Solicitat",
             "Picked": "Ridicat",
             "Validated": "Validat",
             "Suspect": "Suspect"
@@ -110,6 +112,13 @@
             "Voucher": "Voucher"
         },
         "Scan": "Scanează"
+    },
+    "Packaging": {
+        "ChooseBags": "Alege sacii care dorești să fie ridicați",
+        "Call": "Trimite înregistrare",
+        "Minimum": "Trebuie să selectezi cel puțin 3 saci.",
+        "Success": "Înregistrarea de ridicare a ambalajelor a fost trimisă cu succes!",
+        "NoEntries": "Nu există saci pentru a putea fi ridicați"
     },
     "Settings": {
         "Language": {

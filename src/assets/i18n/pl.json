@@ -3,6 +3,7 @@
         "InvalidLogin": "Nieprawidłowa nazwa użytkownika lub hasło, spróbuj ponownie!",
         "ResetPassword": "Tymczasowe hasło zostało wysłane na e-mail konta!",
         "BagSealed": "Worek został pomyślnie uszczelniony!",
+        "SealNotEnoughQuantity": "Nie masz wystarczającej ilości, aby to zapieczętować!",
         "CameraPermission": "Proszę udzielić kamery pozwolenia na korzystanie z czytnika kodów kreskowych.",
         "ProductRegistered": "Produkt został pomyślnie zarejestrowany!",
         "ProductDeleted": "Produkt został pomyślnie usunięty!",
@@ -46,6 +47,7 @@
     "BagsHistory": {
         "Types": {
             "Created": "Utworzony",
+            "Requested": "Zgłoszone",
             "Picked": "Odebrany",
             "Validated": "Zweryfikowany",
             "Suspect": "Podejrzany"
@@ -110,6 +112,13 @@
             "Voucher": "Bon"
         },
         "Scan": "Skanuj"
+    },
+    "Packaging": {
+        "ChooseBags": "Wybierz worki, które chcesz, aby zostały odebrane",
+        "Call": "Wyślij nagranie",
+        "Minimum": "Musisz wybrać co najmniej 3 worki.",
+        "Success": "Prośba o odbiór opakowań została pomyślnie wysłana!",
+        "NoEntries": "Nie ma worków do odbioru"
     },
     "Settings": {
         "Language": {

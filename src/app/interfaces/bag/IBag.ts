@@ -14,3 +14,7 @@ export interface ISealBag {
     GlassCount: number;
     ProductCategoryId: number;
 }
+
+export interface IPickup {
+
+}

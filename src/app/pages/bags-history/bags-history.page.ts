@@ -63,9 +63,10 @@ export class BagsHistoryPage {
     getBagStateColor(state: number) {
         switch (state) {
             case 1: return 'dark';
-            case 2: return 'warning';
-            case 3: return 'success';
-            case 4: return 'danger';
+            case 2: return 'secondary';
+            case 3: return 'warning';
+            case 4: return 'success';
+            case 5: return 'danger';
             default: return 'dark';
         }
     }
@@ -73,9 +74,10 @@ export class BagsHistoryPage {
     getBagStateText(state: number) {
         switch (state) {
             case 1: return 'BagsHistory.Types.Created';
-            case 2: return 'BagsHistory.Types.Picked';
-            case 3: return 'BagsHistory.Types.Validated';
-            case 4: return 'BagsHistory.Types.Suspect';
+            case 2: return 'BagsHistory.Types.Requested';
+            case 3: return 'BagsHistory.Types.Picked';
+            case 4: return 'BagsHistory.Types.Validated';
+            case 5: return 'BagsHistory.Types.Suspect';
             default: return 'N/A';
         }
     }

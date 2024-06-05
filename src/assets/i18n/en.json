@@ -3,6 +3,7 @@
         "InvalidLogin": "Invalid username or password, please try again!",
         "ResetPassword": "A temporary password has been sent to the account's email!",
         "BagSealed": "The bag has been successfully sealed!",
+        "SealNotEnoughQuantity": "You do not have enough quantity to seal this!",
         "CameraPermission": "Please grant camera permission to use the barcode scanner.",
         "ProductRegistered": "The product has been successfully registered!",
         "ProductDeleted": "The product has been successfully deleted!",
@@ -46,6 +47,7 @@
     "BagsHistory": {
         "Types": {
             "Created": "Created",
+            "Requested": "Requested",
             "Picked": "Picked up",
             "Validated": "Validated",
             "Suspect": "Suspicious"
@@ -110,6 +112,13 @@
             "Voucher": "Voucher"
         },
         "Scan": "Scan"
+    },
+    "Packaging": {
+        "ChooseBags": "Choose the bags you want to be picked up",
+        "Call": "Submit recording",
+        "Minimum": "You must select at least 3 bags.",
+        "Success": "The packaging pickup request has been successfully submitted!",
+        "NoEntries": "There are no bags to be picked up"
     },
     "Settings": {
         "Language": {

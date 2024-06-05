@@ -10,5 +10,47 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+    <ng-container *ngIf="bags === null; else show_bags">
+        <div class="loading__page">
+            <ion-spinner name="lines"></ion-spinner>
+        </div>
+    </ng-container>
+    <ng-template #show_bags>
+        <div class="packaging__content">
+            @if(bags !== null && bags.length > 0) {
+                <div class="packaging__wrapper">
+                    <h1>{{ 'Packaging.ChooseBags' | translate }}</h1>
+                    <div class="packaging__list">
+                        @for(bag of bags; track $index) {
+                            <div class="packaging__item" (click)="selectBag(bag.Code)" [ngClass]="{'active__item': codeInArray(bag.Code), 'ion-activatable': !loadingCall}">
+                                <ion-ripple-effect></ion-ripple-effect>
+                                <h1>{{ bag.Code }}</h1>
+                                <div class="bag__count">
+                                    <ion-icon [src]="'../../../assets/icon/' + getFormattedType(bag.Category) + '.svg'" slot="start"></ion-icon>
+                                    <p>x{{ bag.Count }}</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <ion-button fill="solid" color="primary" [disabled]="loadingCall" (click)="callPickup()">
+                        <ng-container *ngIf="loadingCall; else call_pickup">
+                            <ion-spinner name="lines"></ion-spinner>
+                        </ng-container>
+                        <ng-template #call_pickup>
+                            {{ 'Packaging.Call' | translate }}
+                        </ng-template>
+                    </ion-button>
+                </div>
+
+            } @else {
+                <div class="no__entries">
+                    <ion-icon name="sad-outline"></ion-icon>
+                    <h1>
+                        {{ 'Packaging.NoEntries' | translate }}
+                    </h1>
+                </div>
+            }
+        </div>
+    </ng-template>
 
 </ion-content>
