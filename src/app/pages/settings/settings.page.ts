@@ -49,8 +49,11 @@ export class SettingsPage {
     async getSettings() {
         const storageDataParsed = await this.storageService.getDebugStorage();
         this.currentSettings = storageDataParsed;
-        this.loadingSettings = false;
-        this.cdr.detectChanges();
+
+        setTimeout(() => {
+            this.loadingSettings = false;
+            this.cdr.detectChanges();
+        }, 200);
     }
 
     async notifications(event: any) {

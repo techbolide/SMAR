@@ -66,7 +66,6 @@ export class VoucherService {
 
         const resultPrint = encoder.
             initialize()
-            .codepage('auto')
             .align('center')
             .line(storageDataParsed.Header)
             .line(storageDataParsed.Subheader)
@@ -124,7 +123,6 @@ export class VoucherService {
 
         const resultPrint = encoder.
             initialize()
-            .codepage('auto')
             .align('center')
             .line(storageDataParsed.Header)
             .line(storageDataParsed.Subheader)

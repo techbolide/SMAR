@@ -125,7 +125,7 @@ ion-content {
             font-size: 28px;
             letter-spacing: -0.4px;
             text-transform: capitalize;
-            --border-radius: 0;
+            --border-radius: 24px 24px 0px 0px;
             font-weight: 500;
             position: absolute;
             bottom: 0px;
@@ -234,6 +234,7 @@ ion-modal#voucher-modal .wrapper_buttons {
     align-items: center;
     justify-content: center;
     gap: 10px;
+    margin-bottom: 10px;
 }
 
 ion-modal#voucher-modal .wrapper_button {

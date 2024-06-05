@@ -3,7 +3,7 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { Dialog } from '@capacitor/dialog';
-import { IVoucher, IVoucherActive, IVoucherInitialize, IVoucherItem, IVoucherItemContentType, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/voucher/IVoucher';
+import { IVoucher, IVoucherActive, IVoucherInitialize, IVoucherItem, IVoucherQR, IVoucherReceived } from 'src/app/interfaces/voucher/IVoucher';
 import { IVoucherItemType } from '../../interfaces/voucher/IVoucher';
 import { EanService } from 'src/app/services/ean/ean.service';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
@@ -86,12 +86,6 @@ export class ScanPage implements OnInit {
     async isGoogleBarcodeScannerModuleAvailable() {
         const { available } = await BarcodeScanner.isGoogleBarcodeScannerModuleAvailable();
         return available;
-    }
-
-    getFormattedName(name: IVoucherItemContentType) {
-        if (name in IVoucherItemContentType)
-            return IVoucherItemContentType[name].replace(/_/g, " ");
-        return "Necunoscut";
     }
 
     getFormattedType(type: IVoucherItemType) {
@@ -299,10 +293,10 @@ export class ScanPage implements OnInit {
         if(this.processPrinting)
             return;
 
-        // if (this.getTotal() <= 0) {
-        //     this.toastService.showToast(this.translateService.instant('Toast.CantScanWithoutProducts'), 2000, 'danger', 'bottom');
-        //     return;
-        // }
+        if (this.getTotal() <= 0) {
+            this.toastService.showToast(this.translateService.instant('Toast.CantScanWithoutProducts'), 2000, 'danger', 'bottom');
+            return;
+        }
 
         this.voucherModal.present();
     }
