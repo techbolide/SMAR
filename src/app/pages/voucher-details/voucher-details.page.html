@@ -4,25 +4,28 @@
             <ion-back-button [text]="''" color="light" icon="chevron-back" defaultHref="/"></ion-back-button>
         </ion-buttons>
         <ion-title>
-            {{ currentVoucher?.Code }}
+            {{ currentVoucher === undefined ? ('VoucherHistory.Loading' | translate) : (currentVoucher !== null ? currentVoucher.Code : '') }}
         </ion-title>
-        <ion-buttons slot="end" *ngIf="currentVoucher?.State === 1 || currentVoucher?.State === 2">
-            <ng-container *ngIf="processPrinting || !currentVoucher; else try_print">
-                <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
-            </ng-container>
-            <ng-template #try_print>
-                <ion-button (click)="reprint()">
-                    <ion-icon slot="icon-only" name="print"></ion-icon>
-                </ion-button>
-            </ng-template>
+        @if(currentVoucher && (currentVoucher.State === 1 || currentVoucher.State === 2)) {
+            <ion-buttons slot="end">
+                <ng-container *ngIf="processPrinting; else try_print">
+                    <ion-spinner style="color: whitesmoke;" name="lines-sharp-small"></ion-spinner>
+                </ng-container>
+                <ng-template #try_print>
+                    <ion-button (click)="reprint()">
+                        <ion-icon slot="icon-only" name="print"></ion-icon>
+                    </ion-button>
+                </ng-template>
 
-        </ion-buttons>
+            </ion-buttons>
+        }
+
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    @if(currentVoucher) {
-        <div class="scan__content">
+    <div class="scan__content">
+        @if(currentVoucher) {
             <div class="scan__top__info">
                 <div class="scan__top__calendar">
                     <div class="scan__top__calendar__part">
@@ -92,8 +95,10 @@
                     <ion-icon slot="end" name="checkmark-circle"></ion-icon>
                 </ion-button>
             }
-
-        </div>
-    }
-
+        } @else() {
+            <div class="loading__page">
+                <ion-spinner name="lines"></ion-spinner>
+            </div>
+        }
+    </div>
 </ion-content>

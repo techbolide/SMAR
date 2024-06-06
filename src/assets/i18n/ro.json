@@ -76,8 +76,9 @@
             "Invalid": "Invalid"
         },
         "NoEntries": "Nu există niciun voucher în istoric",
-        "Scan": "Scanează",
-        "Use": "Utilizează"
+        "Scan": "Scanează voucher",
+        "Use": "Utilizează",
+        "Loading": "Se încarcă detaliile..."
     },
     "NewVoucher": {
         "ActiveVoucherDialog": {

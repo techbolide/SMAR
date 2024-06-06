@@ -76,8 +76,9 @@
             "Invalid": "Nieprawidłowy"
         },
         "NoEntries": "Brak voucherów w historii",
-        "Scan": "Skanuj",
-        "Use": "Użyj"
+        "Scan": "Skanuj voucher",
+        "Use": "Użyj",
+        "Loading": "Ładowanie szczegółów..."
     },
     "NewVoucher": {
         "ActiveVoucherDialog": {

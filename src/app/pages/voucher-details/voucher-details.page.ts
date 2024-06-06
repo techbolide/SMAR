@@ -18,7 +18,7 @@ import { VoucherService } from 'src/app/services/voucher/voucher.service';
     styleUrls: ['./voucher-details.page.scss'],
 })
 export class VoucherDetailsPage implements OnInit {
-    public currentVoucher: IVoucherReceivedByScan | null = null;
+    public currentVoucher: IVoucherReceivedByScan | null | undefined = undefined;
     public processPrinting: boolean = false;
     constructor(private route: ActivatedRoute,
         private voucherService: VoucherService,
@@ -40,15 +40,19 @@ export class VoucherDetailsPage implements OnInit {
 
     async getVoucher(code: string) {
         const sentModel: IVoucherGetByScan = { Code: code };
+        setTimeout(() => {
+            this.voucherService.getByScan(sentModel).subscribe({
+                next: (res) => {
+                    if (res) this.currentVoucher = res;
+                    else this.currentVoucher = null;
+                },
+                error: (err) => {
+                    this.currentVoucher = null;
+                    console.log(err);
+                }
+            });
+        }, 750);
 
-        this.voucherService.getByScan(sentModel).subscribe({
-            next: (res) => {
-                this.currentVoucher = res;
-            },
-            error: (err) => {
-                console.log(err);
-            }
-        })
     }
 
     getFormattedType(type: IVoucherItemType) {

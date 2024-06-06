@@ -107,6 +107,7 @@ ion-content {
                     ion-icon {
                         margin: 0;
                         margin-right: 10px;
+                        opacity: 0.5;
                     }
 
                     ion-label {
@@ -123,6 +124,7 @@ ion-content {
 
                     ion-text {
                         font-size: 12px;
+                        margin-inline-start: 0px;
                         font-weight: 300;
                     }
                 }
@@ -134,7 +136,7 @@ ion-content {
             font-size: 28px;
             letter-spacing: -0.4px;
             text-transform: capitalize;
-            --border-radius: 0;
+            --border-radius: 24px 24px 0px 0px;
             font-weight: 500;
             position: absolute;
             bottom: 0px;
