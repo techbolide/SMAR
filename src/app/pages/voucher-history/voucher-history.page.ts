@@ -28,7 +28,8 @@ export class VoucherHistoryPage {
         private voucherService: VoucherService,
         private router: Router,
         private blePrinterService: BlePrinterService,
-        private translateService: TranslateService) { }
+        private translateService: TranslateService,
+        private cdr: ChangeDetectorRef) { }
 
     ionViewDidEnter() {
         this.getVouchers();
@@ -82,26 +83,27 @@ export class VoucherHistoryPage {
     }
 
     async tryPrintTicket(voucher: IVoucherReceived) {
-        const formatTicket = await this.voucherService.formatTicket(voucher);
         try {
+            const formatTicket = await this.voucherService.formatTicket(voucher);
             await this.blePrinterService.print(formatTicket);
             this.toastService.showToast(this.translateService.instant('Toast.VoucherReprint'), 2000, 'success', 'bottom');
         } catch {
             this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.isReprinting = false;
+        this.cdr.detectChanges();
     }
 
     async tryPrint(voucher: IVoucherReceived) {
-        const formatVoucher = await this.voucherService.formatVoucher(voucher);
         try {
+            const formatVoucher = await this.voucherService.formatVoucher(voucher);
             await this.blePrinterService.print(formatVoucher);
             this.toastService.showToast(this.translateService.instant('Toast.VoucherReprint'), 2000, 'success', 'bottom');
         } catch {
             this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
         this.isReprinting = false;
-
+        this.cdr.detectChanges();
     }
 
     checkSupported() {

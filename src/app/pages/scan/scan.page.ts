@@ -183,7 +183,7 @@ export class ScanPage implements OnInit {
         if (!this.currentVoucher) return;
 
         const generatedID = this.checkIfUniqueIdExists();
-        if(!generatedID) return;
+        if (!generatedID) return;
 
         const newVoucherItem: IVoucherItem = {
             uniqueID: generatedID,
@@ -217,9 +217,9 @@ export class ScanPage implements OnInit {
         if (!this.currentVoucher) return;
 
         const findItem = this.currentVoucher.items.find((x) => x.uniqueID === uniqueID);
-        if(!findItem) return;
+        if (!findItem) return;
 
-        this.currentVoucher.items = this.currentVoucher.items.filter(x=> x.uniqueID !== findItem.uniqueID);
+        this.currentVoucher.items = this.currentVoucher.items.filter(x => x.uniqueID !== findItem.uniqueID);
         this.toastService.showToast(this.translateService.instant('Toast.ProductDeleted'), 2000, 'success', 'top');
     }
 
@@ -252,7 +252,7 @@ export class ScanPage implements OnInit {
             return;
         }
 
-        if(this.currentVoucher.state === 5 && type === 'cash') {
+        if (this.currentVoucher.state === 5 && type === 'cash') {
             this.router.navigateByUrl('/home', { replaceUrl: true });
             return;
         }
@@ -277,8 +277,8 @@ export class ScanPage implements OnInit {
                 this.currentVoucher.state = res.State;
                 this.toastService.showToast(this.translateService.instant('Toast.VoucherActivate'), 1000, 'success', 'bottom');
 
-                if(this.currentVoucher.state === 1) setTimeout(() => { this.printVoucher(); }, 1000);
-                else if(this.currentVoucher.state === 5) setTimeout(() => { this.router.navigateByUrl('/home', { replaceUrl: true }); }, 1000);
+                if (this.currentVoucher.state === 1) setTimeout(() => { this.printVoucher(); }, 1000);
+                else if (this.currentVoucher.state === 5) setTimeout(() => { this.router.navigateByUrl('/home', { replaceUrl: true }); }, 1000);
             },
             error: (err) => {
                 console.log(err);
@@ -290,7 +290,7 @@ export class ScanPage implements OnInit {
     }
 
     openVoucherModal() {
-        if(this.processPrinting)
+        if (this.processPrinting)
             return;
 
         if (this.getTotal() <= 0) {
@@ -319,13 +319,11 @@ export class ScanPage implements OnInit {
             Message: ''
         };
 
-        const formatVoucher = await this.voucherService.formatVoucher(voucherReceived);
         try {
+            const formatVoucher = await this.voucherService.formatVoucher(voucherReceived);
             await this.blePrinterService.print(formatVoucher);
             this.toastService.showToast(this.translateService.instant('Toast.VoucherPrint'), 2000, 'success', 'bottom');
-            setTimeout(() => {
-                this.router.navigateByUrl('/home', { replaceUrl: true });
-            }, 500);
+            setTimeout(() => { this.router.navigateByUrl('/home', { replaceUrl: true }); }, 500);
         } catch {
             this.toastService.showToast(this.translateService.instant('Toast.PrinterError'), 2000, 'danger', 'bottom');
         }
