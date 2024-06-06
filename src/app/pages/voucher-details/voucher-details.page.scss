@@ -15,6 +15,7 @@ ion-content {
             box-shadow:
                 rgba(50, 50, 93, 0.25) 0px 13px 27px -5px,
                 rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+            position: relative;
 
             h1 {
                 margin: 0;
@@ -36,7 +37,7 @@ ion-content {
 
                     ion-icon {
                         font-size: 24px;
-                        opacity: .5;
+                        opacity: 0.5;
                     }
 
                     h1 {
@@ -51,14 +52,20 @@ ion-content {
                         font-weight: 300;
                     }
                 }
-
-
             }
 
             .scan__top__calendar {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+
+                ion-badge {
+                    --padding-bottom: 4px;
+                    --padding-top: 4px;
+                    --padding-start: 6px;
+                    --padding-end: 6px;
+                    font-weight: 500;
+                }
 
                 .scan__top__calendar__part {
                     display: flex;

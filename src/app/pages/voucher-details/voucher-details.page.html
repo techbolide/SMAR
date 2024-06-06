@@ -21,48 +21,79 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <div class="scan__content" *ngIf="currentVoucher">
-        <div class="scan__top__info">
-            <div class="scan__top__calendar">
-                <div class="scan__top__calendar__part">
-                    <ion-icon name="calendar"></ion-icon>
-                    <h1>{{ currentVoucher.GeneratedDate.substring(0, 10) }}</h1>
+    @if(currentVoucher) {
+        <div class="scan__content">
+            <div class="scan__top__info">
+                <div class="scan__top__calendar">
+                    <div class="scan__top__calendar__part">
+                        <ion-icon name="calendar"></ion-icon>
+                        <h1>{{ currentVoucher.GeneratedDate }}</h1>
+                    </div>
+                    @if(currentVoucher.State !== 1) {
+                        <ion-badge [color]="getVoucherStateColor(currentVoucher.State)">
+                            {{ getVoucherStateText(currentVoucher.State) | translate }}
+                        </ion-badge>
+                    }
+                    <div class="scan__top__calendar__part">
+                        <ion-icon name="alarm"></ion-icon>
+                        <h1>{{ currentVoucher.GeneratedTime.substring(0, 8) }}</h1>
+                    </div>
                 </div>
-                <div class="scan__top__calendar__part">
-                    <ion-icon name="alarm"></ion-icon>
-                    <h1>{{ currentVoucher.GeneratedTime.substring(0, 8) }}</h1>
+                <div class="scan__top__items">
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>{{ 'Home.Plastic' | translate }}</h1>
+                            <p>x{{ currentVoucher.PlasticCount }}</p>
+                        </div>
+                    </div>
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>{{ 'Home.Aluminium' | translate }}</h1>
+                            <p>x{{ currentVoucher.AluminiumCount }}</p>
+                        </div>
+                    </div>
+                    <div class="scan__top__item">
+                        <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
+                        <div>
+                            <h1>{{ 'Home.Glass' | translate }}</h1>
+                            <p>x{{ currentVoucher.GlassCount }}</p>
+                        </div>
+                    </div>
                 </div>
+                <h1>LEI {{ currentVoucher.Value.toFixed(2) }}</h1>
+
+
             </div>
-            <div class="scan__top__items">
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/plastic-bottle.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>{{ 'Home.Plastic' | translate }}</h1>
-                        <p>x{{ currentVoucher.PlasticCount }}</p>
-                    </div>
+
+            @if(currentVoucher.Items && currentVoucher.Items.length > 0)
+            {
+                <div class="scan__list">
+                    <ion-list>
+                        <ion-item *ngFor="let voucherItem of currentVoucher.Items" [button]="false" lines="full">
+                            <ion-icon [src]="'../../../assets/icon/' + getFormattedType(voucherItem.Type) + '.svg'"
+                                slot="start"></ion-icon>
+                            <ion-label>
+                                <h3>{{ voucherItem.Name }}</h3>
+                                <p>{{ voucherItem.Quantity }} - <strong>{{ voucherItem.EanCode }}</strong></p>
+                            </ion-label>
+                            <ion-text slot="end">{{ voucherItem.ReadDate | date: 'dd/MM/yyyy HH:mm:ss' }}</ion-text>
+                        </ion-item>
+                    </ion-list>
                 </div>
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/can.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>{{ 'Home.Aluminium' | translate }}</h1>
-                        <p>x{{ currentVoucher.AluminiumCount }}</p>
-                    </div>
-                </div>
-                <div class="scan__top__item">
-                    <ion-icon src="../../../assets/icon/glass.svg" slot="start"></ion-icon>
-                    <div>
-                        <h1>{{ 'Home.Glass' | translate }}</h1>
-                        <p>x{{ currentVoucher.GlassCount }}</p>
-                    </div>
-                </div>
-            </div>
-            <h1>LEI {{ currentVoucher.Value.toFixed(2) }}</h1>
+            }
+
+
+
+            @if(currentVoucher.State === 1) {
+                <ion-button class="scan__add" fill="solid" color="primary" (click)="useVoucher()">
+                    {{ 'VoucherHistory.Use' | translate }}
+                    <ion-icon slot="end" name="checkmark-circle"></ion-icon>
+                </ion-button>
+            }
 
         </div>
+    }
 
-        <ion-button class="scan__add" fill="solid" color="primary" *ngIf="currentVoucher.State === 1" (click)="useVoucher()">
-            {{ 'VoucherHistory.Use' | translate }}
-            <ion-icon slot="end" name="checkmark-circle"></ion-icon>
-        </ion-button>
-    </div>
 </ion-content>

@@ -56,6 +56,31 @@ export interface IVoucherReceived {
     Message: string;
 }
 
+export interface IVoucherReceivedByScan {
+    Code: string;
+    ExpirationDate: string;
+    GeneratedDate: string;
+    GeneratedTime: string;
+    InsertBy: string;
+    InsertDate: string;
+    State: number;
+    PlasticCount: number;
+    AluminiumCount: number;
+    GlassCount: number;
+    Value: number;
+    Message: string;
+    Items: IVoucherItemReceivedByScan[];
+}
+
+export interface IVoucherItemReceivedByScan {
+    UniqueID: string;
+    Type: IVoucherItemType;
+    Name: string;
+    Quantity: string;
+    ReadDate: Date;
+    EanCode: string;
+}
+
 export interface IVoucherActive {
     Code: string;
     PlasticCount: number;

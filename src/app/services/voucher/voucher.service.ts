@@ -5,7 +5,7 @@ import EscPosEncoder from '@mineminemine/esc-pos-encoder-ionic';
 import { Subscription, catchError } from 'rxjs';
 import { IDebugStorage } from 'src/app/app.component';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
-import { IVoucherActive, IVoucherGetByScan, IPaginated, IVoucherInitialize, IVoucherReceived, IVoucherQR } from 'src/app/interfaces/voucher/IVoucher';
+import { IVoucherActive, IVoucherGetByScan, IPaginated, IVoucherInitialize, IVoucherReceived, IVoucherQR, IVoucher, IVoucherReceivedByScan } from 'src/app/interfaces/voucher/IVoucher';
 import { environment } from 'src/environments/environment';
 import { StorageService } from '../storage/storage.service';
 
@@ -36,14 +36,14 @@ export class VoucherService {
     }
 
     getByScan(model: IVoucherGetByScan) {
-        return this.http.post<IVoucherReceived>(environment.apiUrl + this.getByScanApiLink, model);
+        return this.http.post<IVoucherReceivedByScan>(environment.apiUrl + this.getByScanApiLink, model);
     }
 
-    useVoucher(model: IVoucherReceived) {
-        return this.http.post<IVoucherReceived>(environment.apiUrl + this.useApiLink, model);
+    useVoucher(model: IVoucherReceivedByScan) {
+        return this.http.post<IVoucherReceivedByScan>(environment.apiUrl + this.useApiLink, model);
     }
 
-    async formatVoucher(voucher: IVoucherReceived) {
+    async formatVoucher(voucher: IVoucherReceived | IVoucherReceivedByScan) {
         const storageDataParsed = await this.storageService.getDebugStorage();
         const profileDataParsed = await this.storageService.getProfileStorage();
         if (!storageDataParsed || !profileDataParsed)
@@ -99,7 +99,7 @@ export class VoucherService {
         return resultPrint;
     }
 
-    async formatTicket(voucher: IVoucherReceived) {
+    async formatTicket(voucher: IVoucherReceived | IVoucherReceivedByScan) {
         const storageDataParsed = await this.storageService.getDebugStorage();
         const profileDataParsed = await this.storageService.getProfileStorage();
         if (!storageDataParsed || !profileDataParsed)
