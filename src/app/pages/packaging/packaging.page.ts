@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import * as JsBarcode from 'jsbarcode';
 import { IBag } from 'src/app/interfaces/bag/IBag';
 import { BagService } from 'src/app/services/bag/bag.service';
 import { ToastService } from 'src/app/services/toast/toast.service';
@@ -34,6 +35,7 @@ export class PackagingPage {
             this.bagService.getNewBags().subscribe({
                 next: (res) => {
                     this.bags = [...res];
+                    this.generateBarCodes();
                     this.loadingCall = false;
                     this.cdr.detectChanges();
                 },
@@ -46,16 +48,36 @@ export class PackagingPage {
         }, 1000);
     }
 
-    selectBag(code: string) {
-        if(this.loadingCall) return;
+    generateBarCodes() {
+        setTimeout(() => {
+            if (!this.bags || this.bags.length <= 0) return;
 
-        const findCode = this.selectedBagsCodes.find(x=> x === code);
-        if(!findCode) {
+            this.bags.forEach((bag, index) => {
+                this.generateBarcode(index, bag.SealCode);
+            });
+        }, 250);
+    }
+
+    generateBarcode(index: number, code: string): void {
+        JsBarcode('#bag__' + index, code, {
+            background: 'rgba(0,0,0,0)',
+            format: 'CODE128',
+            displayValue: true,
+            fontSize: 16,
+            text: code
+        });
+    }
+
+    selectBag(code: string) {
+        if (this.loadingCall) return;
+
+        const findCode = this.selectedBagsCodes.find(x => x === code);
+        if (!findCode) {
             this.selectedBagsCodes.push(code);
             return;
         }
 
-        this.selectedBagsCodes = this.selectedBagsCodes.filter(x=> x !== findCode);
+        this.selectedBagsCodes = this.selectedBagsCodes.filter(x => x !== findCode);
     }
 
     getFormattedType(category: number) {
@@ -67,9 +89,9 @@ export class PackagingPage {
     }
 
     callPickup() {
-        if(this.loadingCall) return;
+        if (this.loadingCall) return;
 
-        if(this.selectedBagsCodes.length < 3) {
+        if (this.selectedBagsCodes.length < 3) {
             this.toastService.showToast(this.translateService.instant('Packaging.Minimum'), 2000, 'danger', 'bottom');
             return;
         }
@@ -92,7 +114,7 @@ export class PackagingPage {
     }
 
     codeInArray(code: string) {
-        const findCode = this.selectedBagsCodes.find(x=> x === code);
+        const findCode = this.selectedBagsCodes.find(x => x === code);
         return findCode !== null && findCode !== undefined;
     }
 }

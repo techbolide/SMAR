@@ -24,6 +24,7 @@
                         @for(bag of bags; track $index) {
                             <div class="packaging__item" (click)="selectBag(bag.Code)" [ngClass]="{'active__item': codeInArray(bag.Code), 'ion-activatable': !loadingCall}">
                                 <ion-ripple-effect></ion-ripple-effect>
+                                <svg [id]="'bag__' + $index"></svg>
                                 <h1>{{ bag.Code }}</h1>
                                 <div class="bag__count">
                                     <ion-icon [src]="'../../../assets/icon/' + getFormattedType(bag.Category) + '.svg'" slot="start"></ion-icon>
