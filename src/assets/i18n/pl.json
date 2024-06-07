@@ -14,7 +14,8 @@
         "VoucherPrint": "Bon pomyślnie wydrukowany!",
         "VoucherReprint": "Bon pomyślnie wydrukowany ponownie!",
         "PrinterError": "Wystąpił błąd drukarki, spróbuj ponownie później!",
-        "TicketPrint": "Bon wydrukowany ponownie pomyślnie!"
+        "TicketPrint": "Bon wydrukowany ponownie pomyślnie!",
+        "QRDoesNotExist": "Ten typ vouchera QR jest nieprawidłowy, spróbuj ponownie!"
     },
     "Login": {
         "Title": "Ręczne rozwiązanie do zbierania DRS",

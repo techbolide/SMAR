@@ -14,7 +14,8 @@
         "VoucherPrint": "Voucher printat cu succes!",
         "VoucherReprint": "Voucher reprintat cu succes!",
         "PrinterError": "A intervenit o eroare în legătura cu printerul, încercați mai tarziu!",
-        "TicketPrint": "Bon reprintat cu succes!"
+        "TicketPrint": "Bon reprintat cu succes!",
+        "QRDoesNotExist": "Acest tip de voucher QR nu este valid, încearcă din nou!"
     },
     "Login": {
         "Title": "Soluție de colectare manuală SGR",

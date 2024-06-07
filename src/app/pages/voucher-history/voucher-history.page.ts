@@ -159,7 +159,10 @@ export class VoucherHistoryPage {
     goToDetails(details: string) {
         try {
             const detailsParsed = JSON.parse(details) as IVoucherQR;
-            if (!detailsParsed) return;
+            if (!detailsParsed) {
+                this.toastService.showToast(this.translateService.instant('Toast.QRDoesNotExist'), 2000, 'danger', 'bottom');
+                return;
+            }
 
             this.router.navigate(['/voucher-history', detailsParsed.code]);
 
