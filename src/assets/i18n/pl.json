@@ -3,6 +3,7 @@
         "InvalidLogin": "Nieprawidłowa nazwa użytkownika lub hasło, spróbuj ponownie!",
         "ResetPassword": "Tymczasowe hasło zostało wysłane na e-mail konta!",
         "BagSealed": "Worek został pomyślnie uszczelniony!",
+        "CodeScanned": "Plomba została pomyślnie zeskanowana!",
         "SealNotEnoughQuantity": "Nie masz wystarczającej ilości, aby to zapieczętować!",
         "CameraPermission": "Proszę udzielić kamery pozwolenia na korzystanie z czytnika kodów kreskowych.",
         "ProductRegistered": "Produkt został pomyślnie zarejestrowany!",
@@ -64,7 +65,11 @@
         "ChooseCategory": "Wybierz kategorię uszczelniania",
         "Quantity": "Ilość uszczelniania",
         "QuantityPlaceholder": "Wprowadź ilość uszczelniania",
-        "Seal": "Zaklej worek"
+        "Seal": "Zaklej worek",
+        "Code": "Kod plomby",
+        "CodePlaceholder": "Skanuj kod plomby",
+        "ScanCode": "Skanuj plombę",
+        "RescanCode": "Ponownie skanuj plombę"
     },
     "VoucherHistory": {
         "Types": {

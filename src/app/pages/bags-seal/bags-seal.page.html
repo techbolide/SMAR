@@ -70,7 +70,22 @@
                 <ion-icon name="bag-outline" slot="end"></ion-icon>
             </ion-item>
 
-            <ion-button fill="solid" color="primary" [disabled]="!hasValidQuantity() || loadingSeal" (click)="sealBag()">
+            <ion-item>
+                <ion-input inputmode="text" label="{{ 'BagsSeal.Code' | translate }}" label-placement="stacked" type="text" required spellcheck="false" placeholder="{{ 'BagsSeal.CodePlaceholder' | translate }}" [(ngModel)]="sealCode" [readonly]="true"></ion-input>
+                <ion-icon name="barcode" slot="end"></ion-icon>
+            </ion-item>
+
+            @if(!sealCode) {
+                <ion-button fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!hasValidQuantity() || loadingSeal">
+                    {{ 'BagsSeal.ScanCode' | translate }}
+                </ion-button>
+            } @else if(sealCode) {
+                <ion-button fill="solid" color="primary" (click)="tryScanBarCode()" [disabled]="!hasValidQuantity() || loadingSeal">
+                    {{ 'BagsSeal.RescanCode' | translate }}
+                </ion-button>
+            }
+
+            <ion-button fill="solid" color="primary" [disabled]="!hasValidQuantity() || loadingSeal || !sealCode" (click)="sealBag()">
                 <ng-container *ngIf="loadingSeal; else seal_bag">
                     <ion-spinner name="lines"></ion-spinner>
                 </ng-container>

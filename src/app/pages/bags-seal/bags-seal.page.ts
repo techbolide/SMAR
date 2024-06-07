@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
@@ -15,7 +16,7 @@ import { ToastService } from 'src/app/services/toast/toast.service';
 })
 export class BagsSealPage {
     public selectedCategory: string | null = null;
-
+    public sealCode: string | null = null;
     public plasticQuantity: number = 0;
     public aluminiumQuantity: number = 0;
     public glassQuantity: number = 0;
@@ -67,7 +68,7 @@ export class BagsSealPage {
     }
 
     sealBag() {
-        if(!this.hasValidQuantity || this.loadingSeal || !this.selectedCategory || !this.currentUser) return;
+        if(!this.hasValidQuantity || this.loadingSeal || !this.selectedCategory || !this.currentUser || !this.sealCode) return;
 
 
         const selectedCategory = parseInt(this.selectedCategory, 10);
@@ -80,7 +81,7 @@ export class BagsSealPage {
         this.loadingSeal = true;
         const model: ISealBag = {
             Id: -1,
-            SealCode: '571312312',
+            SealCode: this.sealCode,
             PlasticCount: this.plasticQuantity,
             AluminiumCount: this.aluminiumQuantity,
             GlassCount: this.glassQuantity,
@@ -106,6 +107,62 @@ export class BagsSealPage {
             });
         }, 750);
 
+    }
+
+    async tryScanBarCode() {
+        if(!this.hasValidQuantity || this.loadingSeal || !this.selectedCategory || !this.currentUser) return;
+
+        const granted = await this.requestPermissions();
+        if (!granted) {
+            this.toastService.showToast(this.translateService.instant('Toast.CameraPermission'), 2000, 'danger', 'bottom');
+            return;
+        }
+
+        const moduleInstalled = await this.isGoogleBarcodeScannerModuleAvailable();
+        if (!moduleInstalled) {
+            this.addGoogleModuleListener();
+            console.log("[SCANNER] Module not installed, installing...");
+            await BarcodeScanner.installGoogleBarcodeScannerModule();
+        } else {
+            this.scanBarCode();
+        }
+    }
+
+    async requestPermissions() {
+        const { camera } = await BarcodeScanner.requestPermissions();
+        return camera === 'granted' || camera === 'limited';
+    }
+
+    async isGoogleBarcodeScannerModuleAvailable() {
+        const { available } = await BarcodeScanner.isGoogleBarcodeScannerModuleAvailable();
+        return available;
+    }
+
+    addGoogleModuleListener() {
+        BarcodeScanner.addListener('googleBarcodeScannerModuleInstallProgress', (event: any) => {
+            const { status, progress } = event;
+            if (status === 'done') {
+                console.log('[SCANNER] Module installation completed');
+                this.scanBarCode();
+            } else if (status === 'error') {
+                console.error('[SCANNER] Module installation error:', event.error);
+            }
+        });
+    }
+
+    async scanBarCode() {
+        const { barcodes } = await BarcodeScanner.scan();
+        barcodes.forEach(barcode => {
+            this.scanSingleBarCode(barcode);
+        });
+    }
+
+
+    async scanSingleBarCode(barcode: Barcode) {
+        if(!this.hasValidQuantity || this.loadingSeal || !this.selectedCategory || !this.currentUser) return;
+
+        this.sealCode = barcode.displayValue;
+        this.toastService.showToast(this.translateService.instant('Toast.CodeScanned'), 2000, 'success', 'bottom');
     }
 
 }
