@@ -63,6 +63,12 @@
             "Confirm": "Yes, seal",
             "Cancel": "No"
         },
+        "ConfirmSealingDialog": {
+            "Title": "Seal Bag",
+            "Subtitle": "Are you sure you want to seal this bag with the code {{sealCode}} for x{{quantity}} {{material}}?",
+            "Confirm": "Yes, seal it",
+            "Cancel": "No"
+        },
         "ChooseCategory": "Choose the sealing category",
         "Quantity": "Sealing quantity",
         "QuantityPlaceholder": "Enter the sealing quantity",

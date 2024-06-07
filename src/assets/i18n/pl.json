@@ -63,6 +63,12 @@
             "Confirm": "Tak, zaklej",
             "Cancel": "Nie"
         },
+        "ConfirmSealingDialog": {
+            "Title": "Zapieczętuj worek",
+            "Subtitle": "Czy na pewno chcesz zapieczętować ten worek z kodem {{sealCode}} na x{{quantity}} {{material}}?",
+            "Confirm": "Tak, zapieczętuj",
+            "Cancel": "Nie"
+        },
         "ChooseCategory": "Wybierz kategorię uszczelniania",
         "Quantity": "Ilość uszczelniania",
         "QuantityPlaceholder": "Wprowadź ilość uszczelniania",

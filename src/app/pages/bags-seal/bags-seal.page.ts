@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Dialog } from '@capacitor/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { IUser } from 'src/app/interfaces/authentication/IUser';
@@ -67,11 +68,21 @@ export class BagsSealPage {
         })
     }
 
-    sealBag() {
+    async sealBag() {
         if(!this.hasValidQuantity || this.loadingSeal || !this.selectedCategory || !this.currentUser || !this.sealCode) return;
 
-
         const selectedCategory = parseInt(this.selectedCategory, 10);
+        const quantity = selectedCategory === 1 ? this.plasticQuantity : (selectedCategory === 2 ? this.aluminiumQuantity : this.glassQuantity);
+
+        const { value } = await Dialog.confirm({
+            title: this.translateService.instant('BagsSeal.ConfirmSealingDialog.Title'),
+            message: this.translateService.instant('BagsSeal.ConfirmSealingDialog.Subtitle', { sealCode: this.sealCode, quantity: quantity, material: this.getCategoryNameByType(selectedCategory) }),
+            okButtonTitle: this.translateService.instant('BagsSeal.ConfirmSealingDialog.Confirm'),
+            cancelButtonTitle: this.translateService.instant('BagsSeal.ConfirmSealingDialog.Cancel'),
+        });
+
+        if (!value) return;
+
         if((selectedCategory === 1 && this.plasticQuantity > this.currentUser.PlasticCount) || (selectedCategory === 2 && this.aluminiumQuantity > this.currentUser.AluminiumCount) || (selectedCategory === 3 && this.glassQuantity > this.currentUser.GlassCount))
         {
             this.toastService.showToast(this.translateService.instant('Toast.SealNotEnoughQuantity'), 2000, 'danger', 'bottom');
@@ -125,6 +136,15 @@ export class BagsSealPage {
             await BarcodeScanner.installGoogleBarcodeScannerModule();
         } else {
             this.scanBarCode();
+        }
+    }
+
+    getCategoryNameByType(type: number) {
+        switch(type) {
+            case 1: return this.translateService.instant('Home.Plastic');
+            case 2: return this.translateService.instant('Home.Aluminium');
+            case 3: return this.translateService.instant('Home.Glass');
+            default: return 'N/A';
         }
     }
 

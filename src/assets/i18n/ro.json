@@ -63,6 +63,12 @@
             "Confirm": "Da, sigileaza",
             "Cancel": "Nu"
         },
+        "ConfirmSealingDialog": {
+            "Title": "Sigilare sac",
+            "Subtitle": "Sunteți sigur că doriți să sigilați acest sac cu codul {{sealCode}} pentru x{{quantity}} {{material}}?",
+            "Confirm": "Da, sigileaza",
+            "Cancel": "Nu"
+        },
         "ChooseCategory": "Alege categoria de sigilare",
         "Quantity": "Cantitatea de sigilare",
         "QuantityPlaceholder": "Introdu cantitatea de sigilare",
