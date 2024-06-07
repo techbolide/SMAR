@@ -38,7 +38,7 @@
         "Aluminium": "Aluminium",
         "Glass": "Szkło",
         "Options": {
-            "Pickup": "Odbiór opakowań",
+            "Pickup": "Zamów odbiór worków",
             "BagsHistory": "Historia worków",
             "VoucherHistory": "Historia voucherów",
             "BagsSeal": "Uszczelnij worki",
@@ -124,7 +124,7 @@
             "Cash": "Gotówka",
             "Voucher": "Bon"
         },
-        "Scan": "Skanuj"
+        "Scan": "Skanuj EAN"
     },
     "Packaging": {
         "ChooseBags": "Wybierz worki, które chcesz, aby zostały odebrane",

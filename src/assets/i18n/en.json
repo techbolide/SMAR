@@ -38,7 +38,7 @@
         "Aluminium": "Aluminum",
         "Glass": "Glass",
         "Options": {
-            "Pickup": "Package pickup",
+            "Pickup": "Request pick-up",
             "BagsHistory": "Bag history",
             "VoucherHistory": "Voucher history",
             "BagsSeal": "Seal bags",
@@ -124,7 +124,7 @@
             "Cash": "Cash",
             "Voucher": "Voucher"
         },
-        "Scan": "Scan"
+        "Scan": "Scan EAN"
     },
     "Packaging": {
         "ChooseBags": "Choose the bags you want to be picked up",

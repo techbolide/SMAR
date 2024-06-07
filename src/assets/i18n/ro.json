@@ -38,7 +38,7 @@
         "Aluminium": "Aluminiu",
         "Glass": "Sticla",
         "Options": {
-            "Pickup": "Ridicare ambalaje",
+            "Pickup": "Solicită ridicare saci",
             "BagsHistory": "Istoric saci",
             "VoucherHistory": "Istoric vouchere",
             "BagsSeal": "Sigilare saci",
@@ -124,7 +124,7 @@
             "Cash": "Cash",
             "Voucher": "Voucher"
         },
-        "Scan": "Scanează"
+        "Scan": "Scanează EAN"
     },
     "Packaging": {
         "ChooseBags": "Alege sacii care dorești să fie ridicați",
