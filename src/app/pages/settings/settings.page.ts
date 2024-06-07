@@ -1,4 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { App } from '@capacitor/app';
+import { Capacitor } from '@capacitor/core';
 import { ActionSheetController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { DEBUG_STORAGE, IDebugStorage } from 'src/app/app.component';
@@ -15,6 +17,9 @@ export class SettingsPage {
     public loadingSettings: boolean = true;
     public currentLanguage: string | null = null;
     public currentSettings: IDebugStorage | null = null;
+    public currentVersion: string | null = null;
+    public currentVersionCode: string | null = null;
+
     constructor(private languageService: LanguageService,
         private cdr: ChangeDetectorRef,
         private storageService: StorageService,
@@ -50,10 +55,26 @@ export class SettingsPage {
         const storageDataParsed = await this.storageService.getDebugStorage();
         this.currentSettings = storageDataParsed;
 
+        await this.getApplicationVersion();
+
         setTimeout(() => {
             this.loadingSettings = false;
             this.cdr.detectChanges();
         }, 200);
+    }
+
+    async getApplicationVersion() {
+        if(Capacitor.getPlatform() === 'web') return;
+
+        const applicationInfo = await App.getInfo();
+        this.currentVersion = applicationInfo.version;
+        this.currentVersionCode = applicationInfo.build;
+    }
+
+    getFormattedAppVersion() {
+        if(!this.currentVersion || !this.currentVersionCode) return 'N/A';
+
+        return `v${this.currentVersion}.${this.currentVersionCode}`;
     }
 
     async notifications(event: any) {

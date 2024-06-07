@@ -67,6 +67,12 @@
                     {{ 'Settings.Save' | translate }}
                     <ion-icon slot="end" name="checkmark-done"></ion-icon>
                 </ion-button>
+
+                @if(currentVersion && currentVersionCode) {
+                    <span class="app_version">
+                        {{ getFormattedAppVersion() }}
+                    </span>
+                }
             }
 
 

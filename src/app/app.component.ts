@@ -36,7 +36,7 @@ export class AppComponent {
     initializeStatusBar() {
         setTimeout(() => {
             this.statusBarService.setDefaultStatusBar();
-        }, 2100);
+        }, 2500);
     }
 
     async debugStorage() {
