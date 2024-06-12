@@ -15,7 +15,18 @@
         "VoucherReprint": "Bon pomyślnie wydrukowany ponownie!",
         "PrinterError": "Wystąpił błąd drukarki, spróbuj ponownie później!",
         "TicketPrint": "Bon wydrukowany ponownie pomyślnie!",
-        "QRDoesNotExist": "Ten typ vouchera QR jest nieprawidłowy, spróbuj ponownie!"
+        "QRDoesNotExist": "Ten typ vouchera QR jest nieprawidłowy, spróbuj ponownie!",
+        "BluetoothClosed": "Bluetooth musi być włączony, aby uruchomić tę aplikację!",
+        "PermissionError": "Nie możesz kontynuować bez udzielenia dostępu do pobliskich urządzeń. Spróbuj zrobić to z ustawień!",
+        "PermissionSuccess": "Dostęp do pobliskich urządzeń został pomyślnie aktywowany!"
+    },
+    "Welcome": {
+        "Permission": {
+            "Title": "Udziel pozwolenia",
+            "Subtitle": "na dostęp do pobliskich urządzeń",
+            "Text": "Aby korzystać z głównej funkcjonalności tej aplikacji, musisz sprawdzić uprawnienia dostępu do pobliskich urządzeń. Nasza aplikacja zapewnia doskonałe wrażenia z drukowania, ale aby połączyć się z drukarkami Bluetooth i innymi urządzeniami peryferyjnymi, musisz udzielić niezbędnych pozwoleń."
+        },
+        "Check": "Sprawdź uprawnienia"
     },
     "Login": {
         "Title": "Ręczne rozwiązanie do zbierania DRS",

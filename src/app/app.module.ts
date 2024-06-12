@@ -16,6 +16,8 @@ import localeEN from '@angular/common/locales/en';
 import localeRO from '@angular/common/locales/ro';
 import localePL from '@angular/common/locales/pl';
 import { registerLocaleData } from '@angular/common';
+import { AndroidPermissions } from '@awesome-cordova-plugins/android-permissions/ngx';
+import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 
 registerLocaleData(localeRO);
 registerLocaleData(localeEN);
@@ -40,7 +42,9 @@ registerLocaleData(localePL);
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         { provide: HTTP_INTERCEPTORS, useClass: AuthenticationInterceptor, multi: true },
         BluetoothSerial,
-        DatePipe
+        DatePipe,
+        AndroidPermissions,
+        Diagnostic
     ],
     bootstrap: [AppComponent],
     schemas: [

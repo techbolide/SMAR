@@ -15,7 +15,18 @@
         "VoucherReprint": "Voucher reprintat cu succes!",
         "PrinterError": "A intervenit o eroare în legătura cu printerul, încercați mai tarziu!",
         "TicketPrint": "Bon reprintat cu succes!",
-        "QRDoesNotExist": "Acest tip de voucher QR nu este valid, încearcă din nou!"
+        "QRDoesNotExist": "Acest tip de voucher QR nu este valid, încearcă din nou!",
+        "BluetoothClosed": "Bluetooth-ul trebuie să fie deschis pentru a rula această aplicație!",
+        "PermissionError": "Nu puteți continua fără a da permisiunea dispozitivelor din apropiere. Vă rugăm să încercați să faceți acest lucru din setări!",
+        "PermissionSuccess": "Permisiunea pentru dispozitivele din apropiere a fost activată cu succes!"
+    },
+    "Welcome": {
+        "Permission": {
+            "Title": "Oferă permisiunea",
+            "Subtitle": "dispozitivelor din apropiere",
+            "Text": "Pentru a folosi funcționalitatea principală a acestei aplicații, trebuie să verificați permisiunile de acces la dispozitivele din apropiere. Aplicația noastră vă oferă o experiență excelentă de imprimare, dar pentru a vă conecta la imprimantele Bluetooth și alte dispozitive periferice, este necesar să acordați câteva permisiuni esențiale."
+        },
+        "Check": "Verifică permisiune"
     },
     "Login": {
         "Title": "Soluție de colectare manuală SGR",
