@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { WelcomeGuard } from './guards/welcome/welcome.guard';
 
 const routes: Routes = [
     {
         path: 'home',
-        loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
+        canLoad: [WelcomeGuard]
     },
     {
         path: '',
@@ -13,7 +15,8 @@ const routes: Routes = [
     },
     {
         path: 'login',
-        loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
+        loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule),
+        canLoad: [WelcomeGuard]
     },
     {
         path: 'scan',
@@ -46,6 +49,10 @@ const routes: Routes = [
     {
         path: 'reset-password',
         loadChildren: () => import('./pages/reset-password/reset-password.module').then(m => m.ResetPasswordPageModule)
+    },
+    {
+        path: 'welcome',
+        loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomePageModule)
     },
 ];
 

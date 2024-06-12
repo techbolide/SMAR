@@ -15,7 +15,18 @@
         "VoucherReprint": "Voucher reprinted successfully!",
         "PrinterError": "An error occurred with the printer, please try again later!",
         "TicketPrint": "Ticket reprinted successfully!",
-        "QRDoesNotExist": "This type of QR voucher is not valid, please try again!"
+        "QRDoesNotExist": "This type of QR voucher is not valid, please try again!",
+        "BluetoothClosed": "Bluetooth must be open to run this application!",
+        "PermissionError": "You cannot proceed without giving permission to nearby devices. Please try doing this from the settings!",
+        "PermissionSuccess": "Permission for nearby devices has been successfully activated!"
+    },
+    "Welcome": {
+        "Permission": {
+            "Title": "Provides permission",
+            "Subtitle": "to nearby devices",
+            "Text": "In order to use the main functionality of this app, you need to check access permissions on nearby devices. Our app gives you a great printing experience, but to connect to Bluetooth printers and other peripheral devices, you need to grant some essential permissions."
+        },
+        "Check": "Check permission"
     },
     "Login": {
         "Title": "Manual Collection Solution DRS",

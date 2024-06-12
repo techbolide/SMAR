@@ -1,0 +1,23 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+    <div class="welcome__container">
+        <div class="welcome__top">
+            <div class="welcome__info">
+                <h1>{{ 'Welcome.Permission.Title' | translate }}</h1>
+                <p>{{ 'Welcome.Permission.Subtitle' | translate }}</p>
+            </div>
+
+            <div class="welcome__permission">
+                <p>{{ 'Welcome.Permission.Text' | translate }}</p>
+            </div>
+        </div>
+
+        <ion-button class="welcome__continue" fill="solid" shape="round" [disabled]="loadingNextStep" (click)="checkPermission()">
+            <ng-container *ngIf="loadingNextStep; else show_button">
+                <ion-spinner name="lines"></ion-spinner>
+            </ng-container>
+            <ng-template #show_button>
+                {{ 'Welcome.Check' | translate }}
+            </ng-template>
+        </ion-button>
+    </div>
+</ion-content>
