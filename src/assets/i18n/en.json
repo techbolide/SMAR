@@ -3,6 +3,7 @@
         "InvalidLogin": "Invalid username or password, please try again!",
         "ResetPassword": "A temporary password has been sent to the account's email!",
         "BagSealed": "The bag has been successfully sealed!",
+        "CodeScanned": "The seal has been successfully scanned!",
         "SealNotEnoughQuantity": "You do not have enough quantity to seal this!",
         "CameraPermission": "Please grant camera permission to use the barcode scanner.",
         "ProductRegistered": "The product has been successfully registered!",
@@ -13,7 +14,8 @@
         "VoucherPrint": "Voucher printed successfully!",
         "VoucherReprint": "Voucher reprinted successfully!",
         "PrinterError": "An error occurred with the printer, please try again later!",
-        "TicketPrint": "Ticket reprinted successfully!"
+        "TicketPrint": "Ticket reprinted successfully!",
+        "QRDoesNotExist": "This type of QR voucher is not valid, please try again!"
     },
     "Login": {
         "Title": "Manual Collection Solution DRS",
@@ -36,7 +38,7 @@
         "Aluminium": "Aluminum",
         "Glass": "Glass",
         "Options": {
-            "Pickup": "Package pickup",
+            "Pickup": "Request pick-up",
             "BagsHistory": "Bag history",
             "VoucherHistory": "Voucher history",
             "BagsSeal": "Seal bags",
@@ -61,10 +63,20 @@
             "Confirm": "Yes, seal",
             "Cancel": "No"
         },
+        "ConfirmSealingDialog": {
+            "Title": "Seal Bag",
+            "Subtitle": "Are you sure you want to seal this bag with the code {{sealCode}} for x{{quantity}} {{material}}?",
+            "Confirm": "Yes, seal it",
+            "Cancel": "No"
+        },
         "ChooseCategory": "Choose the sealing category",
         "Quantity": "Sealing quantity",
         "QuantityPlaceholder": "Enter the sealing quantity",
-        "Seal": "Seal the bag"
+        "Seal": "Seal the bag",
+        "Code": "Seal code",
+        "CodePlaceholder": "Scan the seal code",
+        "ScanCode": "Scan seal",
+        "RescanCode": "Rescan seal"
     },
     "VoucherHistory": {
         "Types": {
@@ -112,7 +124,7 @@
             "Cash": "Cash",
             "Voucher": "Voucher"
         },
-        "Scan": "Scan"
+        "Scan": "Scan EAN"
     },
     "Packaging": {
         "ChooseBags": "Choose the bags you want to be picked up",

@@ -3,6 +3,7 @@
         "InvalidLogin": "Nume de utilizator sau parolă sunt invalide, încearcă din nou!",
         "ResetPassword": "O parolă temporară a fost trimisa pe email-ul contului!",
         "BagSealed": "Sacul a fost sigilat cu succes!",
+        "CodeScanned": "Sigiliul a fost scanat cu succes!",
         "SealNotEnoughQuantity": "Nu dețineți aceasta cantitate pentru a putea fi sigilata!",
         "CameraPermission": "Vă rugăm să acordați camerei permisiunea de a utiliza scanerul de coduri de bare.",
         "ProductRegistered": "Produsul a fost înregistrat cu succes!",
@@ -13,7 +14,8 @@
         "VoucherPrint": "Voucher printat cu succes!",
         "VoucherReprint": "Voucher reprintat cu succes!",
         "PrinterError": "A intervenit o eroare în legătura cu printerul, încercați mai tarziu!",
-        "TicketPrint": "Bon reprintat cu succes!"
+        "TicketPrint": "Bon reprintat cu succes!",
+        "QRDoesNotExist": "Acest tip de voucher QR nu este valid, încearcă din nou!"
     },
     "Login": {
         "Title": "Soluție de colectare manuală SGR",
@@ -36,7 +38,7 @@
         "Aluminium": "Aluminiu",
         "Glass": "Sticla",
         "Options": {
-            "Pickup": "Ridicare ambalaje",
+            "Pickup": "Solicită ridicare saci",
             "BagsHistory": "Istoric saci",
             "VoucherHistory": "Istoric vouchere",
             "BagsSeal": "Sigilare saci",
@@ -61,10 +63,20 @@
             "Confirm": "Da, sigileaza",
             "Cancel": "Nu"
         },
+        "ConfirmSealingDialog": {
+            "Title": "Sigilare sac",
+            "Subtitle": "Sunteți sigur că doriți să sigilați acest sac cu codul {{sealCode}} pentru x{{quantity}} {{material}}?",
+            "Confirm": "Da, sigileaza",
+            "Cancel": "Nu"
+        },
         "ChooseCategory": "Alege categoria de sigilare",
         "Quantity": "Cantitatea de sigilare",
         "QuantityPlaceholder": "Introdu cantitatea de sigilare",
-        "Seal": "Sigilează sacul"
+        "Seal": "Sigilează sacul",
+        "Code": "Codul sigiliului",
+        "CodePlaceholder": "Scaneaza codul sigiliului",
+        "ScanCode": "Scanează sigiliu",
+        "RescanCode": "Rescanează sigiliu"
     },
     "VoucherHistory": {
         "Types": {
@@ -112,7 +124,7 @@
             "Cash": "Cash",
             "Voucher": "Voucher"
         },
-        "Scan": "Scanează"
+        "Scan": "Scanează EAN"
     },
     "Packaging": {
         "ChooseBags": "Alege sacii care dorești să fie ridicați",

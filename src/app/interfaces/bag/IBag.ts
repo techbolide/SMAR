@@ -1,5 +1,6 @@
 export interface IBag {
     Code: string;
+    SealCode: string;
     Count: number;
     State: number;
     Category: number;

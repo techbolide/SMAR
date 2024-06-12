@@ -56,6 +56,11 @@ ion-content {
                     position: relative;
                     overflow: hidden;
 
+                    svg {
+                        width: 150px;
+                        height: 80px;
+                    }
+
                     h1 {
                         font-size: 15px;
                         font-weight: 500;

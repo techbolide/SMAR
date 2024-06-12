@@ -3,6 +3,7 @@
         "InvalidLogin": "Nieprawidłowa nazwa użytkownika lub hasło, spróbuj ponownie!",
         "ResetPassword": "Tymczasowe hasło zostało wysłane na e-mail konta!",
         "BagSealed": "Worek został pomyślnie uszczelniony!",
+        "CodeScanned": "Plomba została pomyślnie zeskanowana!",
         "SealNotEnoughQuantity": "Nie masz wystarczającej ilości, aby to zapieczętować!",
         "CameraPermission": "Proszę udzielić kamery pozwolenia na korzystanie z czytnika kodów kreskowych.",
         "ProductRegistered": "Produkt został pomyślnie zarejestrowany!",
@@ -13,7 +14,8 @@
         "VoucherPrint": "Bon pomyślnie wydrukowany!",
         "VoucherReprint": "Bon pomyślnie wydrukowany ponownie!",
         "PrinterError": "Wystąpił błąd drukarki, spróbuj ponownie później!",
-        "TicketPrint": "Bon wydrukowany ponownie pomyślnie!"
+        "TicketPrint": "Bon wydrukowany ponownie pomyślnie!",
+        "QRDoesNotExist": "Ten typ vouchera QR jest nieprawidłowy, spróbuj ponownie!"
     },
     "Login": {
         "Title": "Ręczne rozwiązanie do zbierania DRS",
@@ -36,7 +38,7 @@
         "Aluminium": "Aluminium",
         "Glass": "Szkło",
         "Options": {
-            "Pickup": "Odbiór opakowań",
+            "Pickup": "Zamów odbiór worków",
             "BagsHistory": "Historia worków",
             "VoucherHistory": "Historia voucherów",
             "BagsSeal": "Uszczelnij worki",
@@ -61,10 +63,20 @@
             "Confirm": "Tak, zaklej",
             "Cancel": "Nie"
         },
+        "ConfirmSealingDialog": {
+            "Title": "Zapieczętuj worek",
+            "Subtitle": "Czy na pewno chcesz zapieczętować ten worek z kodem {{sealCode}} na x{{quantity}} {{material}}?",
+            "Confirm": "Tak, zapieczętuj",
+            "Cancel": "Nie"
+        },
         "ChooseCategory": "Wybierz kategorię uszczelniania",
         "Quantity": "Ilość uszczelniania",
         "QuantityPlaceholder": "Wprowadź ilość uszczelniania",
-        "Seal": "Zaklej worek"
+        "Seal": "Zaklej worek",
+        "Code": "Kod plomby",
+        "CodePlaceholder": "Skanuj kod plomby",
+        "ScanCode": "Skanuj plombę",
+        "RescanCode": "Ponownie skanuj plombę"
     },
     "VoucherHistory": {
         "Types": {
@@ -112,7 +124,7 @@
             "Cash": "Gotówka",
             "Voucher": "Bon"
         },
-        "Scan": "Skanuj"
+        "Scan": "Skanuj EAN"
     },
     "Packaging": {
         "ChooseBags": "Wybierz worki, które chcesz, aby zostały odebrane",
