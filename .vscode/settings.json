@@ -3,5 +3,6 @@
     "@ionic/angular/common",
     "@ionic/angular/standalone"
 ],
-"nuxt.isNuxtApp": false
+"nuxt.isNuxtApp": false,
+"java.configuration.updateBuildConfiguration": "automatic"
 }
