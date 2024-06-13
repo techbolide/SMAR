@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.techbolide.sgr",
+  "applicationId": "com.techbolide.drs",
   "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 10001,
-      "versionName": "1.210",
+      "versionCode": 10003,
+      "versionName": "1.300",
       "outputFile": "app-release.apk"
     }
   ],

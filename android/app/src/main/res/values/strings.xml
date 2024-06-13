@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Techbolide SGR</string>
-    <string name="title_activity_main">Techbolide SGR</string>
-    <string name="package_name">com.techbolide.sgr</string>
-    <string name="custom_url_scheme">com.techbolide.sgr</string>
+    <string name="app_name">Techbolide DRS</string>
+    <string name="title_activity_main">Techbolide DRS</string>
+    <string name="package_name">com.techbolide.drs</string>
+    <string name="custom_url_scheme">com.techbolide.drs</string>
 </resources>

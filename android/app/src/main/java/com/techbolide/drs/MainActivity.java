@@ -1,4 +1,4 @@
-package com.techbolide.sgr;
+package com.techbolide.drs;
 
 import com.getcapacitor.BridgeActivity;
 
