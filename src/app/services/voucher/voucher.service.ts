@@ -66,6 +66,7 @@ export class VoucherService {
 
         const resultPrint = encoder.
             initialize()
+            .codepage('cp852')
             .align('center')
             .line(storageDataParsed.Header)
             .line(storageDataParsed.Subheader)
@@ -93,6 +94,8 @@ export class VoucherService {
             .newline()
             .line(`Wygasa dnia: ${voucher.ExpirationDate.substring(0, 10)}`)
             .qrcode(JSON.stringify(qrCodeInfo))
+            .newline()
+            .pulse()
             .encode();
 
 
@@ -123,6 +126,7 @@ export class VoucherService {
 
         const resultPrint = encoder.
             initialize()
+            .codepage('cp852')
             .align('center')
             .line(storageDataParsed.Header)
             .line(storageDataParsed.Subheader)
@@ -147,6 +151,8 @@ export class VoucherService {
             .bold(true)
             .line(`PLN ${qrCodeInfo.value.toFixed(2)}`)
             .bold(false)
+            .newline()
+            .pulse()
             .encode();
 
 
