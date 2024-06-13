@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://sgr.herc.ro/api/'
+    apiUrl: 'https://drspl.herc.ro/api/'
 };

@@ -231,7 +231,7 @@ export class ScanPage implements OnInit {
     getTotal() {
         if (!this.currentVoucher) return 0;
 
-        return this.currentVoucher.items.length * 0.5;
+        return this.currentVoucher.items.length * 2;
     }
 
     getItemsCount(type: IVoucherItemType) {

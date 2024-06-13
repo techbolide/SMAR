@@ -29,7 +29,8 @@ export class LanguageService {
         this.translate.addLangs(this.availableLanguages);
 
         const language = await this.storageService.getStorageKey(LANGUAGE_KEY);
-        const languageToUse = language && language.value !== null ? language.value : this.translate.getBrowserLang();
+        // const languageToUse = language && language.value !== null ? language.value : this.translate.getBrowserLang();
+        const languageToUse = language && language.value !== null ? language.value : 'pl';
         const fileURL = `./assets/i18n/${languageToUse}.json`;
         try {
             this.fileExists(fileURL).subscribe(exists => {

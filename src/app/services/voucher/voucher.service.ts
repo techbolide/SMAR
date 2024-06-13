@@ -71,7 +71,7 @@ export class VoucherService {
             .line(storageDataParsed.Subheader)
             .newline()
             .align('left')
-            .line(`Cod: ${qrCodeInfo.code}`)
+            .line(`Kod: ${qrCodeInfo.code}`)
             .line(`Operator: ${qrCodeInfo.employeeCode}`)
             .table(
                 [
@@ -79,19 +79,19 @@ export class VoucherService {
                     { width: 16, align: 'right' }
                 ],
                 [
-                    [`Data: ${voucher.GeneratedDate.substring(0, 10)}`, `Ora: ${voucher.GeneratedTime.substring(0, 8)}`],
+                    [`Data: ${voucher.GeneratedDate.substring(0, 10)}`, `Godz.: ${voucher.GeneratedTime.substring(0, 8)}`],
                     ['', ''],
-                    ['Plastic', `x${voucher.PlasticCount}`],
-                    ['Aluminiu', `x${voucher.AluminiumCount}`],
-                    ['Sticla', `x${voucher.GlassCount}`],
+                    ['Plastik', `x${voucher.PlasticCount}`],
+                    ['Aluminiowy', `x${voucher.AluminiumCount}`],
+                    ['Szkło', `x${voucher.GlassCount}`],
                 ]
             )
             .align('center')
             .bold(true)
-            .line(`LEI ${voucher.Value.toFixed(2)}`)
+            .line(`PLN ${voucher.Value.toFixed(2)}`)
             .bold(false)
             .newline()
-            .line(`Expira la: ${voucher.ExpirationDate.substring(0, 10)}`)
+            .line(`Wygasa dnia: ${voucher.ExpirationDate.substring(0, 10)}`)
             .qrcode(JSON.stringify(qrCodeInfo))
             .encode();
 
@@ -128,7 +128,7 @@ export class VoucherService {
             .line(storageDataParsed.Subheader)
             .newline()
             .align('left')
-            .line(`Bon: ${qrCodeInfo.code}`)
+            .line(`Kod: ${qrCodeInfo.code}`)
             .line(`Operator: ${qrCodeInfo.employeeCode}`)
             .table(
                 [
@@ -136,16 +136,16 @@ export class VoucherService {
                     { width: 16, align: 'right' }
                 ],
                 [
-                    [`Data: ${qrCodeInfo.date}`, `Ora: ${qrCodeInfo.hour}`],
+                    [`Data: ${qrCodeInfo.date}`, `Godz.: ${qrCodeInfo.hour}`],
                     ['', ''],
-                    ['Plastic', `x${qrCodeInfo.plasticCount}`],
-                    ['Aluminiu', `x${qrCodeInfo.aluminiumCount}`],
-                    ['Sticla', `x${qrCodeInfo.glassCount}`],
+                    ['Plastik', `x${qrCodeInfo.plasticCount}`],
+                    ['Aluminiowy', `x${qrCodeInfo.aluminiumCount}`],
+                    ['Szkło', `x${qrCodeInfo.glassCount}`],
                 ]
             )
             .align('center')
             .bold(true)
-            .line(`LEI ${qrCodeInfo.value.toFixed(2)}`)
+            .line(`PLN ${qrCodeInfo.value.toFixed(2)}`)
             .bold(false)
             .encode();
 
