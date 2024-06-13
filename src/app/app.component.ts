@@ -25,7 +25,7 @@ export class AppComponent {
     }
 
     initializeApplication() {
-        console.log('Initializing Techbolide SGR...');
+        console.log('Initializing Techbolide DRS...');
         this.platform.ready().then(() => {
             this.languageService.initialize();
             this.initializeStatusBar();
@@ -44,8 +44,8 @@ export class AppComponent {
         if(storageDataParsed) return;
 
         const debugStorage: IDebugStorage = {
-            Header: 'Kaufland Kraków-Dębniki, Kapel',
-            Subheader: 'Kapelanka 54, 30-349 Kraków, Poland',
+            Header: 'Kaufland Polska Markety',
+            Subheader: 'al. Armii Krajowej 47, 50-541 Wrocław, Poland',
             Footer: '',
             Subfooter: '',
             AllowNotifications: true,
