@@ -39,7 +39,7 @@ ion-content {
 
                 h1 {
                     margin: 0;
-                    font-size: 18px;
+                    font-size: 14px;
                     font-weight: 500;
                     letter-spacing: -0.3px;
                 }
@@ -60,7 +60,7 @@ ion-content {
 
                 p {
                     margin: 0;
-                    font-size: 16px;
+                    font-size: 12px;
                     font-weight: 300;
                     color: black;
                 }
@@ -92,10 +92,10 @@ ion-content {
         }
 
         ion-button {
-            min-height: 70px;
-            font-size: 28px;
+            min-height: 60px;
+            font-size: 22px;
             letter-spacing: -0.4px;
-            text-transform: none;
+            text-transform: capitalize;
             --border-radius: 0;
             font-weight: 500;
             margin: 0;

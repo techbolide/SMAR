@@ -72,10 +72,10 @@ ion-content {
 
         ion-button {
             font-size: 24px;
-            letter-spacing: -0.7px;
+            letter-spacing: -0.4px;
+            text-transform: capitalize;
             --border-radius: 10px;
             font-weight: 500;
-            text-transform: none;
             margin: 0;
         }
 

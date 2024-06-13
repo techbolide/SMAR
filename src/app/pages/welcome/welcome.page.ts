@@ -52,81 +52,38 @@ export class WelcomePage {
         this.toastService.showToast(this.translateService.instant('Toast.PermissionSuccess'), 2000, 'success', 'top');
     }
 
-    checkBluetoothPermission() {
-        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.BLUETOOTH).then(
-            (result) => {
-                if (result.hasPermission) this.checkBluetoothScanPermission();
-                else this.requestBluetoothPermission();
-            },
-            (err) => {
-                console.log(err);
-                this.requestBluetoothPermission();
-            }
-        );
-    }
-
-    requestBluetoothPermission() {
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.BLUETOOTH).then(
-            (result) => {
-                if (result.hasPermission) this.checkBluetoothScanPermission();
-                else this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
-            },
-            (err) => {
-                console.log(err);
-                this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
-            }
-        )
-    }
-
-    checkBluetoothScanPermission() {
-        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.BLUETOOTH_SCAN).then(
-            (result) => {
-                if (result.hasPermission) this.checkBluetoothConnectPermission();
-                else this.requestBluetoothScanPermission();
-            },
-            (err) => {
-                console.log(err);
-                this.requestBluetoothScanPermission();
-            }
-        );
-    }
-
-    requestBluetoothScanPermission() {
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.BLUETOOTH_SCAN).then(
-            (result) => {
-                if (result.hasPermission) this.checkBluetoothConnectPermission();
-                else this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
-            },
-            (err) => {
-                console.log(err);
-                this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
-            }
-        )
-    }
-
-    checkBluetoothConnectPermission() {
+    checkBluetoothPermission(initialized: boolean = true) {
         this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.BLUETOOTH_CONNECT).then(
             (result) => {
                 if (result.hasPermission) this.goToHome();
-                else this.requestBluetoothConnectPermission();
+                else {
+                    if(initialized) this.requestPermissions();
+                    else this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
+                }
             },
             (err) => {
                 console.log(err);
-                this.requestBluetoothConnectPermission();
+                if(initialized) this.requestPermissions();
+                else this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
             }
         );
     }
 
-    requestBluetoothConnectPermission() {
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.BLUETOOTH_CONNECT).then(
+    requestPermissions() {
+        this.androidPermissions.requestPermissions([
+            this.androidPermissions.PERMISSION.BLUETOOTH,
+            this.androidPermissions.PERMISSION.BLUETOOTH_ADMIN,
+            this.androidPermissions.PERMISSION.BLUETOOTH_CONNECT,
+            this.androidPermissions.PERMISSION.BLUETOOTH_SCAN,
+            this.androidPermissions.PERMISSION.ACCESS_FINE_LOCATION,
+         ]).then(
             (result) => {
-                if (result.hasPermission) this.goToHome();
-                else this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
+                this.checkBluetoothPermission(false);
             },
             (err) => {
                 console.log(err);
                 this.toastService.showToast(this.translateService.instant('Toast.PermissionError'), 2000, 'danger', 'top');
             }
-        )
+         )
     }
 }

@@ -88,10 +88,10 @@ ion-content {
             }
 
             ion-button {
-                min-height: 70px;
-                font-size: 28px;
+                min-height: 60px;
+                font-size: 22px;
                 letter-spacing: -0.4px;
-                text-transform: none;
+                text-transform: capitalize;
                 --border-radius: 0;
                 font-weight: 500;
                 margin: 0;
